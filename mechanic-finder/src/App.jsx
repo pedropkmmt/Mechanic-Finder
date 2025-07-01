@@ -1,10 +1,11 @@
 import { useState } from 'react'
+import FindMechanicPage from './pages/Landing Page'
 function App() {
 
 
   return (
     <>
-     <h1 className='text-red-500 hover:text-gray-700'>Hello</h1>
+     <FindMechanicPage/>
     </>
   )
 }
