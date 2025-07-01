@@ -1,31 +1,42 @@
 import React from "react";
-const mechanicTypes = [
-  "Panel Beater",
-  "General Auto",
-  "Diesel mechanics",
-  "Engine Specialists",
-  "Brake and Suspension Specialists",
-  "Tire Technicians",
-  "Heavy Vehicle Mechanics",
-  "Tinkering and Painting Workers",
-  "Auto glass mechanics",
-];
+import { ChevronDown, Search, Car, Wrench, Cog, Zap, Shield, Users, Gauge, Droplets } from 'lucide-react';
+const serviceTypes = [
+    { icon: <Car className="w-8 h-8" />, label: 'Brakes' },
+    { icon: <Wrench className="w-8 h-8" />, label: 'General mechanic' },
+    { icon: <Cog className="w-8 h-8" />, label: 'Diesel mechanic' },
+    { icon: <Zap className="w-8 h-8" />, label: 'Engine mechanic' },
+    { icon: <Shield className="w-8 h-8" />, label: 'Brake and Suspension Specialists' },
+    { icon: <Gauge className="w-8 h-8" />, label: 'Tyre Technicians' },
+    { icon: <Droplets className="w-8 h-8" />, label: 'Heavy Vehicle mechanics' },
+    { icon: <Users className="w-8 h-8" />, label: 'Trucking and Paving Workers' },
+    { icon: <Wrench className="w-8 h-8" />, label: 'Auto glass mechanics' }
+  ];
 const Mechanicoptions = () => {
     return(
         <>
         {/* Browse By Type */}
-      <section className="py-12 px-6">
-        <h2 className="text-center text-xl font-semibold mb-8">Browse by Type</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 max-w-5xl mx-auto text-center">
-          {mechanicTypes.map((type, i) => (
-            <div
-              key={i}
-              className="flex flex-col items-center gap-2 hover:scale-105 transition-transform"
-            >
-              <div className="w-12 h-12 bg-gray-200 rounded-full" />
-              <span className="text-sm">{type}</span>
-            </div>
-          ))}
+      {/* Browse by Type Section */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
+            Browse by Type
+          </h2>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-9 gap-6">
+            {serviceTypes.map((service, index) => (
+              <div 
+                key={index}
+                className="flex flex-col items-center p-6 bg-gray-50 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors group"
+              >
+                <div className="text-gray-600 group-hover:text-blue-600 transition-colors mb-3">
+                  {service.icon}
+                </div>
+                <span className="text-sm text-center text-gray-700 group-hover:text-gray-900 font-medium">
+                  {service.label}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
         </>
