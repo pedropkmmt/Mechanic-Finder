@@ -17,7 +17,7 @@ const FindMechanicPage = () => {
         {/* Car Image */}
         <div className="mt-10">
           <img
-            src="../../assets/car.png"
+            src="car.png"
             alt="Car"
             className="mx-auto w-[80%] max-w-3xl"
           />
