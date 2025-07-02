@@ -1,4 +1,4 @@
-import Mechanicoptions from "../components/MechanicTypes";
+import MechanicTypes from "../components/MechanicTypes";
 import NavBar from "../components/Navbar";
 import Filterbar from "../features/FilterBar";
 import MechanicServiceCards from "../components/MechanicServiceCard";
@@ -8,7 +8,7 @@ const FindMechanicPage = () => {
     <div className="font-sans">
       <NavBar/>
       {/* Hero Section */}
-      <section className="bg-blue-50 text-center py-12">
+      <section className="bg-blue-50 text-center py-16 lg:py-20">
         <h5 className="text-sm text-gray-500 mb-2">Find Mechanics near you</h5>
         <h1 className="text-4xl font-bold mb-6">
           Find Your <span className="text-blue-600">Mechanic</span>
@@ -25,7 +25,7 @@ const FindMechanicPage = () => {
         </div>
       </section>
        {/* Browse By Type */}
-       < Mechanicoptions />
+       < MechanicTypes />
         {/* Looking for a Mechanic Card */}
         <MechanicServiceCards/>
     </div>
