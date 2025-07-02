@@ -2,6 +2,7 @@ import MechanicTypes from "../components/MechanicTypes";
 import NavBar from "../components/Navbar";
 import Filterbar from "../features/FilterBar";
 import MechanicServiceCards from "../components/MechanicServiceCard";
+import MechanicSearchInterface from "../components/SearchedMechanics";
 
 const FindMechanicPage = () => {
   return (
@@ -28,6 +29,9 @@ const FindMechanicPage = () => {
        < MechanicTypes />
         {/* Looking for a Mechanic Card */}
         <MechanicServiceCards/>
+
+        {/* Searched Mechanics */}
+        <MechanicSearchInterface/>
     </div>
   );
 };
