@@ -1,6 +1,7 @@
 import Mechanicoptions from "../components/MechanicTypes";
 import NavBar from "../components/Navbar";
 import Filterbar from "../features/FilterBar";
+import MechanicServiceCards from "../components/MechanicServiceCard";
 
 const FindMechanicPage = () => {
   return (
@@ -25,6 +26,8 @@ const FindMechanicPage = () => {
       </section>
        {/* Browse By Type */}
        < Mechanicoptions />
+        {/* Looking for a Mechanic Card */}
+        <MechanicServiceCards/>
     </div>
   );
 };
