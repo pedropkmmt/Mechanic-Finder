@@ -1,5 +1,6 @@
 import React from "react";
 import { ChevronDown, Search, Car, Wrench, Cog, Zap, Shield, Users, Gauge, Droplets } from 'lucide-react';
+
 const serviceTypes = [
     { icon: <Car className="w-8 h-8" />, label: 'Brakes' },
     { icon: <Wrench className="w-8 h-8" />, label: 'General mechanic' },
@@ -10,7 +11,8 @@ const serviceTypes = [
     { icon: <Droplets className="w-8 h-8" />, label: 'Heavy Vehicle mechanics' },
     { icon: <Users className="w-8 h-8" />, label: 'Trucking and Paving Workers' },
     { icon: <Wrench className="w-8 h-8" />, label: 'Auto glass mechanics' }
-  ];
+];
+
 const Mechanicoptions = () => {
     return(
         <>
@@ -25,7 +27,7 @@ const Mechanicoptions = () => {
             {serviceTypes.map((service, index) => (
               <div 
                 key={index}
-                className="flex flex-col items-center p-6 bg-gray-50 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors group"
+                className="flex flex-col items-center p-6 bg-gray-50 rounded-2xl hover:bg-gray-100 cursor-pointer transition-colors group border border-gray-200 hover:border-gray-300"
               >
                 <div className="text-gray-600 group-hover:text-blue-600 transition-colors mb-3">
                   {service.icon}
@@ -41,4 +43,5 @@ const Mechanicoptions = () => {
         </>
     )
 }
+
 export default Mechanicoptions

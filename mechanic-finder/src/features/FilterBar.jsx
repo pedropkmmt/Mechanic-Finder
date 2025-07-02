@@ -6,7 +6,8 @@ const FilterBar = () => {
     category: 'Diesel mechanics',
     location: '',
     range: '',
-    price: ''
+    price: '',
+    searchName: ''
   });
 
   const handleFilterChange = (filterType, value) => {
@@ -26,6 +27,19 @@ const FilterBar = () => {
       <div className="max-w-4xl mx-auto px-4">
         {/* Desktop Filter Bar */}
         <div className="hidden md:flex items-center justify-center gap-1 bg-white shadow-sm px-6 py-2 rounded-full border border-gray-200">
+          {/* Search by Name */}
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Search by name..."
+              className="px-4 py-2 bg-transparent text-gray-700 text-sm border-0 focus:outline-none min-w-[140px] placeholder-gray-400"
+              value={filters.searchName}
+              onChange={(e) => handleFilterChange('searchName', e.target.value)}
+            />
+          </div>
+
+          <div className="w-px h-6 bg-gray-200"></div>
+
           {/* Category Filter */}
           <div className="relative">
             <select 
