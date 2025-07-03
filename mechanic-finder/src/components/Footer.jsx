@@ -48,21 +48,6 @@ export default function Footer() {
                 <li><a href="#" className="text-sm text-gray-600 hover:text-gray-900">Volkswagen</a></li>
               </ul>
             </div>
-
-            {/* Vehicles Type */}
-            <div>
-              <h3 className="text-sm font-semibold text-gray-900 mb-4">Vehicles Type</h3>
-              <ul className="space-y-3">
-                <li><a href="#" className="text-sm text-gray-600 hover:text-gray-900">Sedan</a></li>
-                <li><a href="#" className="text-sm text-gray-600 hover:text-gray-900">Hatchback</a></li>
-                <li><a href="#" className="text-sm text-gray-600 hover:text-gray-900">SUV</a></li>
-                <li><a href="#" className="text-sm text-gray-600 hover:text-gray-900">Hybrid</a></li>
-                <li><a href="#" className="text-sm text-gray-600 hover:text-gray-900">Coupe</a></li>
-                <li><a href="#" className="text-sm text-gray-600 hover:text-gray-900">Truck</a></li>
-                <li><a href="#" className="text-sm text-gray-600 hover:text-gray-900">Convertible</a></li>
-              </ul>
-            </div>
-
             {/* Sale Hours */}
             <div>
               <h3 className="text-sm font-semibold text-gray-900 mb-4">Sale Hours</h3>
