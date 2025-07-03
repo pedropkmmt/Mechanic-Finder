@@ -60,10 +60,12 @@ const NavBar = () => {
             </nav>
             
             <div className="hidden lg:flex items-center gap-4">
+              <Link to="/auth">
               <button className="flex items-center gap-2 text-slate-700 hover:text-blue-600 transition-colors font-semibold px-4 py-2 rounded-xl hover:bg-blue-50">
                 <User className="w-4 h-4" />
                 Sign In
               </button>
+              </Link>
               <button className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold px-6 py-2 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl">
                 Join as Mechanic
               </button>
