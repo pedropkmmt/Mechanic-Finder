@@ -41,10 +41,6 @@ const NavBar = () => {
                                 <User className="w-4 h-4" />
                                 Sign In
                             </button>
-                            <button className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition-colors font-medium">
-                                <User className="w-4 h-4" />
-                                Sign up
-                            </button>
                         </div>
 
                         {/* Mobile menu button */}
