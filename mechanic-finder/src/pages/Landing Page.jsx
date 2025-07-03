@@ -3,15 +3,19 @@ import NavBar from "../components/Navbar";
 import Filterbar from "../features/FilterBar";
 import MechanicServiceCards from "../components/MechanicServiceCard";
 import MechanicSearchInterface from "../components/SearchedMechanics";
+import WhyChooseUs from "../components/WhyChooseUs";
+import NeedSomeHelp from "../components/NeedSomeHelp";
+import Blog from "../features/Blog";
+import Footer from "../components/footer";
 
 const FindMechanicPage = () => {
   return (
-    <div className="font-sans">
+    <div className="font-sans bg-gray-50">
       <NavBar/>
       {/* Hero Section */}
       <section className="bg-blue-50 text-center py-16 lg:py-20">
         <h5 className="text-sm text-gray-500 mb-2">Find Mechanics near you</h5>
-        <h1 className="text-4xl font-bold mb-6">
+        <h1 className="text-4xl lg:text-5xl font-bold text-slate-800 mb-6">
           Find Your <span className="text-blue-600">Mechanic</span>
         </h1>
         {/* Filter Bar */}
@@ -29,9 +33,17 @@ const FindMechanicPage = () => {
        < MechanicTypes />
         {/* Looking for a Mechanic Card */}
         <MechanicServiceCards/>
-
         {/* Searched Mechanics */}
         <MechanicSearchInterface/>
+        {/* Why Choose Us */}
+        <WhyChooseUs/>
+        {/* Need Some Help*/}
+        <NeedSomeHelp/>
+        {/* Blog*/}
+        <Blog/>
+        {/* Footer*/}
+        <Footer/>
+
     </div>
   );
 };

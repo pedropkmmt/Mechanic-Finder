@@ -18,7 +18,7 @@ function App() {
           
           {/* Authentication Routes */}
           <Route 
-            path="/auth/*" 
+            path="/auth" 
             element={
               <AuthPages 
                 isAuthenticated={isAuthenticated}
