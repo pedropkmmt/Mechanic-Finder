@@ -5,7 +5,7 @@ const Blog = () => {
     {
       id: 1,
       category: "Engine",
-      image: "/api/placeholder/300/200",
+      image: "broken.jpg",
       title: "2024 Engine Diagnostics with advanced scanning tools, professional approach",
       author: "Mike",
       date: "November 22, 2023",
@@ -14,7 +14,7 @@ const Blog = () => {
     {
       id: 2,
       category: "Transmission",
-      image: "/api/placeholder/300/200",
+      image: "broken.jpg",
       title: "Automatic Transmission Service: designed to extend your vehicle's life",
       author: "Sarah",
       date: "November 22, 2023",
@@ -23,7 +23,7 @@ const Blog = () => {
     {
       id: 3,
       category: "Brakes",
-      image: "/api/placeholder/300/200",
+      image: "broken.jpg",
       title: "Brake Pad Replacement 2024: Complete Review. Safety on the road",
       author: "Alex",
       date: "November 22, 2023",
@@ -41,21 +41,8 @@ const Blog = () => {
         {blogPosts.map((post) => (
           <div key={post.id} className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
             <div className="relative">
-              <div className="h-48 bg-gradient-to-br from-gray-100 to-gray-200 relative overflow-hidden">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-full h-full bg-gradient-to-r from-gray-300 to-gray-400 flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="w-16 h-16 mx-auto mb-2 bg-gray-500 rounded-full flex items-center justify-center">
-                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                        </svg>
-                      </div>
-                      <p className="text-gray-600 text-sm">Car Repair Image</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
               
+              <img src={` ${post.image}`}/>
               <div className="absolute top-4 left-4">
                 <span className={`px-3 py-1 rounded-full text-xs font-medium ${post.categoryColor}`}>
                   {post.category}
