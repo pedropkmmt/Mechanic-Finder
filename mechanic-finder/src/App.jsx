@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import FindMechanicPage from './pages/Landing Page'
 import AuthPages from './pages/AuthenticationPages'
-
+import MapDirectoryInterface from './pages/ListingPage'
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
 
@@ -13,7 +13,7 @@ function App() {
           {/* Landing/Home Page */}
           <Route 
             path="/" 
-            element={<FindMechanicPage />} 
+            element={<MapDirectoryInterface />} 
           />
           
           {/* Authentication Routes */}
