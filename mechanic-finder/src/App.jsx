@@ -2,7 +2,8 @@ import { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import FindMechanicPage from './pages/Landing Page'
 import AuthPages from './pages/AuthenticationPages'
-import MapDirectoryInterface from './pages/ListingPage'
+import MechanicsFinder from './pages/ListingPage'
+
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
 
@@ -13,7 +14,7 @@ function App() {
           {/* Landing/Home Page */}
           <Route 
             path="/" 
-            element={<MapDirectoryInterface />} 
+            element={<FindMechanicPage />} 
           />
           
           {/* Authentication Routes */}
@@ -25,7 +26,17 @@ function App() {
                 setIsAuthenticated={setIsAuthenticated}
               />
             } 
-          />  
+          /> 
+          {/*ListingPage Routes */}
+          <Route 
+            path="/listing" 
+            element={
+              <MechanicsFinder
+                isAuthenticated={isAuthenticated}
+                setIsAuthenticated={setIsAuthenticated}
+              />
+            } 
+          />   
           {/* route for 404 */}
           <Route 
             path="*" 
@@ -50,4 +61,4 @@ function App() {
   )
 }
 
-export default App
+export default App 

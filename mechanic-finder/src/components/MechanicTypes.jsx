@@ -1,9 +1,10 @@
 import React from "react";
 import { ChevronDown, Search, Car, Wrench, Cog, Zap, Shield, Users, Gauge, Droplets } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom'
 
 const MechanicTypes = () => {
   const serviceTypes = [
-    { icon: <Car className="w-8 h-8" />, label: 'Brake Specialists' },
+    { icon: <Car className="w-8 h-8" />, label: 'Brake Specialists' , Link: '/listing'},
     { icon: <Wrench className="w-8 h-8" />, label: 'General Mechanics' },
     { icon: <Cog className="w-8 h-8" />, label: 'Diesel Specialists' },
     { icon: <Zap className="w-8 h-8" />, label: 'Engine Experts' },
@@ -32,9 +33,11 @@ const MechanicTypes = () => {
               className="group bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer border border-white/20 hover:border-blue-200 hover:-translate-y-2"
             >
               <div className="flex flex-col items-center text-center space-y-4">
+                <Link to='/listing'>
                 <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center text-white group-hover:scale-110 transition-transform duration-300 shadow-lg">
                   {React.cloneElement(service.icon, { className: "w-9 h-9" })}
                 </div>
+                </Link>
                 <h3 className="text-sm font-bold text-slate-800 group-hover:text-blue-600 transition-colors leading-tight">
                   {service.label}
                 </h3>

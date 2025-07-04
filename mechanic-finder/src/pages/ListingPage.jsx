@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Search, Phone, Star, MapPin, Filter, User, Menu, X, ChevronLeft, Plus, Minus, Clock, Award, Shield } from 'lucide-react';
 import FilterModal from '../features/ListingFilter';
-export default function MechanicsFinder() {
+
+ function MechanicsFinder() {
   const [selectedBusiness, setSelectedBusiness] = useState(0);
   const [showMap, setShowMap] = useState(false);
   
@@ -14,7 +15,7 @@ export default function MechanicsFinder() {
       address: "1425 Oak Street, Downtown",
       phone: "(500) 032-3456",
       services: ["Transmissions", "Brake Repair", "Engine Diagnostics", "Radiators"],
-      image: "/api/placeholder/300/200",
+      image: "shop.jpg",
       status: "Open",
       verified: true,
       responseTime: "Usually responds within 2 hours",
@@ -163,7 +164,8 @@ export default function MechanicsFinder() {
       {/* Mobile Toggle Button */}
      
       {/* Filter Modal */}
-      <FilterModal />
+      <FilterModal/>
     </div>
   );
 }
+export default MechanicsFinder
