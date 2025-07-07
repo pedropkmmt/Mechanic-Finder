@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Eye, EyeOff, User, Mail, Lock, Phone, MapPin, Calendar, Briefcase } from 'lucide-react';
-import { useSearchParams } from 'react-router-dom';
+
+
 const AuthPages = () => {
   const [currentPage, setCurrentPage] = useState('login');
   const [showPassword, setShowPassword] = useState(false);
