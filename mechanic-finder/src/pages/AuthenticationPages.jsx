@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Eye, EyeOff, User, Mail, Lock, Phone, MapPin, Calendar, Briefcase } from 'lucide-react';
-
+import { useSearchParams } from 'react-router-dom';
 const AuthPages = () => {
   const [currentPage, setCurrentPage] = useState('login');
   const [showPassword, setShowPassword] = useState(false);
@@ -361,7 +361,7 @@ const AuthPages = () => {
                       value={registerData.firstName}
                       onChange={handleRegisterChange}
                       placeholder="First name"
-                      className="w-full py-3 pl-10 pr-4 border-2 border-input rounded-lg text-base transition-all duration-300 focus:outline-none focus:border-blue-primary focus:shadow-focus placeholder-muted-foreground bg-background"
+                      className="w-full py-3 pl-10 pr-4 border-2 border-input rounded-lg text-base transition-all duration-300 focus:outline-none focus:border-blue-primary focus:shadow-focus bg-background"
                       required
                     />
                   </div>
@@ -631,6 +631,7 @@ const AuthPages = () => {
             {/* Mechanic Field */}
             {registerData.userType === 'mechanic' && (
               <div>
+                <section href="authentication">
                 <h3 className="text-lg font-semibold text-foreground mb-4">Business Information</h3>
                 
                 <div className="mb-4">
@@ -710,6 +711,7 @@ const AuthPages = () => {
                     ))}
                   </div>
                 </div>
+                </section>
               </div>
             )}
             <div className="flex items-center gap-2 mb-6">
