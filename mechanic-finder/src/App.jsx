@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import FindMechanicPage from './pages/Landing Page'
 import AuthPages from './pages/AuthenticationPages'
 import MechanicsFinder from './pages/ListingPage'
+import BusinessListing from './components/BusinessListing'
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -36,7 +37,17 @@ function App() {
                 setIsAuthenticated={setIsAuthenticated}
               />
             } 
-          />   
+          />
+          {/*Business Listing */}
+          <Route 
+            path="/business" 
+            element={
+              <BusinessListing
+                isAuthenticated={isAuthenticated}
+                setIsAuthenticated={setIsAuthenticated}
+              />
+            } 
+          />
           {/* route for 404 */}
           <Route 
             path="*" 
