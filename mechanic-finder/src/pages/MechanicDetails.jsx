@@ -68,7 +68,14 @@ const MechanicDetails = () => {
           </div>
 
           {/* Specialization Section */}
-         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
+          <div className="max-w-5xl mx-auto mb-16">
+            <div className="bg-white shadow-2xl rounded-3xl p-10 border border-gray-200">
+              <div className="text-center mb-10">
+                <h2 className="text-3xl font-bold text-gray-900 mb-4">We Specialize In</h2>
+                <p className="text-gray-600 text-lg">Certified experts for all major automotive brands</p>
+              </div>
+              
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
                 {/* Volkswagen */}
                 <div className="flex flex-col items-center group cursor-pointer">
                   <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-all duration-300 shadow-lg group-hover:shadow-xl border-2 border-gray-200 p-2">
@@ -129,6 +136,8 @@ const MechanicDetails = () => {
                   <span className="text-sm text-center font-medium text-gray-700 group-hover:text-blue-800 transition-colors">Ford</span>
                 </div>
               </div>
+            </div>
+          </div>
 
           {/* Call to Action */}
           <div className="max-w-md mx-auto">

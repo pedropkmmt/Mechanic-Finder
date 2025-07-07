@@ -36,27 +36,27 @@ const NavBar = () => {
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center gap-8">
               <div className="flex gap-8 text-slate-700">
-                <a href="#" className="hover:text-blue-600 transition-colors font-semibold relative group">
+                <Link to="/" className="hover:text-blue-600 transition-colors font-semibold relative group">
                   Home
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
-                </a>
+                </Link>
                 <Link to="/listing" className="hover:text-blue-600 transition-colors font-semibold relative group">
                   Find Mechanics
                   </Link>
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
                 
-                <a href="#" className="hover:text-blue-600 transition-colors font-semibold relative group">
+                <Link to="#" className="hover:text-blue-600 transition-colors font-semibold relative group">
                   Services
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
-                </a>
-                <a href="#" className="hover:text-blue-600 transition-colors font-semibold relative group">
+                </Link>
+                <Link to="#" className="hover:text-blue-600 transition-colors font-semibold relative group">
                   About
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
-                </a>
-                <a href="#" className="hover:text-blue-600 transition-colors font-semibold relative group">
+                </Link>
+                <Link to="#" className="hover:text-blue-600 transition-colors font-semibold relative group">
                   Contact
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
-                </a>
+                </Link>
               </div>
             </nav>
             
