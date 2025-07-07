@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Search, Phone, Star, MapPin, Filter, User, Menu, X, ChevronLeft, Plus, Minus, Clock, Award, Shield, Map as MapIcon } from 'lucide-react';
-import FilterModal from '../features/ListingFilter';
+import FilterModal from '../features/FilterModal';
 
-function MechanicsFinder() {
+const  MechanicsFinder = () => {
   const [selectedBusiness, setSelectedBusiness] = useState(0);
   const [showMap, setShowMap] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
   const mapRef = useRef(null);
   const leafletMapRef = useRef(null);
   const markersRef = useRef([]);
-  
   const businesses = [
     {
       id: 1,
@@ -313,7 +313,10 @@ function MechanicsFinder() {
                 <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm">
                   Instant Book
                 </button>
-                <button className="p-2 bg-gray-100 rounded-lg">
+                <button 
+                  onClick={() => setShowFilters(true)}
+                  className="p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                >
                   <Filter className="w-4 h-4 text-gray-600" />
                 </button>
               </div>
@@ -450,7 +453,10 @@ function MechanicsFinder() {
       </button>
       
       {/* Filter Modal */}
-      <FilterModal/>
+      <FilterModal 
+        showFilters={showFilters} 
+        setShowFilters={setShowFilters} 
+      />
     </div>
   );
 }

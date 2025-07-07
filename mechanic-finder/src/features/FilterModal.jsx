@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { Search, Phone, Star, MapPin, Filter, User, Menu, X, ChevronLeft, Plus, Minus, Clock, Award, Shield } from 'lucide-react';
-const FilterModal = () => {
-const [showFilters, setShowFilters] = useState(false);
-
-    return (
+const FilterModal = ({ showFilters, setShowFilters }) => {
+  return (
     <div className={`fixed inset-0 bg-black bg-opacity-50 z-50 ${showFilters ? 'block' : 'hidden'}`}>
       <div className="absolute bottom-0 left-0 right-0 bg-white rounded-t-2xl p-6 max-h-[85vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-6">
@@ -70,6 +68,7 @@ const [showFilters, setShowFilters] = useState(false);
         </div>
       </div>
     </div>
-    )
-}
-  export default FilterModal
+  );
+};
+
+export default FilterModal;
