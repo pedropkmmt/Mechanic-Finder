@@ -140,7 +140,7 @@ const AuthPages = () => {
     <div className="min-h-screen bg-gradient-bg flex items-center justify-center p-8">
       <div className="bg-card rounded-2xl shadow-xl overflow-hidden w-full max-w-md relative">
         {/* Header */}
-        <div className="bg-gradient-to-br from-blue-600 to-orange-500 p-8 text-center text-white">
+        <div className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 shadow-lg hover:shadow-xl transform hover:scale-105 font-medium text-center">
           <h1 className="text-2xl font-semibold mb-2">Welcome Back!</h1>
           <p className="opacity-90 text-sm">Sign in to continue to your account</p>
         </div>
@@ -150,9 +150,9 @@ const AuthPages = () => {
           <div className="flex mb-8 bg-secondary rounded-lg p-1">
             <button
               onClick={() => setCurrentPage('login')}
-              className={`flex-1 py-3 px-4 rounded-md font-medium text-sm transition-all duration-300 ${
+              className={`flex-1 py-3 px-4 rounded-md font-medium text-sm transition-all duration-300  ${
                 currentPage === 'login'
-                  ? 'bg-card text-blue-primary shadow-sm'
+                  ? 'bg-card text-blue-primary shadow-sm border-1'
                   : 'text-muted-foreground hover:text-foreground'
               }`}
             >
@@ -162,7 +162,7 @@ const AuthPages = () => {
               onClick={() => setCurrentPage('register')}
               className={`flex-1 py-3 px-4 rounded-md font-medium text-sm transition-all duration-300 ${
                 currentPage === 'register'
-                  ? 'bg-card text-blue-primary shadow-sm'
+                  ? 'bg-card text-blue-primary shadow-sm border-1'
                   : 'text-muted-foreground hover:text-foreground'
               }`}
             >
@@ -260,7 +260,7 @@ const AuthPages = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full py-4 px-4 bg-gradient-main text-white font-semibold text-base rounded-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-hover active:translate-y-0"
+              className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold px-6 py-2 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-center w-full flex items-center justify-center transform hover:scale-105 active:translate-y-0"
             >
               Sign In
             </button>
@@ -300,7 +300,7 @@ const AuthPages = () => {
     <div className="min-h-screen bg-gradient-bg flex items-center justify-center p-8">
       <div className="bg-card rounded-2xl shadow-xl overflow-hidden w-full max-w-2xl relative">
         {/* Header */}
-        <div className="bg-gradient-main p-8 text-center text-white">
+        <div className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 shadow-lg hover:shadow-xl transform hover:scale-105 font-medium text-center">
           <h1 className="text-2xl font-semibold mb-2">Create Account</h1>
           <p className="opacity-90 text-sm">Join us and start your journey</p>
         </div>
@@ -729,7 +729,7 @@ const AuthPages = () => {
 
             <button
               type="submit"
-              className="w-full py-4 px-4 bg-gradient-main text-white font-semibold text-base rounded-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-hover active:translate-y-0"
+              className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold px-6 py-2 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl items-center justify-center w-full flex transform hover:scale-105 active:translate-y-0"
             >
               Create Account
             </button>
