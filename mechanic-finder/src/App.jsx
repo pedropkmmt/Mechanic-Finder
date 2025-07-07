@@ -4,6 +4,7 @@ import FindMechanicPage from './pages/Landing Page'
 import AuthPages from './pages/AuthenticationPages'
 import MechanicsFinder from './pages/ListingPage'
 import BusinessListing from './components/BusinessListing'
+import MechanicDetails from './pages/MechanicDetails'
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -43,6 +44,16 @@ function App() {
             path="/business" 
             element={
               <BusinessListing
+                isAuthenticated={isAuthenticated}
+                setIsAuthenticated={setIsAuthenticated}
+              />
+            } 
+          />
+          {/*Business Listing */}
+          <Route 
+            path="/details" 
+            element={
+              <MechanicDetails
                 isAuthenticated={isAuthenticated}
                 setIsAuthenticated={setIsAuthenticated}
               />

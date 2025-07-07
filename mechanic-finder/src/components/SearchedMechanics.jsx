@@ -6,6 +6,7 @@ import {
   Eye
 } from 'lucide-react';
 import BusinessListing from './BusinessListing';
+import { Link, useNavigate } from 'react-router-dom'
 
 const SearchedMechanics = () => {
   const [activeFilter, setActiveFilter] = useState('All');
@@ -173,9 +174,10 @@ const SearchedMechanics = () => {
                     >
                       Book Now
                     </button>
-                    <button className="flex items-center gap-2 bg-white/80 backdrop-blur-sm hover:bg-white border border-white/20 hover:border-blue-300 px-4 py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl">
+                    <Link to="/details"><button className="flex items-center gap-2 bg-white/80 backdrop-blur-sm hover:bg-white border border-white/20 hover:border-blue-300 px-4 py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl">
                       <Eye className="w-4 h-4 text-slate-600" />
                     </button>
+                    </Link>
                   </div>
                 </div>
               </div>
