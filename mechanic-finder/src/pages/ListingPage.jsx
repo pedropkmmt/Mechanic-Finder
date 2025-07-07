@@ -22,7 +22,7 @@ function MechanicsFinder() {
       status: "Open",
       verified: true,
       responseTime: "Usually responds within 2 hours",
-      price: "$$",
+      price: "R",
       yearsInBusiness: 12,
       lat: -26.2041,
       lng: 28.0473
@@ -39,7 +39,7 @@ function MechanicsFinder() {
       status: "Open",
       verified: true,
       responseTime: "Usually responds within 1 hour",
-      price: "$",
+      price: "R",
       yearsInBusiness: 8,
       lat: -26.1076,
       lng: 28.0567
@@ -56,7 +56,7 @@ function MechanicsFinder() {
       status: "Closed",
       verified: true,
       responseTime: "Usually responds within 3 hours",
-      price: "$$$",
+      price: "R",
       yearsInBusiness: 15,
       lat: -25.7479,
       lng: 28.2293
@@ -73,7 +73,7 @@ function MechanicsFinder() {
       status: "Open",
       verified: true,
       responseTime: "Usually responds within 2 hours",
-      price: "$$",
+      price: "R",
       yearsInBusiness: 10,
       lat: -33.9249,
       lng: 18.4241
@@ -90,7 +90,7 @@ function MechanicsFinder() {
       status: "Open",
       verified: true,
       responseTime: "Usually responds within 1 hour",
-      price: "$",
+      price: "R",
       yearsInBusiness: 7,
       lat: -29.8587,
       lng: 31.0218
