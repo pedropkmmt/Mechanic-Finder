@@ -54,7 +54,7 @@ const AccountCreationLoading = () => {
           </div>
         </div>
         
-        {/* Additional loading elements */}
+        {/* List loading elements */}
         <div className="mt-6 space-y-3">
           <div className="bg-white rounded-lg p-4 shadow-sm">
             <div className="flex items-center space-x-3">
@@ -78,7 +78,7 @@ const AccountCreationLoading = () => {
                   </svg>
                 )}
               </div>
-              <span className="text-gray-700">Configuring preferences</span>
+              <span className="text-gray-700">Adding user details</span>
             </div>
           </div>
           
