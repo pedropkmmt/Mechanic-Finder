@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
 
-export default function Footer() {
+const Footer =() => {
   const [email, setEmail] = useState('');
   return (
     <div className="bg-gray-50 min-h-screen">
@@ -88,3 +88,4 @@ export default function Footer() {
     </div>
   );
 }
+export default Footer
