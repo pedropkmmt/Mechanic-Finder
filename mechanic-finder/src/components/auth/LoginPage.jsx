@@ -1,5 +1,5 @@
 import React from 'react';
-import PageHeader from './PageHeader';
+import PageHeader from './FormHeader';
 import TabNavigation from './TabNavigation';
 import Message from './Message';
 import LoginForm from './LoginForm';

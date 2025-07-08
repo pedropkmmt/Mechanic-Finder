@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import LoginPage from '../components/auth/LoginPage';
-import RegisterPage from '../components/auth/RegisterPage';
+import RegisterPage from '../components/auth/RegistrationPage';
+import AccountCreationLoading from '../features/CreatingProfile';
 
 const AuthPages = () => {
   const [currentPage, setCurrentPage] = useState('login');
@@ -8,6 +9,7 @@ const AuthPages = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [isCreatingAccount, setIsCreatingAccount] = useState(false);
   
   // Login form 
   const [loginData, setLoginData] = useState({
@@ -24,6 +26,7 @@ const AuthPages = () => {
     phone: '',
     password: '',
     confirmPassword: '',
+    location: '',
     userType: 'customer',
     agreeToTerms: false,
     // Customer specific fields
@@ -99,6 +102,31 @@ const AuthPages = () => {
     e.preventDefault();
     setError('');
     setSuccess('');
+    
+    console.log('=== REGISTRATION FORM SUBMITTED ===');
+    console.log('Current registerData state:', registerData);
+    
+    // TEMPORARILY: Skip all validation for testing
+    console.log('🧪 SKIPPING VALIDATION FOR TESTING...');
+    console.log('🎉 Creating account...');
+    console.log('Setting isCreatingAccount to true...');
+    setIsCreatingAccount(true);
+
+    setTimeout(() => {
+      console.log('Account creation completed, redirecting to login...');
+      setIsCreatingAccount(false);
+      setCurrentPage('login');
+      setSuccess('Account created successfully! Please sign in.');
+      setTimeout(() => setSuccess(''), 3000);
+    }, 5000);
+    
+    return;
+
+    /*
+  const handleRegisterSubmit = (e) => {
+    e.preventDefault();
+    setError('');
+    setSuccess('');
 
     // Basic validation
     if (!registerData.firstName || !registerData.lastName || !registerData.email || 
@@ -159,9 +187,15 @@ const AuthPages = () => {
     
     console.log('Registration data:', registerData);
     setIsCreatingAccount(true);
+
+    setTimeout(() => {
+      setIsCreatingAccount(false);
+      setCurrentPage('login');
+      setSuccess('Account created successfully! Please sign in.');
+      setTimeout(() => setSuccess(''), 3000);
+    }, 5000)*/;
   };
-  
-  
+    
   return (
     <div className="font-sans bg-gray-50">
       {/* Show loading screen during account creation */}

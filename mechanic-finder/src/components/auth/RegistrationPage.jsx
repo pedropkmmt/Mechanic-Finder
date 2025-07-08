@@ -1,8 +1,8 @@
 import React from 'react';
-import PageHeader from './PageHeader';
+import PageHeader from './FormHeader';
 import TabNavigation from './TabNavigation';
 import Message from './Message';
-import RegisterForm from './RegisterForm';
+import RegisterForm from './RegistrationForm';
 
 const RegisterPage = ({
   currentPage,
