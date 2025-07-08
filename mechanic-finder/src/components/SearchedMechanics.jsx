@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
+import BusinessListing from "./BusinessListing";
 import { 
-  Wrench, 
   Star,
   MapPin,
-  Eye
+  Eye,
 } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom'
-
 const SearchedMechanics = () => {
   const [activeFilter, setActiveFilter] = useState('All');
   const [selectedMechanic, setSelectedMechanic] = useState(null);
@@ -22,7 +20,7 @@ const SearchedMechanics = () => {
       distance: '2.4 km',
       specialties: ['BMW', 'Mercedes', 'Audi'],
       available: true,
-      image: 'shop.jpg',
+      image: 'https://images.unsplash.com/photo-1486754735734-325b5831c3ad?w=400&h=300&fit=crop',
       mechanic_image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face'
     },
     {
@@ -33,7 +31,7 @@ const SearchedMechanics = () => {
       distance: '1.8 km',
       specialties: ['Toyota', 'Honda', 'Nissan'],
       available: true,
-      image: 'shop.jpg',
+      image: 'https://images.unsplash.com/photo-1486754735734-325b5831c3ad?w=400&h=300&fit=crop',
       mechanic_image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face'
     },
     {
@@ -44,7 +42,7 @@ const SearchedMechanics = () => {
       distance: '3.2 km',
       specialties: ['Ford', 'Chevrolet', 'Hyundai'],
       available: false,
-      image: 'shop.jpg',
+      image: 'https://images.unsplash.com/photo-1486754735734-325b5831c3ad?w=400&h=300&fit=crop',
       mechanic_image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face'
     },
     {
@@ -55,7 +53,7 @@ const SearchedMechanics = () => {
       distance: '4.1 km',
       specialties: ['Toyota', 'Volkswagen', 'Audi'],
       available: true,
-      image: 'shop.jpg',
+      image: 'https://images.unsplash.com/photo-1486754735734-325b5831c3ad?w=400&h=300&fit=crop',
       mechanic_image: 'https://images.unsplash.com/photo-1566492031773-4f4e44671d66?w=100&h=100&fit=crop&crop=face'
     }
   ];
@@ -179,11 +177,12 @@ const SearchedMechanics = () => {
                     >
                       Book Now
                     </button>
-                    <Link to="/details">
-                      <button className="flex items-center justify-center gap-2 bg-white/80 backdrop-blur-sm hover:bg-white border border-white/20 hover:border-blue-300 px-3 sm:px-4 py-2 sm:py-2.5 md:py-3 rounded-lg sm:rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl">
-                        <Eye className="w-3 sm:w-4 h-3 sm:h-4 text-slate-600" />
-                      </button>
-                    </Link>
+                    <button 
+                      onClick={() => handleBookNow(mechanic)}
+                      className="flex items-center justify-center gap-2 bg-white/80 backdrop-blur-sm hover:bg-white border border-white/20 hover:border-blue-300 px-3 sm:px-4 py-2 sm:py-2.5 md:py-3 rounded-lg sm:rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl"
+                    >
+                      <Eye className="w-3 sm:w-4 h-3 sm:h-4 text-slate-600" />
+                    </button>
                   </div>
                 </div>
               </div>
@@ -209,45 +208,10 @@ const SearchedMechanics = () => {
 
       {/* Business Listing Popup */}
       {selectedMechanic && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 max-w-md w-full max-h-[80vh] overflow-y-auto">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg sm:text-xl font-bold text-slate-800">Book {selectedMechanic.name}</h3>
-              <button 
-                onClick={handleClosePopup}
-                className="text-slate-500 hover:text-slate-700 text-xl sm:text-2xl"
-              >
-                ×
-              </button>
-            </div>
-            <div className="space-y-4">
-              <div className="flex items-center gap-3">
-                <img 
-                  src={selectedMechanic.mechanic_image} 
-                  alt={selectedMechanic.name}
-                  className="w-12 sm:w-16 h-12 sm:h-16 rounded-full object-cover"
-                />
-                <div>
-                  <h4 className="font-semibold text-slate-800">{selectedMechanic.name}</h4>
-                  <div className="flex items-center gap-1 text-sm">
-                    <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                    <span>{selectedMechanic.rating}</span>
-                    <span className="text-slate-600">({selectedMechanic.reviews} reviews)</span>
-                  </div>
-                </div>
-              </div>
-              <div className="text-center">
-                <p className="text-slate-600 mb-4">This is a demo. Booking functionality would be implemented here.</p>
-                <button 
-                  onClick={handleClosePopup}
-                  className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-2 rounded-lg hover:shadow-lg transition-all duration-300"
-                >
-                  Close
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <BusinessListing 
+          mechanic={selectedMechanic}
+          onClose={handleClosePopup}
+        />
       )}
     </div>
   );

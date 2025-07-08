@@ -18,9 +18,9 @@ const BusinessListing = ({ mechanic, onClose }) => {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   
   const shopImages = [
-    'shop.jpg',
-    'shop.jpg',
-    'shop.jpg'
+    'https://images.unsplash.com/photo-1486754735734-325b5831c3ad?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1632823469522-3c95d5e8d7c7?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?w=400&h=300&fit=crop'
   ];
 
   const businessHours = [
@@ -31,13 +31,6 @@ const BusinessListing = ({ mechanic, onClose }) => {
     { day: 'Thursday', hours: '8:00 AM - 6:00 PM', isToday: false },
     { day: 'Friday', hours: '8:00 AM - 6:00 PM', isToday: false },
     { day: 'Saturday', hours: '8:00 AM - 6:00 PM', isToday: false }
-  ];
-
-  const services = [
-    { name: 'Maintenance', color: 'bg-blue-500' },
-    { name: 'Brake Repair', color: 'bg-red-500' },
-    { name: 'Engine Diagnostics', color: 'bg-green-500' },
-    { name: 'Transmission', color: 'bg-purple-500' }
   ];
 
   const pricingInfo = [
@@ -125,7 +118,7 @@ const BusinessListing = ({ mechanic, onClose }) => {
             </div>
             
             <div className="flex items-start">
-              <Globe className="w-4 h-4text-black mr-2 mt-0.5" />
+              <Globe className="w-4 h-4 text-black mr-2 mt-0.5" />
               <div>
                 <div className="font-medium">Website</div>
                 <div className="text-blue-600">www.{mechanic.name.toLowerCase().replace(/\s+/g, '')}.com</div>

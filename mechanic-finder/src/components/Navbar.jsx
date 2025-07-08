@@ -89,20 +89,24 @@ const NavBar = () => {
                 <span className="font-semibold">+27 813 456 789</span>
               </div>
               <nav className="space-y-3">
-                <a href="#" className="block text-slate-700 hover:text-blue-600 transition-colors font-semibold py-2">Home</a>
-                <a href="#" className="block text-slate-700 hover:text-blue-600 transition-colors font-semibold py-2">Find Mechanics</a>
-                <a href="#" className="block text-slate-700 hover:text-blue-600 transition-colors font-semibold py-2">Services</a>
-                <a href="#" className="block text-slate-700 hover:text-blue-600 transition-colors font-semibold py-2">About</a>
-                <a href="#" className="block text-slate-700 hover:text-blue-600 transition-colors font-semibold py-2">Contact</a>
+                <Link to="/" className="block text-slate-700 hover:text-blue-600 transition-colors font-semibold py-2">Home</Link>
+                <Link to="/map" className="block text-slate-700 hover:text-blue-600 transition-colors font-semibold py-2">Find Mechanics</Link>
+                <Link to="#" className="block text-slate-700 hover:text-blue-600 transition-colors font-semibold py-2">Services</Link>
+                <Link to="#" className="block text-slate-700 hover:text-blue-600 transition-colors font-semibold py-2">About</Link>
+                <Link to="#" className="block text-slate-700 hover:text-blue-600 transition-colors font-semibold py-2">Contact</Link>
               </nav>
               <div className="pt-4 border-t border-white/20 space-y-3">
+              <Link to="/auth">
                 <button className="w-full flex items-center justify-center gap-2 text-slate-700 hover:text-blue-600 transition-colors font-semibold py-2 rounded-xl hover:bg-blue-50">
                   <User className="w-4 h-4" />
                   Sign In
                 </button>
+                </Link>
+                 <Link to="/auth">
                 <button className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-3 rounded-xl transition-all duration-300 font-semibold shadow-lg">
                   Join as Mechanic
                 </button>
+                </Link>
               </div>
             </div>
           </div>
