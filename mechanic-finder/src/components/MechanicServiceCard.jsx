@@ -1,67 +1,62 @@
 import React from 'react';
 import { Settings, Car } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom'
 
 const MechanicServiceCards = () => {
   return (
-    <section className="py-16 px-4">
-      <div className="max-w-6xl mx-auto">
-        <div className="bg-white/80 backdrop-blur-sm shadow-2xl rounded-3xl overflow-hidden border border-white/20">
+    <section className="py-8 sm:py-12 md:py-16 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="bg-white/80 backdrop-blur-sm shadow-2xl rounded-2xl sm:rounded-3xl overflow-hidden border border-white/20">
           <div className="grid grid-cols-1 lg:grid-cols-2">
             
             {/* Looking for Mechanic Section */}
-            <div className="bg-gradient-to-br from-blue-500 to-blue-600 p-8 lg:p-12 relative overflow-hidden">
+            <div className="bg-gradient-to-br from-blue-500 to-blue-600 p-6 sm:p-8 md:p-10 lg:p-12 relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-blue-400/20 to-transparent"></div>
               <div className="relative z-10">
-                <div className="mb-8">
-                  <h2 className="text-3xl lg:text-4xl font-bold text-white mb-2 leading-tight">
+                <div className="mb-6 sm:mb-8">
+                  <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-white mb-2 leading-tight">
                     Looking for a
                   </h2>
-                  <h2 className="text-3xl lg:text-4xl font-bold text-white mb-6 leading-tight">
+                  <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-white mb-4 sm:mb-6 leading-tight">
                     Mechanic?
                   </h2>
                 </div>
                 
-                <p className="text-blue-100 text-lg mb-8 leading-relaxed max-w-md">
+                <p className="text-blue-100 text-base sm:text-lg md:text-xl mb-6 sm:mb-8 leading-relaxed max-w-md">
                   Connect with trusted, certified mechanics in your area. Quality service guaranteed.
                 </p>
-                <Link to="/map">
-                <button className="bg-white text-blue-600 hover:bg-blue-50 font-bold py-4 px-8 rounded-xl transition-all duration-300 text-lg hover:shadow-xl transform hover:scale-105">
+                
+                <button className="bg-white text-blue-600 hover:bg-blue-50 font-bold py-3 px-6 sm:py-4 sm:px-8 rounded-xl transition-all duration-300 text-base sm:text-lg hover:shadow-xl transform hover:scale-105 w-full sm:w-auto">
                   Find Mechanics →
                 </button>
-                </Link>
               </div>
-              
-              <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-sm">
-                <Settings className="w-16 h-16 text-white/80" />
+              <div className="absolute -bottom-4 -right-4 w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 bg-white/10 rounded-full items-center justify-center backdrop-blur-sm hidden sm:flex">
+                <Settings className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 text-white/80" />
               </div>
             </div>
 
             {/* Are you a Mechanic Section */}
-            <div className="bg-gradient-to-br from-slate-700 to-slate-800 p-8 lg:p-12 relative overflow-hidden">
+            <div className="bg-gradient-to-br from-slate-700 to-slate-800 p-6 sm:p-8 md:p-10 lg:p-12 relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-slate-600/20 to-transparent"></div>
               <div className="relative z-10">
-                <div className="mb-8">
-                  <h2 className="text-3xl lg:text-4xl font-bold text-white mb-2 leading-tight">
+                <div className="mb-6 sm:mb-8">
+                  <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-white mb-2 leading-tight">
                     Are you a
                   </h2>
-                  <h2 className="text-3xl lg:text-4xl font-bold text-white mb-6 leading-tight">
+                  <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-white mb-4 sm:mb-6 leading-tight">
                     Mechanic?
                   </h2>
                 </div>
                 
-                <p className="text-slate-200 text-lg mb-8 leading-relaxed max-w-md">
+                <p className="text-slate-200 text-base sm:text-lg md:text-xl mb-6 sm:mb-8 leading-relaxed max-w-md">
                   Join our platform and grow your business. Connect with customers who value quality.
                 </p>
-                <Link to="/auth">
-                <button className="bg-white text-slate-700 hover:bg-slate-50 font-bold py-4 px-8 rounded-xl transition-all duration-300 text-lg hover:shadow-xl transform hover:scale-105">
+                
+                <button className="bg-white text-slate-700 hover:bg-slate-50 font-bold py-3 px-6 sm:py-4 sm:px-8 rounded-xl transition-all duration-300 text-base sm:text-lg hover:shadow-xl transform hover:scale-105 w-full sm:w-auto">
                   Join Platform →
                 </button>
-                </Link>
               </div>
-              
-              <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-sm">
-                <Car className="w-16 h-16 text-white/80" />
+              <div className="absolute -bottom-4 -right-4 w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 bg-white/10 rounded-full items-center justify-center backdrop-blur-sm hidden sm:flex">
+                <Car className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 text-white/80" />
               </div>
             </div>
           </div>

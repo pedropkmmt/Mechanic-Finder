@@ -19,10 +19,7 @@ const NavBar = () => {
             <div className="flex items-center gap-6">
               <div className="flex-shrink-0">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
-                    <Wrench className="w-5 h-5 text-white" />
-                  </div>
-                  <h1 className="text-xl font-bold text-slate-800">MechanicFinder</h1>
+                  {/*Logo*/}
                 </div>
               </div>
               <div className="hidden sm:flex items-center gap-2 text-sm text-slate-600">

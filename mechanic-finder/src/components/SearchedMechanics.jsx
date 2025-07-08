@@ -5,7 +5,6 @@ import {
   MapPin,
   Eye
 } from 'lucide-react';
-import BusinessListing from './BusinessListing';
 import { Link, useNavigate } from 'react-router-dom'
 
 const SearchedMechanics = () => {
@@ -79,24 +78,25 @@ const SearchedMechanics = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      <section className="py-20 px-4">
+      <section className="py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl lg:text-5xl font-bold text-slate-800 mb-6">
+          {/* Header  */}
+          <div className="text-center mb-8 sm:mb-12 md:mb-16">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-slate-800 mb-3 sm:mb-4 md:mb-6 px-4">
               Local Mechanics Near You
             </h2>
-            <p className="text-xl text-slate-600 max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-slate-600 max-w-2xl mx-auto px-4">
               Trusted automotive professionals ready to serve you
             </p>
           </div>
 
-          {/* Filters */}
-          <div className="flex flex-wrap justify-center gap-3 mb-12">
+          {/* Filters  */}
+          <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8 sm:mb-10 md:mb-12 px-2">
             {filters.map((filter) => (
               <button
                 key={filter}
                 onClick={() => setActiveFilter(filter)}
-                className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${
+                className={`px-3 sm:px-4 md:px-6 py-2 sm:py-2.5 md:py-3 rounded-lg sm:rounded-xl font-medium sm:font-semibold text-sm sm:text-base transition-all duration-300 ${
                   activeFilter === filter
                     ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg'
                     : 'bg-white/80 backdrop-blur-sm text-slate-700 border border-white/20 hover:bg-white hover:border-blue-300 hover:shadow-lg'
@@ -107,20 +107,22 @@ const SearchedMechanics = () => {
             ))}
           </div>
 
-          {/* Mechanics Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          {/* Mechanics Grid  */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
             {filteredMechanics.map((mechanic) => (
-              <div key={mechanic.id} className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-white/20 hover:-translate-y-2">
+              <div key={mechanic.id} className="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-white/20 hover:-translate-y-1 sm:hover:-translate-y-2">
                 {/* Shop Image */}
-                <div className="relative h-48 overflow-hidden">
+                <div className="relative h-36 sm:h-40 md:h-48 overflow-hidden">
                   <img 
                     src={mechanic.image} 
                     alt={mechanic.name}
                     className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                  <div className="absolute top-4 right-4">
-                    <span className={`px-3 py-1 rounded-full text-sm font-bold ${
+                  
+                  {/* Availability Badge  */}
+                  <div className="absolute top-2 sm:top-4 right-2 sm:right-4">
+                    <span className={`px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-bold ${
                       mechanic.available 
                         ? 'bg-green-500 text-white' 
                         : 'bg-red-500 text-white'
@@ -129,54 +131,58 @@ const SearchedMechanics = () => {
                     </span>
                   </div>
                   
-                  {/* Mechanic Profile Picture */}
-                  <div className="absolute bottom-4 left-4 flex items-center gap-3">
+                  {/* Mechanic Profile Picture  */}
+                  <div className="absolute bottom-2 sm:bottom-4 left-2 sm:left-4 flex items-center gap-2 sm:gap-3">
                     <img 
                       src={mechanic.mechanic_image} 
                       alt={`${mechanic.name} mechanic`}
-                      className="w-12 h-12 rounded-full border-2 border-white shadow-lg object-cover"
+                      className="w-8 sm:w-10 md:w-12 h-8 sm:h-10 md:h-12 rounded-full border-2 border-white shadow-lg object-cover"
                     />
                     <div className="text-white">
-                      <h3 className="text-lg font-bold drop-shadow-lg">
+                      <h3 className="text-sm sm:text-base md:text-lg font-bold drop-shadow-lg leading-tight">
                         {mechanic.name}
                       </h3>
                       <div className="flex items-center gap-1">
-                        <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                        <span className="text-sm font-semibold">{mechanic.rating}</span>
-                        <span className="text-sm opacity-90">({mechanic.reviews})</span>
+                        <Star className="w-3 sm:w-4 h-3 sm:h-4 text-yellow-400 fill-yellow-400" />
+                        <span className="text-xs sm:text-sm font-semibold">{mechanic.rating}</span>
+                        <span className="text-xs sm:text-sm opacity-90">({mechanic.reviews})</span>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                {/* Content */}
-                <div className="p-6">
-                  <div className="flex items-center gap-2 text-slate-600 text-sm mb-4">
-                    <MapPin className="w-4 h-4" />
+                {/* Content  */}
+                <div className="p-4 sm:p-5 md:p-6">
+                  {/* Distance  */}
+                  <div className="flex items-center gap-2 text-slate-600 text-xs sm:text-sm mb-3 sm:mb-4">
+                    <MapPin className="w-3 sm:w-4 h-3 sm:h-4" />
                     <span>{mechanic.distance}</span>
                   </div>
 
-                  {/* Specialties */}
-                  <div className="mb-6">
-                    <p className="text-sm font-semibold text-slate-700 mb-3">Specializes in:</p>
-                    <div className="flex flex-wrap gap-2">
+                  {/* Specialties  */}
+                  <div className="mb-4 sm:mb-5 md:mb-6">
+                    <p className="text-xs sm:text-sm font-semibold text-slate-700 mb-2 sm:mb-3">Specializes in:</p>
+                    <div className="flex flex-wrap gap-1 sm:gap-2">
                       {mechanic.specialties.map((specialty, i) => (
-                        <span key={i} className="bg-gradient-to-r from-blue-500 to-blue-600 text-white text-xs px-3 py-1 rounded-full font-medium">
+                        <span key={i} className="bg-gradient-to-r from-blue-500 to-blue-600 text-white text-xs px-2 sm:px-3 py-1 rounded-full font-medium">
                           {specialty}
                         </span>
                       ))}
                     </div>
                   </div>
-                  <div className="flex gap-3">
+                  
+                  {/* Action Buttons  */}
+                  <div className="flex gap-2 sm:gap-3">
                     <button 
                       onClick={() => handleBookNow(mechanic)}
-                      className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl"
+                      className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-medium sm:font-semibold py-2 sm:py-2.5 md:py-3 px-3 sm:px-4 rounded-lg sm:rounded-xl text-sm sm:text-base transition-all duration-300 shadow-lg hover:shadow-xl"
                     >
                       Book Now
                     </button>
-                    <Link to="/details"><button className="flex items-center gap-2 bg-white/80 backdrop-blur-sm hover:bg-white border border-white/20 hover:border-blue-300 px-4 py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl">
-                      <Eye className="w-4 h-4 text-slate-600" />
-                    </button>
+                    <Link to="/details">
+                      <button className="flex items-center justify-center gap-2 bg-white/80 backdrop-blur-sm hover:bg-white border border-white/20 hover:border-blue-300 px-3 sm:px-4 py-2 sm:py-2.5 md:py-3 rounded-lg sm:rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl">
+                        <Eye className="w-3 sm:w-4 h-3 sm:h-4 text-slate-600" />
+                      </button>
                     </Link>
                   </div>
                 </div>
@@ -186,12 +192,12 @@ const SearchedMechanics = () => {
 
           {/* No results message */}
           {filteredMechanics.length === 0 && (
-            <div className="text-center py-16">
-              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-white/20 max-w-md mx-auto">
-                <p className="text-slate-600 text-lg">No mechanics found for the selected filter.</p>
+            <div className="text-center py-8 sm:py-12 md:py-16">
+              <div className="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl p-6 sm:p-8 shadow-lg border border-white/20 max-w-md mx-auto">
+                <p className="text-slate-600 text-base sm:text-lg mb-4">No mechanics found for the selected filter.</p>
                 <button 
                   onClick={() => setActiveFilter('All')}
-                  className="mt-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-2 rounded-xl hover:shadow-lg transition-all duration-300"
+                  className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 sm:px-6 py-2 sm:py-2.5 rounded-lg sm:rounded-xl hover:shadow-lg transition-all duration-300 text-sm sm:text-base"
                 >
                   Show All Mechanics
                 </button>
@@ -203,10 +209,45 @@ const SearchedMechanics = () => {
 
       {/* Business Listing Popup */}
       {selectedMechanic && (
-        <BusinessListing 
-          mechanic={selectedMechanic} 
-          onClose={handleClosePopup}
-        />
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 max-w-md w-full max-h-[80vh] overflow-y-auto">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg sm:text-xl font-bold text-slate-800">Book {selectedMechanic.name}</h3>
+              <button 
+                onClick={handleClosePopup}
+                className="text-slate-500 hover:text-slate-700 text-xl sm:text-2xl"
+              >
+                ×
+              </button>
+            </div>
+            <div className="space-y-4">
+              <div className="flex items-center gap-3">
+                <img 
+                  src={selectedMechanic.mechanic_image} 
+                  alt={selectedMechanic.name}
+                  className="w-12 sm:w-16 h-12 sm:h-16 rounded-full object-cover"
+                />
+                <div>
+                  <h4 className="font-semibold text-slate-800">{selectedMechanic.name}</h4>
+                  <div className="flex items-center gap-1 text-sm">
+                    <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
+                    <span>{selectedMechanic.rating}</span>
+                    <span className="text-slate-600">({selectedMechanic.reviews} reviews)</span>
+                  </div>
+                </div>
+              </div>
+              <div className="text-center">
+                <p className="text-slate-600 mb-4">This is a demo. Booking functionality would be implemented here.</p>
+                <button 
+                  onClick={handleClosePopup}
+                  className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-2 rounded-lg hover:shadow-lg transition-all duration-300"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
