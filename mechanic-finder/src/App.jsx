@@ -6,6 +6,7 @@ import MechanicsFinder from './pages/ListingPage'
 import BusinessListing from './components/BusinessListing'
 import MechanicDetails from './pages/MechanicDetails'
 import SouthAfricanMap from './services/SouthAricanMap'
+import MechanicBookings from './components/bookings/mechanics/BookingsInfo'
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -49,6 +50,16 @@ function App() {
                 setIsAuthenticated={setIsAuthenticated}
               />
             } 
+          />
+          {/*Mechanic Booking Page*/}
+          <Route
+            path="/mechanic-bookings"
+            element={
+              <MechanicBookings
+                isAuthenticated={isAuthenticated}
+                setIsAuthenticated={setIsAuthenticated}
+              />
+            }
           />
           {/*Business Details*/}
           <Route 
