@@ -1,15 +1,54 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import LoginPage from '../components/auth/LoginPage';
 import RegisterPage from '../components/auth/RegistrationPage';
 import AccountCreationLoading from '../features/CreatingProfile';
 
-const AuthPages = () => {
+const AuthPages = ({ isAuthenticated, setIsAuthenticated, setUserInfo }) => {
+  const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState('login');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [isCreatingAccount, setIsCreatingAccount] = useState(false);
+  
+  // Dummy user data for testing
+  const dummyUsers = {
+    // Customer account
+    'customer@test.com': {
+      email: 'customer@test.com',
+      password: 'password123',
+      userType: 'customer',
+      firstName: 'Pedro',
+      lastName: 'MT',
+      phone: '+27 123 456 789',
+      location: 'Cape Town',
+      vehicleMake: 'Toyota',
+      vehicleModel: 'Camry',
+      vehicleYear: '2020',
+      licenceNumber: 'ABC123GP',
+      emergencyContact: 'Jane Doe',
+      emergencyPhone: '+27 987 654 321'
+    },
+    // Mechanic account
+    'mechanic@test.com': {
+      email: 'mechanic@test.com',
+      password: 'password123',
+      userType: 'mechanic',
+      firstName: 'Nombuso',
+      lastName: 'Sm',
+      phone: '+27 456 789 012',
+      location: 'Johannesburg',
+      businessName: 'Smith Auto Repair',
+      businessAddress: '123 Main Street, Johannesburg',
+      yearsOfExperience: '10',
+      specializations: ['Engine Repair', 'Brake Service', 'Transmission'],
+      businessLicense: 'BL123456',
+      availabilityHours: '8:00 AM - 6:00 PM',
+      serviceRadius: '25 km'
+    }
+  };
   
   // Login form 
   const [loginData, setLoginData] = useState({
@@ -36,7 +75,7 @@ const AuthPages = () => {
     licenceNumber: '',
     emergencyContact: '',
     emergencyPhone: '',
-    // Mechanic  fields
+    // Mechanic fields
     businessName: '',
     businessAddress: '',
     yearsOfExperience: '',
@@ -45,6 +84,13 @@ const AuthPages = () => {
     availabilityHours: '',
     serviceRadius: ''
   });
+
+  // Check if user is already logged in when component mounts
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/', { replace: true });
+    }
+  }, [isAuthenticated, navigate]);
 
   // login form submission
   const handleLoginChange = (e) => {
@@ -75,7 +121,7 @@ const AuthPages = () => {
   };
 
   // Handle login form submission
-  const handleLoginSubmit = (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setSuccess('');
@@ -85,20 +131,52 @@ const AuthPages = () => {
       return;
     }
 
-  // Email validation
+    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(loginData.email)) {
       setError('Please enter a valid email address');
       return;
     }
+
+    // Check if user exists in dummy data
+    const user = dummyUsers[loginData.email];
+    if (!user) {
+      setError('User not found. Try customer@test.com or mechanic@test.com');
+      return;
+    }
+
+    // Check password
+    if (user.password !== loginData.password) {
+      setError('Invalid password. Use: password123');
+      return;
+    }
+
+    // Successful login
+    console.log('Login successful:', user);
     
-    console.log('Login data:', loginData);
-    setSuccess('Login successful! Welcome back.');
-    setTimeout(() => setSuccess(''), 3000);
+    try {
+      // Store user info in localStorage to persist across page refreshes
+      localStorage.setItem('userInfo', JSON.stringify(user));
+      localStorage.setItem('isAuthenticated', 'true');
+      
+      // Set authentication state AND user info
+      setIsAuthenticated(true);
+      setUserInfo(user);
+      
+      setSuccess(`Welcome back, ${user.firstName}!`);
+      
+      // Use React Router navigation instead of window.location
+      setTimeout(() => {
+        navigate('/', { replace: true });
+      }, 1500);
+    } catch (error) {
+      console.error('Login error:', error);
+      setError('Login failed. Please try again.');
+    }
   };
 
   // Handle registration form submission
-  const handleRegisterSubmit = (e) => {
+  const handleRegisterSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setSuccess('');
@@ -106,28 +184,6 @@ const AuthPages = () => {
     console.log('=== REGISTRATION FORM SUBMITTED ===');
     console.log('Current registerData state:', registerData);
     
-    // TEMPORARILY: Skip all validation for testing
-    console.log('🧪 SKIPPING VALIDATION FOR TESTING...');
-    console.log('🎉 Creating account...');
-    console.log('Setting isCreatingAccount to true...');
-    setIsCreatingAccount(true);
-
-    setTimeout(() => {
-      console.log('Account creation completed, redirecting to login...');
-      setIsCreatingAccount(false);
-      setCurrentPage('login');
-      setSuccess('Account created successfully! Please sign in.');
-      setTimeout(() => setSuccess(''), 3000);
-    }, 5000);
-    
-    return;
-
-    /*
-  const handleRegisterSubmit = (e) => {
-    e.preventDefault();
-    setError('');
-    setSuccess('');
-
     // Basic validation
     if (!registerData.firstName || !registerData.lastName || !registerData.email || 
         !registerData.phone || !registerData.location || !registerData.password || 
@@ -137,13 +193,13 @@ const AuthPages = () => {
     }
 
     // Validate email format
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(loginData.email)) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(registerData.email)) {
       setError('Please enter a valid email address');
       return;
     }
 
-    //password validation
+    // Password validation
     if (registerData.password.length < 6) {
       setError('Password must be at least 6 characters long');
       return;
@@ -158,7 +214,6 @@ const AuthPages = () => {
     if (!registerData.agreeToTerms) {
       setError('Please agree to the terms and conditions.');
       return;
-    
     }
 
     // User type specific validation
@@ -188,16 +243,73 @@ const AuthPages = () => {
     console.log('Registration data:', registerData);
     setIsCreatingAccount(true);
 
-    setTimeout(() => {
+    // Simulate account creation
+    try {
+      await new Promise(resolve => setTimeout(resolve, 5000));
+      
+      // Create user object for immediate login after registration
+      const newUser = {
+        email: registerData.email,
+        password: registerData.password,
+        userType: registerData.userType,
+        firstName: registerData.firstName,
+        lastName: registerData.lastName,
+        phone: registerData.phone,
+        location: registerData.location,
+        ...(registerData.userType === 'customer' ? {
+          vehicleMake: registerData.vehicleMake,
+          vehicleModel: registerData.vehicleModel,
+          vehicleYear: registerData.vehicleYear,
+          licenceNumber: registerData.licenceNumber,
+          emergencyContact: registerData.emergencyContact,
+          emergencyPhone: registerData.emergencyPhone
+        } : {
+          businessName: registerData.businessName,
+          businessAddress: registerData.businessAddress,
+          yearsOfExperience: registerData.yearsOfExperience,
+          specializations: registerData.specializations,
+          businessLicense: registerData.businessLicense,
+          availabilityHours: registerData.availabilityHours,
+          serviceRadius: registerData.serviceRadius
+        })
+      };
+
+      // Store user info and auto-login
+      localStorage.setItem('userInfo', JSON.stringify(newUser));
+      localStorage.setItem('isAuthenticated', 'true');
+      
+      setIsAuthenticated(true);
+      setUserInfo(newUser);
+      
       setIsCreatingAccount(false);
-      setCurrentPage('login');
-      setSuccess('Account created successfully! Please sign in.');
-      setTimeout(() => setSuccess(''), 3000);
-    }, 5000)*/;
+      setSuccess(`Account created successfully! Welcome, ${newUser.firstName}!`);
+      
+      // Navigate to home page after successful registration
+      setTimeout(() => {
+        navigate('/', { replace: true });
+      }, 2000);
+      
+    } catch (error) {
+      console.error('Registration error:', error);
+      setIsCreatingAccount(false);
+      setError('Registration failed. Please try again.');
+    }
   };
     
   return (
     <div className="font-sans bg-gray-50">
+      {/* Demo Login */}
+      <div className="max-w-md mx-auto pt-8 px-4">
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+          <h3 className="font-semibold text-blue-800 mb-2">Demo Login Credentials</h3>
+          <div className="text-sm text-blue-700 space-y-1">
+            <p><strong>Customer:</strong> customer@test.com</p>
+            <p><strong>Mechanic:</strong> mechanic@test.com</p>
+            <p><strong>Password:</strong> password123</p>
+          </div>
+        </div>
+      </div>
+
       {/* Show loading screen during account creation */}
       {isCreatingAccount && <AccountCreationLoading />}
       
@@ -231,7 +343,7 @@ const AuthPages = () => {
           setCurrentPage={setCurrentPage}
         />
       )}
-      </div>
+    </div>
   );
 };
 

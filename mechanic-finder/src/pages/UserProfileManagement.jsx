@@ -16,9 +16,9 @@ const ProfileManagement = () => {
 
   const [userData, setUserData] = useState({
     userType: 'customer', // or mechanic
-    firstName: 'Ave',
-    lastName: 'Malatji',
-    email: 'ave.mal@gmail.com',
+    firstName: 'Pedro',
+    lastName: 'MT',
+    email: 'pmt.mal@gmail.com',
     phone: '+27 (082) 123-4567',
     location: 'Gauteng, Jhb',
     profileImage: null,

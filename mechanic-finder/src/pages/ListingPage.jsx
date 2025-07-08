@@ -2,7 +2,6 @@ import FilterModal from '../features/FilterModal';
 import React, { useState, useEffect, useRef } from 'react';
 import { Search, Phone, Star, MapPin, Filter, User, Menu, X, ChevronLeft, Plus, Minus, Clock, Award, Shield, Map as MapIcon } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom'
-import NavBar from '../components/Navbar';
 
 const MechanicsFinder = () => {
   const [selectedBusiness, setSelectedBusiness] = useState(0);
@@ -282,7 +281,6 @@ const MechanicsFinder = () => {
 
   return (
     <>
-    <NavBar/>
       {/* Mobile Menu Overlay */}
       {showMobileMenu && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden">

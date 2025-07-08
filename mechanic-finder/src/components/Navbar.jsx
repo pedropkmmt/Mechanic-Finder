@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 const NavBar = ({ isAuthenticated, userInfo, onLogout }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -17,6 +18,21 @@ const NavBar = ({ isAuthenticated, userInfo, onLogout }) => {
   const handleLogout = () => {
     onLogout();
     setIsProfileDropdownOpen(false);
+    navigate('/');
+  };
+
+  const handleProfileClick = () => {
+    if (userInfo?.userType === 'customer') {
+      navigate('/profile');
+    } else if (userInfo?.userType === 'mechanic') {
+      navigate('');
+    }
+    setIsProfileDropdownOpen(false);
+  };
+
+  const handleBookingsClick = () => {
+    setIsProfileDropdownOpen(false);
+    navigate('/bookings');
   };
 
   return (
@@ -28,18 +44,13 @@ const NavBar = ({ isAuthenticated, userInfo, onLogout }) => {
             {/* Logo*/}
             <div className="flex items-center gap-6">
               <div className="flex-shrink-0">
-                <div className="flex items-center gap-3">
+                <Link to="/" className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
                     <Wrench className="w-5 h-5 text-white" />
                   </div>
-                  <span className="text-xl font-bold text-slate-800">MechanicFinder</span>
-                </div>
+                </Link>
               </div>
               <div className="hidden sm:flex items-center gap-2 text-sm text-slate-600">
-                <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
-                  <Phone className="w-4 h-4 text-white" />
-                </div>
-                <span className="font-semibold">+27 813 456 789</span>
               </div>
             </div>
 
@@ -52,6 +63,10 @@ const NavBar = ({ isAuthenticated, userInfo, onLogout }) => {
                 </Link>
                 <Link to="/map" className="hover:text-blue-600 transition-colors font-semibold relative group">
                   Find Mechanics
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </Link>
+                <Link to="/listing" className="hover:text-blue-600 transition-colors font-semibold relative group">
+                  Browse Mechanics
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
                 </Link>
                 <Link to="#" className="hover:text-blue-600 transition-colors font-semibold relative group">
@@ -103,10 +118,24 @@ const NavBar = ({ isAuthenticated, userInfo, onLogout }) => {
                         </p>
                       </div>
                       <div className="py-1">
-                        <button className="w-full flex items-center gap-3 px-4 py-2 text-sm text-slate-700 hover:bg-gray-50 transition-colors">
+                        <button 
+                          onClick={handleProfileClick}
+                          className="w-full flex items-center gap-3 px-4 py-2 text-sm text-slate-700 hover:bg-gray-50 transition-colors"
+                        >
                           <User className="w-4 h-4" />
                           Profile Settings
                         </button>
+                        
+                        {userInfo?.userType === 'mechanic' && (
+                          <button 
+                            onClick={handleBookingsClick}
+                            className="w-full flex items-center gap-3 px-4 py-2 text-sm text-slate-700 hover:bg-gray-50 transition-colors"
+                          >
+                            <Wrench className="w-4 h-4" />
+                            My Bookings
+                          </button>
+                        )}
+                        
                         <button className="w-full flex items-center gap-3 px-4 py-2 text-sm text-slate-700 hover:bg-gray-50 transition-colors">
                           <Bell className="w-4 h-4" />
                           Notifications
@@ -163,6 +192,7 @@ const NavBar = ({ isAuthenticated, userInfo, onLogout }) => {
               <nav className="space-y-3">
                 <Link to="/" className="block text-slate-700 hover:text-blue-600 transition-colors font-semibold py-2">Home</Link>
                 <Link to="/map" className="block text-slate-700 hover:text-blue-600 transition-colors font-semibold py-2">Find Mechanics</Link>
+                <Link to="/listing" className="block text-slate-700 hover:text-blue-600 transition-colors font-semibold py-2">Browse Mechanics</Link>
                 <Link to="#" className="block text-slate-700 hover:text-blue-600 transition-colors font-semibold py-2">Services</Link>
                 <Link to="#" className="block text-slate-700 hover:text-blue-600 transition-colors font-semibold py-2">About</Link>
                 <Link to="#" className="block text-slate-700 hover:text-blue-600 transition-colors font-semibold py-2">Contact</Link>
@@ -191,10 +221,22 @@ const NavBar = ({ isAuthenticated, userInfo, onLogout }) => {
                       </div>
                     </div>
                     
-                    <button className="w-full flex items-center gap-3 text-slate-700 hover:text-blue-600 transition-colors font-semibold py-2 px-3 rounded-xl hover:bg-blue-50">
-                      <User className="w-4 h-4" />
-                      Profile Settings
-                    </button>
+                    <Link to="/profile" onClick={() => setIsMenuOpen(false)}>
+                      <button className="w-full flex items-center gap-3 text-slate-700 hover:text-blue-600 transition-colors font-semibold py-2 px-3 rounded-xl hover:bg-blue-50">
+                        <User className="w-4 h-4" />
+                        Profile Settings
+                      </button>
+                    </Link>
+                    
+                    {userInfo?.userType === 'mechanic' && (
+                      <Link to="/bookings" onClick={() => setIsMenuOpen(false)}>
+                        <button className="w-full flex items-center gap-3 text-slate-700 hover:text-blue-600 transition-colors font-semibold py-2 px-3 rounded-xl hover:bg-blue-50">
+                          <Wrench className="w-4 h-4" />
+                          My Bookings
+                        </button>
+                      </Link>
+                    )}
+                    
                     <button className="w-full flex items-center gap-3 text-slate-700 hover:text-blue-600 transition-colors font-semibold py-2 px-3 rounded-xl hover:bg-blue-50">
                       <Bell className="w-4 h-4" />
                       Notifications

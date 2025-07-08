@@ -6,7 +6,6 @@ import { Link, useNavigate } from 'react-router-dom'
 const MechanicDetails = () => {
   return (
     <>
-      <NavBar/>
       <div className="min-h-screen bg-gray-50">
         {/* Hero Section */}
         <div className="relative overflow-hidden h-64 sm:h-80 md:h-96">
