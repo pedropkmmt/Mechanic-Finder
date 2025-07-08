@@ -17,7 +17,7 @@ const AuthPages = ({ isAuthenticated, setIsAuthenticated, setUserInfo }) => {
   const dummyUsers = {
     // Customer account
     'customer@test.com': {
-      email: 'customer@test.com',
+      email: 'pedrocustomer@email.com',
       password: 'password123',
       userType: 'customer',
       firstName: 'Pedro',
@@ -33,7 +33,7 @@ const AuthPages = ({ isAuthenticated, setIsAuthenticated, setUserInfo }) => {
     },
     // Mechanic account
     'mechanic@test.com': {
-      email: 'mechanic@test.com',
+      email: 'nombusomechanic@email.com',
       password: 'password123',
       userType: 'mechanic',
       firstName: 'Nombuso',
@@ -303,8 +303,8 @@ const AuthPages = ({ isAuthenticated, setIsAuthenticated, setUserInfo }) => {
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
           <h3 className="font-semibold text-blue-800 mb-2">Demo Login Credentials</h3>
           <div className="text-sm text-blue-700 space-y-1">
-            <p><strong>Customer:</strong> customer@test.com</p>
-            <p><strong>Mechanic:</strong> mechanic@test.com</p>
+            <p><strong>Customer:</strong> pedrocustomer@email.com</p>
+            <p><strong>Mechanic:</strong> nombusomechanic@email.com</p>
             <p><strong>Password:</strong> password123</p>
           </div>
         </div>
