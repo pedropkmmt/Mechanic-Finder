@@ -5,7 +5,7 @@ const Blog = () => {
     {
       id: 1,
       category: "Engine",
-      image: "broken.jpg",
+      image: "https://plus.unsplash.com/premium_photo-1682141708282-3a4f7023e1bb?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Y2FyJTIwZW5naW5lfGVufDB8fDB8fHww",
       title: "2024 Engine Diagnostics with advanced scanning tools, professional approach",
       author: "Mike",
       date: "November 22, 2023",
@@ -14,7 +14,7 @@ const Blog = () => {
     {
       id: 2,
       category: "Transmission",
-      image: "broken.jpg",
+      image: "https://cdn.britannica.com/54/97154-050-28A49CB6/elements-transmission-power-train-engine-front-wheel-drive-automobile.jpg",
       title: "Automatic Transmission Service: designed to extend your vehicle's life",
       author: "Sarah",
       date: "November 22, 2023",
@@ -23,7 +23,7 @@ const Blog = () => {
     {
       id: 3,
       category: "Brakes",
-      image: "broken.jpg",
+      image: "https://www.familyhandyman.com/wp-content/uploads/2023/09/Car-braking-system-GettyImages-1633787668_KSedit.jpg",
       title: "Brake Pad Replacement 2024: Complete Review. Safety on the road",
       author: "Alex",
       date: "November 22, 2023",

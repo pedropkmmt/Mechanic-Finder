@@ -2,7 +2,11 @@ import React from 'react';
 import { Car } from 'lucide-react';
 
 const VehicleInfoSection = ({ userData, isEditing, editData, handleInputChange }) => {
-  if (userData.userType !== 'customer') return null;
+  // Provide default values to prevent undefined errors - do this FIRST
+  const safeEditData = editData || {};
+  const safeUserData = userData || {};
+  
+  if (safeUserData.userType !== 'customer') return null;
 
   return (
     <div className="bg-card rounded-xl p-6 shadow-sm border border-border">
@@ -18,12 +22,14 @@ const VehicleInfoSection = ({ userData, isEditing, editData, handleInputChange }
             <input
               type="text"
               name="vehicleMake"
-              value={editData.vehicleMake}
+              value={safeEditData.vehicleMake || ''}
               onChange={handleInputChange}
               className="w-full p-3 border-2 border-input rounded-lg focus:outline-none focus:border-primary transition-all bg-background text-foreground"
             />
           ) : (
-            <p className="p-3 bg-secondary rounded-lg text-card-foreground">{userData.vehicleMake}</p>
+            <p className="p-3 bg-secondary rounded-lg text-card-foreground">
+              {safeUserData.vehicleMake || 'Not provided'}
+            </p>
           )}
         </div>
         
@@ -33,12 +39,14 @@ const VehicleInfoSection = ({ userData, isEditing, editData, handleInputChange }
             <input
               type="text"
               name="vehicleModel"
-              value={editData.vehicleModel}
+              value={safeEditData.vehicleModel || ''}
               onChange={handleInputChange}
               className="w-full p-3 border-2 border-input rounded-lg focus:outline-none focus:border-primary transition-all bg-background text-foreground"
             />
           ) : (
-            <p className="p-3 bg-secondary rounded-lg text-card-foreground">{userData.vehicleModel}</p>
+            <p className="p-3 bg-secondary rounded-lg text-card-foreground">
+              {safeUserData.vehicleModel || 'Not provided'}
+            </p>
           )}
         </div>
         
@@ -48,12 +56,14 @@ const VehicleInfoSection = ({ userData, isEditing, editData, handleInputChange }
             <input
               type="number"
               name="vehicleYear"
-              value={editData.vehicleYear}
+              value={safeEditData.vehicleYear || ''}
               onChange={handleInputChange}
               className="w-full p-3 border-2 border-input rounded-lg focus:outline-none focus:border-primary transition-all bg-background text-foreground"
             />
           ) : (
-            <p className="p-3 bg-secondary rounded-lg text-card-foreground">{userData.vehicleYear}</p>
+            <p className="p-3 bg-secondary rounded-lg text-card-foreground">
+              {safeUserData.vehicleYear || 'Not provided'}
+            </p>
           )}
         </div>
         
@@ -63,12 +73,14 @@ const VehicleInfoSection = ({ userData, isEditing, editData, handleInputChange }
             <input
               type="text"
               name="licenceNumber"
-              value={editData.licenceNumber}
+              value={safeEditData.licenceNumber || ''}
               onChange={handleInputChange}
               className="w-full p-3 border-2 border-input rounded-lg focus:outline-none focus:border-primary transition-all bg-background text-foreground"
             />
           ) : (
-            <p className="p-3 bg-secondary rounded-lg text-card-foreground">{userData.licenceNumber}</p>
+            <p className="p-3 bg-secondary rounded-lg text-card-foreground">
+              {safeUserData.licenceNumber || 'Not provided'}
+            </p>
           )}
         </div>
       </div>
@@ -81,12 +93,14 @@ const VehicleInfoSection = ({ userData, isEditing, editData, handleInputChange }
             <input
               type="text"
               name="emergencyContact"
-              value={editData.emergencyContact}
+              value={safeEditData.emergencyContact || ''}
               onChange={handleInputChange}
               className="w-full p-3 border-2 border-input rounded-lg focus:outline-none focus:border-primary transition-all bg-background text-foreground"
             />
           ) : (
-            <p className="p-3 bg-secondary rounded-lg text-card-foreground">{userData.emergencyContact}</p>
+            <p className="p-3 bg-secondary rounded-lg text-card-foreground">
+              {safeUserData.emergencyContact || 'Not provided'}
+            </p>
           )}
         </div>
         
@@ -96,12 +110,14 @@ const VehicleInfoSection = ({ userData, isEditing, editData, handleInputChange }
             <input
               type="tel"
               name="emergencyPhone"
-              value={editData.emergencyPhone}
+              value={safeEditData.emergencyPhone || ''}
               onChange={handleInputChange}
               className="w-full p-3 border-2 border-input rounded-lg focus:outline-none focus:border-primary transition-all bg-background text-foreground"
             />
           ) : (
-            <p className="p-3 bg-secondary rounded-lg text-card-foreground">{userData.emergencyPhone}</p>
+            <p className="p-3 bg-secondary rounded-lg text-card-foreground">
+              {safeUserData.emergencyPhone || 'Not provided'}
+            </p>
           )}
         </div>
       </div>

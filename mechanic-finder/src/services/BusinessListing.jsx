@@ -18,9 +18,9 @@ const BusinessListing = ({ mechanic, onClose }) => {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   
   const shopImages = [
-    'https://images.unsplash.com/photo-1486754735734-325b5831c3ad?w=400&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1632823469522-3c95d5e8d7c7?w=400&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?w=400&h=300&fit=crop'
+    'https://files.idyllic.app/files/static/2250075?width=256&optimizer=image',
+    'https://auto.edu/hs-fs/hubfs/shutterstock_2473446969.jpg?width=5472&height=3648&name=shutterstock_2473446969.jpg',
+    'https://static.wixstatic.com/media/24457cc02d954991b6aafb169233cc46.jpg/v1/fill/w_640,h_426,fp_0.50_0.50,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/24457cc02d954991b6aafb169233cc46.jpg'
   ];
 
   const businessHours = [

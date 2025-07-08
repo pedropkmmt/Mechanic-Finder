@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
 import BusinessListing from "../services/BusinessListing";
+import React, { useState } from 'react';
 import { 
   Star,
   MapPin,
@@ -20,7 +20,7 @@ const SearchedMechanics = () => {
       distance: '2.4 km',
       specialties: ['BMW', 'Mercedes', 'Audi'],
       available: true,
-      image: 'https://images.unsplash.com/photo-1486754735734-325b5831c3ad?w=400&h=300&fit=crop',
+      image: 'https://www.allstoragesystems.com.au/wp-content/uploads/2020/06/Organising-your-Automotive-Workshop.jpg',
       mechanic_image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face'
     },
     {
@@ -31,7 +31,7 @@ const SearchedMechanics = () => {
       distance: '1.8 km',
       specialties: ['Toyota', 'Honda', 'Nissan'],
       available: true,
-      image: 'https://images.unsplash.com/photo-1486754735734-325b5831c3ad?w=400&h=300&fit=crop',
+      image: 'https://www.shutterstock.com/image-photo/busy-car-repair-workshop-multiple-600nw-2467760913.jpg',
       mechanic_image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face'
     },
     {
@@ -42,7 +42,7 @@ const SearchedMechanics = () => {
       distance: '3.2 km',
       specialties: ['Ford', 'Chevrolet', 'Hyundai'],
       available: false,
-      image: 'https://images.unsplash.com/photo-1486754735734-325b5831c3ad?w=400&h=300&fit=crop',
+      image: 'https://blog.worky-italy.com/hubfs/KIRO/Imported_Blog_Media/worky-volkswagen-cover_i8567-kOqfpc9-w600-l2-1-2.jpg',
       mechanic_image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face'
     },
     {
@@ -53,7 +53,7 @@ const SearchedMechanics = () => {
       distance: '4.1 km',
       specialties: ['Toyota', 'Volkswagen', 'Audi'],
       available: true,
-      image: 'https://images.unsplash.com/photo-1486754735734-325b5831c3ad?w=400&h=300&fit=crop',
+      image: 'https://www.armotors.ae/wp-content/uploads/2021/03/mechanical-electrical-repairs-armotors-1.jpg',
       mechanic_image: 'https://images.unsplash.com/photo-1566492031773-4f4e44671d66?w=100&h=100&fit=crop&crop=face'
     }
   ];
@@ -75,6 +75,8 @@ const SearchedMechanics = () => {
   };
 
   return (
+    <>
+
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <section className="py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
@@ -205,15 +207,16 @@ const SearchedMechanics = () => {
           )}
         </div>
       </section>
-
-      {/* Business Listing Popup */}
+    </div>
+     {/* Business Listing Popup */}
       {selectedMechanic && (
         <BusinessListing 
           mechanic={selectedMechanic}
           onClose={handleClosePopup}
         />
       )}
-    </div>
+    
+    </>
   );
 };
 

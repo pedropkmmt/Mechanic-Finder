@@ -6,7 +6,8 @@ import MechanicsFinder from './pages/ListingPage'
 import BusinessListing from './services/BusinessListing'
 import MechanicDetails from './pages/MechanicDetails'
 import SouthAfricanMap from './services/SouthAricanMap'
-
+import ProfileManagement from './pages/UserProfileManagement'
+import MechanicBookings from './components/bookings/mechanics/BookingsInfo'
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
 
