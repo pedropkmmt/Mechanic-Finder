@@ -724,6 +724,7 @@ const AuthPages = () => {
               */}
             )}
             <div className="flex items-center gap-2 mb-6">
+              {/*
               <input
                 type="checkbox"
                 name="agreeToTerms"
@@ -736,7 +737,8 @@ const AuthPages = () => {
               <label htmlFor="agreeToTerms" className="text-sm text-muted-foreground">
                 I agree to the <a href="#" className="text-blue-primary hover:underline">Terms and Conditions</a> and <a href="#" className="text-blue-primary hover:underline">Privacy Policy</a>
               </label>
-            </div>
+              */}
+              </div>
 
             <button
               type="submit"
