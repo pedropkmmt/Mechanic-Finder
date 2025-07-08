@@ -2,8 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import { MapPin, Search, Filter } from 'lucide-react';
 import NavBar from '../components/Navbar';
 
+
 const SouthAfricanMap = () => {
   const [selectedProvince, setSelectedProvince] = useState(null);
+  const [selectedCity, setSelectedCity] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [map, setMap] = useState(null);
   const [markers, setMarkers] = useState([]);
@@ -94,12 +96,12 @@ const SouthAfricanMap = () => {
   ];
 
   const majorCities = [
-    { name: 'Cape Town', lat: -33.9249, lng: 18.4241, mechanics: 125 },
-    { name: 'Johannesburg', lat: -26.2041, lng: 28.0473, mechanics: 234 },
-    { name: 'Durban', lat: -29.8587, lng: 31.0218, mechanics: 156 },
-    { name: 'Pretoria', lat: -25.7479, lng: 28.2293, mechanics: 98 },
-    { name: 'Port Elizabeth', lat: -33.9608, lng: 25.6022, mechanics: 76 },
-    { name: 'Bloemfontein', lat: -29.0852, lng: 26.1596, mechanics: 67 }
+    { name: 'Cape Town', lat: -33.9249, lng: 18.4241, mechanics: 125, province: 'Western Cape' },
+    { name: 'Johannesburg', lat: -26.2041, lng: 28.0473, mechanics: 234, province: 'Gauteng' },
+    { name: 'Durban', lat: -29.8587, lng: 31.0218, mechanics: 156, province: 'KwaZulu-Natal' },
+    { name: 'Pretoria', lat: -25.7479, lng: 28.2293, mechanics: 98, province: 'Gauteng' },
+    { name: 'Port Elizabeth', lat: -33.9608, lng: 25.6022, mechanics: 76, province: 'Eastern Cape' },
+    { name: 'Bloemfontein', lat: -29.0852, lng: 26.1596, mechanics: 67, province: 'Free State' }
   ];
 
   // Initialize Leaflet map
@@ -119,7 +121,7 @@ const SouthAfricanMap = () => {
       
       // Initialize map
       const mapInstance = L.map(mapRef.current, {
-        center: [-29.0, 24.0], // Center of South Africa
+        center: [-29.0, 24.0], 
         zoom: 6,
         scrollWheelZoom: true,
         zoomControl: true
@@ -131,7 +133,7 @@ const SouthAfricanMap = () => {
         maxZoom: 18
       }).addTo(mapInstance);
 
-      // Add city markers only
+      // Add city markers with click handlers
       const cityMarkers = [];
       majorCities.forEach(city => {
         const marker = L.marker([city.lat, city.lng], {
@@ -150,6 +152,12 @@ const SouthAfricanMap = () => {
             <p class="text-sm text-gray-600">Available Mechanics: ${city.mechanics}</p>
           </div>
         `);
+        
+        // Add click handler to update selected city
+        marker.on('click', () => {
+          setSelectedCity(city);
+          setSelectedProvince(null); 
+        });
         
         cityMarkers.push(marker);
       });
@@ -170,6 +178,7 @@ const SouthAfricanMap = () => {
   // Handle province selection
   const handleProvinceClick = (province) => {
     setSelectedProvince(province);
+    setSelectedCity(null); 
     if (map) {
       map.setView(province.center, 8);
     }
@@ -180,10 +189,99 @@ const SouthAfricanMap = () => {
     province.capital.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const renderSelectedInfo = () => {
+    if (selectedCity) {
+      return (
+        <div className="space-y-6">
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+            <h2 className="text-xl font-bold text-gray-900 mb-4">
+              {selectedCity.name}
+            </h2>
+            <div className="space-y-3">
+              <div className="flex items-center gap-3">
+                <MapPin className="w-5 h-5 text-blue-600" />
+                <div>
+                  <p className="text-sm font-medium text-gray-700">Province</p>
+                  <p className="text-sm text-gray-600">{selectedCity.province}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-5 h-5 bg-green-600 rounded-full flex items-center justify-center">
+                  <span className="text-white text-xs font-bold">M</span>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-700">Available Mechanics</p>
+                  <p className="text-sm text-gray-600">{selectedCity.mechanics} mechanics</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-5 h-5 bg-blue-600 rounded-full flex items-center justify-center">
+                  <span className="text-white text-xs font-bold">📍</span>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-700">Coordinates</p>
+                  <p className="text-sm text-gray-600">{selectedCity.lat.toFixed(4)}, {selectedCity.lng.toFixed(4)}</p>
+                </div>
+              </div>
+            </div>
+            <button className="w-full mt-4 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-200">
+              Find Mechanics Here
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    if (selectedProvince) {
+      return (
+        <div className="space-y-6">
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+            <h2 className="text-xl font-bold text-gray-900 mb-4">
+              {selectedProvince.name}
+            </h2>
+            <div className="space-y-3">
+              <div className="flex items-center gap-3">
+                <MapPin className="w-5 h-5 text-blue-600" />
+                <div>
+                  <p className="text-sm font-medium text-gray-700">Capital</p>
+                  <p className="text-sm text-gray-600">{selectedProvince.capital}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-5 h-5 bg-green-600 rounded-full flex items-center justify-center">
+                  <span className="text-white text-xs font-bold">M</span>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-700">Available Mechanics</p>
+                  <p className="text-sm text-gray-600">{selectedProvince.mechanics} mechanics</p>
+                </div>
+              </div>
+            </div>
+            <button className="w-full mt-4 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-200">
+              Find Mechanics Here
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div className="text-center py-12">
+        <MapPin className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+        <h3 className="text-lg font-semibold text-gray-700 mb-2">
+          Select a Location
+        </h3>
+        <p className="text-sm text-gray-500">
+          Click on any city marker to view detailed information, or select a province from the list below
+        </p>
+      </div>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 flex flex-col">
       {/* NavBar */}
-      <div className="fixed top-0 left-0 right-0 z-50">
+      <div className="fixed top-0 left-0 right-0 z-[1010]">
         <NavBar />
       </div>
 
@@ -243,46 +341,7 @@ const SouthAfricanMap = () => {
 
         {/* Info Panel */}
         <div className="w-80 p-6 bg-gray-50 border-l border-gray-200 overflow-y-auto">
-          {selectedProvince ? (
-            <div className="space-y-6">
-              <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
-                <h2 className="text-xl font-bold text-gray-900 mb-4">
-                  {selectedProvince.name}
-                </h2>
-                <div className="space-y-3">
-                  <div className="flex items-center gap-3">
-                    <MapPin className="w-5 h-5 text-blue-600" />
-                    <div>
-                      <p className="text-sm font-medium text-gray-700">Capital</p>
-                      <p className="text-sm text-gray-600">{selectedProvince.capital}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-5 h-5 bg-green-600 rounded-full flex items-center justify-center">
-                      <span className="text-white text-xs font-bold">M</span>
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-gray-700">Available Mechanics</p>
-                      <p className="text-sm text-gray-600">{selectedProvince.mechanics} mechanics</p>
-                    </div>
-                  </div>
-                </div>
-                <button className="w-full mt-4 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-200">
-                  Find Mechanics Here
-                </button>
-              </div>
-            </div>
-          ) : (
-            <div className="text-center py-12">
-              <MapPin className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-gray-700 mb-2">
-                Select a Province
-              </h3>
-              <p className="text-sm text-gray-500">
-                Click on any city marker to view mechanic information, or select a province from the list below
-              </p>
-            </div>
-          )}
+          {renderSelectedInfo()}
 
           {/* Quick Stats */}
           <div className="mt-6 bg-white rounded-xl p-6 shadow-sm border border-gray-200">
