@@ -637,6 +637,7 @@ const AuthPages = () => {
 
             {/* Mechanic Field */}
             {registerData.userType === 'mechanic' && (
+              {/*
               <div>
                 <section href="authentication">
                 <h3 className="text-lg font-semibold text-foreground mb-4">Business Information</h3>
@@ -720,6 +721,7 @@ const AuthPages = () => {
                 </div>
                 </section>
               </div>
+              */}
             )}
             <div className="flex items-center gap-2 mb-6">
               <input
