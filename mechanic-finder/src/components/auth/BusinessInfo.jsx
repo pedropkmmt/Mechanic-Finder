@@ -44,7 +44,7 @@ const BusinessInfo = ({ registerData, handleRegisterChange, handleSpecialty }) =
         Specializations *
       </label>
       <div className="grid grid-cols-2 gap-2">
-        {['Engine Repair', 'Brake Service', 'Oil Changes', 'Transmission', 'Electrical', 'Air Conditioning'].map((spec) => (
+        {['Engine Repair', 'Brake Service', 'Oil Changes', 'Transmission', 'Electrical', 'Air Conditioning', 'Suspension', 'Fleet Service'].map((spec) => (
           <div key={spec} className="flex items-center gap-2">
             <input
               type="checkbox"
