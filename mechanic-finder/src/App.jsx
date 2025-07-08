@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import FindMechanicPage from './pages/Landing Page'
 import AuthPages from './pages/AuthenticationPages'
 import MechanicsFinder from './pages/ListingPage'
-import BusinessListing from './components/BusinessListing'
+import BusinessListing from './services/BusinessListing'
 import MechanicDetails from './pages/MechanicDetails'
 import SouthAfricanMap from './services/SouthAricanMap'
 

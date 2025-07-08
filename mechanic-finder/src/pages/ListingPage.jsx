@@ -1,6 +1,8 @@
+import FilterModal from '../features/FilterModal';
 import React, { useState, useEffect, useRef } from 'react';
 import { Search, Phone, Star, MapPin, Filter, User, Menu, X, ChevronLeft, Plus, Minus, Clock, Award, Shield, Map as MapIcon } from 'lucide-react';
-import FilterModal from '../features/FilterModal';
+import { Link, useNavigate } from 'react-router-dom'
+import NavBar from '../components/Navbar';
 
 const MechanicsFinder = () => {
   const [selectedBusiness, setSelectedBusiness] = useState(0);
@@ -279,67 +281,14 @@ const MechanicsFinder = () => {
   }, [selectedBusiness]);
 
   return (
-    <div className="flex flex-col lg:flex-row h-screen bg-gray-50">
-      {/* Mobile/Desktop Header */}
-      <div className="fixed top-0 left-0 right-0 bg-white shadow-sm z-30 border-b border-gray-200">
-        <div className="px-4 py-3">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2 lg:space-x-6">
-              {/* Mobile Menu Button */}
-              <button
-                onClick={() => setShowMobileMenu(!showMobileMenu)}
-                className="lg:hidden p-1 text-gray-600 hover:text-gray-900"
-              >
-                <Menu className="w-6 h-6" />
-              </button>
-              
-              <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">M</span>
-                </div>
-                <span className="text-lg font-bold text-gray-900">MechanicFinder</span>
-              </div>
-            </div>
-            
-            {/* Desktop User Info */}
-            <div className="hidden sm:flex items-center space-x-3">
-              <User className="w-5 h-5 text-gray-600" />
-              <span className="text-sm text-gray-700">John Doe</span>
-              <span className="text-blue-600 text-sm">+27 (0)11 657 8978</span>
-            </div>
-            
-            {/* Mobile User Icon */}
-            <div className="sm:hidden">
-              <User className="w-6 h-6 text-gray-600" />
-            </div>
-          </div>
-        </div>
-      </div>
-
+    <>
+    <NavBar/>
       {/* Mobile Menu Overlay */}
       {showMobileMenu && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden">
           <div className="fixed top-0 left-0 h-full w-64 bg-white shadow-lg z-50 pt-16">
             <div className="p-4">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-lg font-semibold">Menu</h3>
-                <button
-                  onClick={() => setShowMobileMenu(false)}
-                  className="p-1 text-gray-500 hover:text-gray-700"
-                >
-                  <X className="w-6 h-6" />
-                </button>
-              </div>
-              
               <div className="space-y-4">
-                <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                  <User className="w-5 h-5 text-gray-600" />
-                  <div>
-                    <div className="text-sm font-medium text-gray-900">John Doe</div>
-                    <div className="text-xs text-blue-600">+27 (0)11 657 8978</div>
-                  </div>
-                </div>
-                
                 <button
                   onClick={() => {
                     setShowMap(false);
@@ -395,15 +344,6 @@ const MechanicsFinder = () => {
               
               {/* Filter Row */}
               <div className="flex items-center space-x-2 mb-4 overflow-x-auto pb-2">
-                <button className="flex-shrink-0 px-3 py-2 bg-blue-600 text-white rounded-lg text-xs lg:text-sm font-medium whitespace-nowrap">
-                  Free consultation
-                </button>
-                <button className="flex-shrink-0 px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-xs lg:text-sm whitespace-nowrap">
-                  Price
-                </button>
-                <button className="flex-shrink-0 px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-xs lg:text-sm whitespace-nowrap">
-                  Instant Book
-                </button>
                 <button 
                   onClick={() => setShowFilters(true)}
                   className="flex-shrink-0 p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
@@ -415,8 +355,6 @@ const MechanicsFinder = () => {
               <div className="text-sm text-gray-600 mb-2">
                 {businesses.length} Auto mechanics across South Africa
               </div>
-              
-              <h2 className="text-lg lg:text-xl font-semibold text-gray-900 mb-4">Mechanics</h2>
             </div>
           </div>
 
@@ -433,7 +371,7 @@ const MechanicsFinder = () => {
                 <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
                   <div className="relative flex-shrink-0 sm:w-32">
                     <img
-                      src="/api/placeholder/120/80"
+                      src="shop.jpg"
                       alt={business.name}
                       className="w-full sm:w-32 h-20 object-cover rounded-lg"
                     />
@@ -490,9 +428,11 @@ const MechanicsFinder = () => {
                   <button className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">
                     Book Appointment
                   </button>
+                  <Link to ="/details">
                   <button className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm">
                     View Details
                   </button>
+                  </Link>
                 </div>
               </div>
             ))}
@@ -574,13 +514,15 @@ const MechanicsFinder = () => {
           </div>
         </div>
       )}
-      
-      {/* Filter Modal */}
+    {/* Filter Modal */}
       <FilterModal 
-        showFilters={showFilters} 
-        setShowFilters={setShowFilters} 
-      />
-    </div>
+  showFilters={showFilters}
+  setShowFilters={setShowFilters}
+  onApplyFilters={(filters) => {
+    console.log("Filters applied in ListingPage:", filters);
+  }}
+  />
+    </>
   );
 }
 

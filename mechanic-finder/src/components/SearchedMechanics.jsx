@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import BusinessListing from "./BusinessListing";
+import BusinessListing from "../services/BusinessListing";
 import { 
   Star,
   MapPin,
