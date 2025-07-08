@@ -149,6 +149,7 @@ const AuthPages = () => {
         {/* Form */}
         <div className="p-8">
           <div className="flex mb-8 bg-secondary rounded-lg p-1">
+            {/*
             <button
               onClick={() => setCurrentPage('login')}
               className={`flex-1 py-3 px-4 rounded-md font-medium text-sm transition-all duration-300  ${
@@ -169,6 +170,7 @@ const AuthPages = () => {
             >
               Sign Up
             </button>
+            */}
           </div>
 
           {/* Error Messages */}
