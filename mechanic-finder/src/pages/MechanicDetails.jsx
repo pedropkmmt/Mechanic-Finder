@@ -1,6 +1,7 @@
 import React from 'react';
 import { Star, MapPin, Clock, Phone } from 'lucide-react';
 import NavBar from '../components/Navbar';
+import { Link, useNavigate } from 'react-router-dom'
 
 const MechanicDetails = () => {
   return (
@@ -60,9 +61,11 @@ const MechanicDetails = () => {
                 <button className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-8 py-4 rounded-xl transition-all duration-300 font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1">
                   📞 Call & Message
                 </button>
+                <Link to="/map">
                 <button className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-8 py-4 rounded-xl transition-all duration-300 border-2 border-gray-300 hover:border-gray-400 font-semibold text-lg">
                   🗺️ Get Directions
                 </button>
+                </Link>
               </div>
             </div>
           </div>

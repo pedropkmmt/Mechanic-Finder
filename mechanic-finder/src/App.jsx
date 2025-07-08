@@ -5,6 +5,7 @@ import AuthPages from './pages/AuthenticationPages'
 import MechanicsFinder from './pages/ListingPage'
 import BusinessListing from './components/BusinessListing'
 import MechanicDetails from './pages/MechanicDetails'
+import SouthAfricanMap from './services/SouthAricanMap'
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -49,11 +50,21 @@ function App() {
               />
             } 
           />
-          {/*Business Listing */}
+          {/*Business Details*/}
           <Route 
             path="/details" 
             element={
               <MechanicDetails
+                isAuthenticated={isAuthenticated}
+                setIsAuthenticated={setIsAuthenticated}
+              />
+            } 
+          />
+          {/*South Arican Map*/}
+          <Route 
+            path="/map" 
+            element={
+              <SouthAfricanMap
                 isAuthenticated={isAuthenticated}
                 setIsAuthenticated={setIsAuthenticated}
               />

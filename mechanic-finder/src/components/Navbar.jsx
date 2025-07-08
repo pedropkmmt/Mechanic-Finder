@@ -40,7 +40,7 @@ const NavBar = () => {
                   Home
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
                 </Link>
-                <Link to="/listing" className="hover:text-blue-600 transition-colors font-semibold relative group">
+                <Link to="/map" className="hover:text-blue-600 transition-colors font-semibold relative group">
                   Find Mechanics
                   </Link>
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
@@ -67,10 +67,6 @@ const NavBar = () => {
                 Sign In
               </button>
               </Link>
-              <button 
-              className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold px-6 py-2 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl">
-                Join as Mechanic
-              </button>
             </div>
 
             {/* Mobile menu button */}
