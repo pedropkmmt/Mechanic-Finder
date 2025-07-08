@@ -527,6 +527,7 @@ const AuthPages = () => {
 
             {/* Customer Field */}
             {registerData.userType === 'customer' && (
+              {/*
               <div>
                 <h3 className="text-lg font-semibold text-foreground mb-4">Vehicle Information</h3>
                 
@@ -631,6 +632,7 @@ const AuthPages = () => {
                   </div>
                 </div>
               </div>
+              */}
             )}
 
             {/* Mechanic Field */}
