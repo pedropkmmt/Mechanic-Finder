@@ -137,6 +137,8 @@ const AuthPages = () => {
     });
   };
 
+  
+
   const LoginPage = () => (
     <div className="min-h-screen bg-gradient-bg flex items-center justify-center p-8">
       <div className="bg-card rounded-2xl shadow-xl overflow-hidden w-full max-w-md relative">
