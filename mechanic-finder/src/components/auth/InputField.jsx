@@ -34,7 +34,7 @@ const InputField = ({
         placeholder={placeholder}
         min={min}
         max={max}
-        className={`w-full py-3 ${Icon ? 'pl-10' : 'pl-4'} ${showPasswordToggle ? 'pr-12' : 'pr-4'} border-2 border-input rounded-lg text-base transition-all duration-300 focus:outline-none focus:border-blue-primary focus:shadow-focus placeholder-muted-foreground bg-background`}
+        className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
         required={required}
       />
       {showPasswordToggle && (
