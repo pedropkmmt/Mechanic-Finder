@@ -175,6 +175,7 @@ const AuthPages = () => {
 
           {/* Error Messages */}
           {error && (
+            {/*}
             <div className="bg-destructive/10 border border-destructive/20 text-destructive px-3 py-3 rounded-lg text-sm mb-4">
               {error}
             </div>
@@ -183,6 +184,7 @@ const AuthPages = () => {
             <div className="bg-green-50 border border-green-200 text-green-700 px-3 py-3 rounded-lg text-sm mb-4">
               {success}
             </div>
+            */}
           )}
 
           <form onSubmit={handleLoginSubmit} className="space-y-6">
