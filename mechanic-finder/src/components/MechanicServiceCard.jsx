@@ -1,5 +1,6 @@
 import React from 'react';
 import { Settings, Car } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom'
 
 const MechanicServiceCards = () => {
   return (
@@ -24,10 +25,11 @@ const MechanicServiceCards = () => {
                 <p className="text-blue-100 text-lg mb-8 leading-relaxed max-w-md">
                   Connect with trusted, certified mechanics in your area. Quality service guaranteed.
                 </p>
-                
+                <Link to="/map">
                 <button className="bg-white text-blue-600 hover:bg-blue-50 font-bold py-4 px-8 rounded-xl transition-all duration-300 text-lg hover:shadow-xl transform hover:scale-105">
                   Find Mechanics →
                 </button>
+                </Link>
               </div>
               
               <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-sm">
@@ -51,10 +53,11 @@ const MechanicServiceCards = () => {
                 <p className="text-slate-200 text-lg mb-8 leading-relaxed max-w-md">
                   Join our platform and grow your business. Connect with customers who value quality.
                 </p>
-                
+                <Link to="/auth">
                 <button className="bg-white text-slate-700 hover:bg-slate-50 font-bold py-4 px-8 rounded-xl transition-all duration-300 text-lg hover:shadow-xl transform hover:scale-105">
                   Join Platform →
                 </button>
+                </Link>
               </div>
               
               <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-sm">
