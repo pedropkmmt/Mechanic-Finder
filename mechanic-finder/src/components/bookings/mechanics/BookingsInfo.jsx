@@ -1,5 +1,30 @@
 import { useState } from 'react';
-import { Calendar, Clock, User, Car, Wrench, CheckCircle, AlertCircle, DollarSign } from 'lucide-react';
+import { Calendar, Clock, User, Car, Wrench, CheckCircle, AlertCircle, DollarSign,TrendingUp, Star } from 'lucide-react';
+
+//card components
+const Card = ({ children, className = "" }) => (
+  <div className={`bg-white rounded-lg border border-gray-200 ${className}`}>
+    {children}
+  </div>
+);
+
+const CardHeader = ({ children, className = "" }) => (
+  <div className={`p-6 ${className}`}>
+    {children}
+  </div>
+);
+
+const CardTitle = ({ children, className = "" }) => (
+  <h3 className={`text-lg font-semibold leading-none tracking-tight ${className}`}>
+    {children}
+  </h3>
+);
+
+const CardContent = ({ children, className = "" }) => (
+  <div className={`p-6 pt-0 ${className}`}>
+    {children}
+  </div>
+);
 
 const MechanicDashboard = () => {
   const [activeTab, setActiveTab] = useState('upcoming');
@@ -81,7 +106,8 @@ const MechanicDashboard = () => {
         time: "01:00 PM",
         phone: "+27 (072) 567-8901",
         status: "completed",
-        totalCost: "R2850"
+        totalCost: "R2850",
+        rating: 5
       },
       {
         id: 7,
@@ -93,10 +119,55 @@ const MechanicDashboard = () => {
         time: "09:30 AM",
         phone: "+27 (079) 678-9012",
         status: "completed",
-        totalCost: "R850"
+        totalCost: "R850",
+        rating: 4
+      },
+      {
+        id: 8,
+        customerName: "Thandi",
+        customerSurname: "Nkosi",
+        carType: "Volkswagen Golf 2020",
+        carIssue: "Suspension repair and alignment",
+        date: "2025-07-01",
+        time: "10:30 AM",
+        phone: "+27 (083) 789-0123",
+        status: "completed",
+        totalCost: "R3200",
+        rating: 5
+      },
+      {
+        id: 9,
+        customerName: "Sipho",
+        customerSurname: "Dlamini",
+        carType: "Audi A4 2018",
+        carIssue: "Battery replacement and electrical check",
+        date: "2025-06-28",
+        time: "02:00 PM",
+        phone: "+27 (081) 890-1234",
+        status: "completed",
+        totalCost: "R1500",
+        rating: 4
+      },
+      {
+        id: 10,
+        customerName: "Nandi",
+        customerSurname: "Zuma",
+        carType: "Hyundai Tucson 2021",
+        carIssue: "Tire replacement and wheel balancing",
+        date: "2025-06-25",
+        time: "11:00 AM",
+        phone: "+27 (073) 901-2345",
+        status: "completed",
+        totalCost: "R2200",
+        rating: 5
       }
     ]
   };
+
+  const completedJobs = bookings.past;
+
+  const averageRating = completedJobs.length > 0 ? 
+    completedJobs.reduce((sum, job) => sum + job.rating, 0) / completedJobs.length : 0;
 
   const tabs = [
     { id: 'upcoming', label: 'Upcoming', icon: Calendar, count: bookings.upcoming.length },
@@ -123,6 +194,24 @@ const MechanicDashboard = () => {
       month: 'long', 
       day: 'numeric' 
     });
+  };
+
+  const StarRating = ({ rating }) => {
+    return (
+      <div className="flex items-center space-x-1">
+        {[1, 2, 3, 4, 5].map((star) => (
+          <Star
+            key={star}
+            className={`w-4 h-4 ${
+              star <= rating
+                ? 'text-yellow-500 fill-current'
+                : 'text-gray-300'
+            }`}
+          />
+        ))}
+        <span className="text-sm text-slate-600 ml-1">({rating}/5)</span>
+      </div>
+    );
   };
 
   const BookingCard = ({ booking }) => (
@@ -159,6 +248,7 @@ const MechanicDashboard = () => {
           <Calendar className="w-4 h-4 text-blue-600" />
           <span className="text-sm text-slate-700">{formatDate(booking.date)} at {booking.time}</span>
         </div>
+        
 
         {booking.estimatedCompletion && (
           <div className="flex items-center space-x-2">
@@ -182,6 +272,15 @@ const MechanicDashboard = () => {
         {booking.totalCost && (
           <div className="bg-green-50 rounded-lg p-3 mt-3">
             <span className="text-sm font-medium text-green-700">Total Cost: {booking.totalCost}</span>
+          </div>
+        )}
+
+        {booking.rating && (
+          <div className="bg-yellow-50 rounded-lg p-3 mt-3">
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium text-yellow-700">Customer Rating:</span>
+              <StarRating rating={booking.rating} />
+            </div>
           </div>
         )}
       </div>
@@ -221,9 +320,11 @@ const MechanicDashboard = () => {
         )}
         
         {booking.status === 'completed' && (
+          <>
           <button className="w-full bg-white border border-slate-300 text-slate-700 font-medium py-2 px-4 rounded-lg hover:bg-slate-50 transition-all duration-300">
             View Details
           </button>
+          </>
         )}
       </div>
     </div>
@@ -232,14 +333,76 @@ const MechanicDashboard = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white py-8 px-4">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl lg:text-5xl font-bold text-slate-800 mb-4">
-            Mechanic Dashboard
-          </h1>
-          <p className="text-xl text-slate-600">
-            Manage your bookings and customer services
-          </p>
+        <div className="mb-8">
+          <div className="flex flex-wrap justify-center gap-6">
+            <Card className="bg-gradient-to-r from-amber-500 to-amber-500 border-yellow-200 shadow-xl hover:shadow-2xl transition-all duration-300 w-80">
+              <CardHeader className="pb-4 bg-white text-amber-600  rounded-t-lg">
+                <CardTitle className="flex items-center justify-center gap-3 text-lg font-bold">
+                  <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                    <Star className="w-6 h-6 text-amber fill-current" />
+                  </div>
+                  Average Rating
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="text-center py-6">
+                <div className="flex items-center justify-center mb-3">
+                  <p className="text-4xl font-bold text-white mr-2">{averageRating.toFixed(1)}</p>
+                  <div className="flex items-center">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <Star
+                        key={star}
+                        className={`w-5 h-5 ${
+                          star <= Math.round(averageRating)
+                            ? 'text-yellow-300 fill-current'
+                            : 'text-gray-300'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </div>
+                <p className="text-sm text-white  font-medium">Based on {completedJobs.length} completed jobs</p>
+                <div className="mt-4 pt-4 border-t border-amber-200">
+                  <p className="text-xs text-white">
+                    {averageRating >= 4.5 ? "Excellent service!" : averageRating >= 4.0 ? "Great work!" : "Good job, keep improving!"}
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200 shadow-xl hover:shadow-2xl transition-all duration-300 w-80">
+              <CardHeader className="pb-4 bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-t-lg">
+                <CardTitle className="flex items-center justify-center gap-3 text-lg font-bold">
+                  <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                    <TrendingUp className="w-6 h-6 text-white" />
+                  </div>
+                  Monthly Jobs
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="text-center py-6">
+                <div className="flex items-center justify-center mb-3">
+                  <p className="text-4xl font-bold text-blue-600 mr-2">{(() => {
+                    const now = new Date();
+                    const oneMonthAgo = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
+                    return completedJobs.filter(job => new Date(job.date) >= oneMonthAgo).length;
+                  })()}</p>
+                  <div className="flex items-center">
+                    <CheckCircle className="w-6 h-6 text-green-500 fill-current" />
+                  </div>
+                </div>
+                <p className="text-sm text-blue-700 font-medium">Jobs completed this month</p>
+                <div className="mt-4 pt-4 border-t border-blue-200">
+                  <p className="text-xs text-blue-600">
+                    {(() => {
+                      const now = new Date();
+                      const oneMonthAgo = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
+                      const monthlyJobs = completedJobs.filter(job => new Date(job.date) >= oneMonthAgo).length;
+                      return monthlyJobs >= 10 ? "Great productivity!" : monthlyJobs >= 5 ? "Good work pace!" : "Keep building momentum!";
+                    })()}
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </div>
 
         {/* Tabs */}
