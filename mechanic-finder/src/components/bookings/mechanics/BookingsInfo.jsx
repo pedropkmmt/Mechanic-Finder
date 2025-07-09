@@ -406,37 +406,60 @@ const MechanicDashboard = () => {
         </div>
 
         {/* Tabs */}
-        <div className="flex flex-wrap justify-center gap-4 mb-8">
+        <div className="flex flex-wrap justify-center gap-4 mb-8 backdrop-blur-md bg-white/80 rounded-2xl shadow-lg border border-white/20 px-6 py-8">
           {tabs.map((tab) => {
             const Icon = tab.icon;
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center space-x-2 px-6 py-3 rounded-full font-medium transition-all duration-300 ${
-                  activeTab === tab.id
-                    ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg'
-                    : 'bg-white/80 backdrop-blur-sm border border-white/20 text-slate-700 hover:bg-white hover:border-blue-300 hover:shadow-lg'
-                }`}
-              >
-                <Icon className="w-4 h-4" />
-                <span>{tab.label}</span>
-                {tab.count > 0 && (
-                  <span className={`px-2 py-1 text-xs rounded-full ${
-                    activeTab === tab.id
-                      ? 'bg-white/20 text-white'
-                      : 'bg-blue-100 text-blue-600'
-                  }`}>
-                    {tab.count}
-                  </span>
-                )}
-              </button>
-            );
-          })}
+            const getTabColor = (tabId) => {
+              switch (tabId) {
+                case 'upcoming': return 'from-blue-500 to-blue-600';
+                case 'inProgress': return 'from-amber-500 to-amber-600';
+                case 'awaitingResponse': return 'from-orange-500 to-orange-600';
+                case 'past': return 'from-green-500 to-green-600';
+            }
+          };
+
+          return (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`relative flex flex-col items-center space-y-2 p-4 rounded-xl font-medium transition-all duration-300 group ${
+                      activeTab === tab.id
+                        ? `bg-gradient-to-r ${getTabColor(tab.id)} text-white shadow-lg scale-105`
+                        : 'bg-white/60 text-slate-700 hover:bg-white hover:shadow-md hover:scale-102'
+                    }`}
+                  >
+                    <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 ${
+                      activeTab === tab.id
+                        ? 'bg-white/20'
+                        : `bg-gradient-to-r ${getTabColor(tab.id)} text-white group-hover:scale-110`
+                    }`}>
+                      <Icon className="w-6 h-6" />
+                    </div>
+                    
+                    <div className="text-center">
+                      <span className="text-sm font-semibold block">{tab.label}</span>
+                      {tab.count > 0 && (
+                        <span className={`inline-block mt-1 px-2 py-1 text-xs rounded-full font-bold ${
+                          activeTab === tab.id
+                            ? 'bg-white/20 text-white'
+                            : `bg-gradient-to-r ${getTabColor(tab.id)} text-white`
+                        }`}>
+                          {tab.count}
+                        </span>
+                      )}
+                    </div>
+                    
+                    {activeTab === tab.id && (
+                      <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-8 h-1 bg-white rounded-full"></div>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
         </div>
 
         {/* Content */}
-        <div className="bg-gradient-to-br from-blue-600 to-blue-700 rounded-3xl p-8 shadow-2xl border border-blue-500/20">
+        <div className="bg-gradient-to-br from-blue-400 to-blue-500 rounded-3xl p-8 shadow-2xl">
           {bookings[activeTab].length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
               {bookings[activeTab].map((booking) => (
@@ -456,7 +479,6 @@ const MechanicDashboard = () => {
           )}
         </div>
       </div>
-    </div>
   );
 };
 
