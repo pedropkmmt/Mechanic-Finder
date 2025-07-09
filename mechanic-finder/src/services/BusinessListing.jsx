@@ -64,12 +64,12 @@ const BusinessListing = ({ mechanic, onClose }) => {
   ];
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
       <div className="max-w-md w-full bg-white shadow-lg rounded-lg overflow-hidden max-h-[90vh] overflow-y-auto">
         {/* Close Button */}
         <button 
           onClick={onClose}
-          className="absolute top-4 right-4 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100"
+          className="absolute right-110 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100"
         >
           <X className="w-5 h-5" />
         </button>

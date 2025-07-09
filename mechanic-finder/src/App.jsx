@@ -9,6 +9,7 @@ import SouthAfricanMap from './services/SouthAricanMap'
 import ProfileManagement from './pages/UserProfileManagement'
 import MechanicBookings from './components/bookings/mechanics/BookingsInfo'
 import NavBar from './components/Navbar'
+import FilterModal from './features/FilterModal'
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)

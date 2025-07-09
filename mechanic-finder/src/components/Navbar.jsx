@@ -38,7 +38,7 @@ const NavBar = ({ isAuthenticated, userInfo, onLogout }) => {
   return (
     <>
       {/* Header */}
-      <header className="bg-white/80 backdrop-blur-md shadow-lg border-b border-white/20 sticky top-0 z-50">
+      <header className="bg-white/80 backdrop-blur-md shadow-lg border-b border-white/20 sticky top-0  z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo*/}
@@ -59,10 +59,6 @@ const NavBar = ({ isAuthenticated, userInfo, onLogout }) => {
               <div className="flex gap-8 text-slate-700">
                 <Link to="/" className="hover:text-blue-600 transition-colors font-semibold relative group">
                   Home
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
-                </Link>
-                <Link to="/map" className="hover:text-blue-600 transition-colors font-semibold relative group">
-                  Find Mechanics
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
                 </Link>
                 <Link to="/listing" className="hover:text-blue-600 transition-colors font-semibold relative group">
