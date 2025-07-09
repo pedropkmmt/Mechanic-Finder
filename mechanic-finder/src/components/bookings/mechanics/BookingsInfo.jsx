@@ -30,7 +30,7 @@ const MechanicDashboard = () => {
   const [activeTab, setActiveTab] = useState('upcoming');
 
   // Sample booking data
-  const bookings = {
+  const [bookings, setBookings] = useState({
     upcoming: [
       {
         id: 1,
@@ -162,7 +162,7 @@ const MechanicDashboard = () => {
         rating: 5
       }
     ]
-  };
+  });
 
   const completedJobs = bookings.past;
 
@@ -213,6 +213,26 @@ const MechanicDashboard = () => {
       </div>
     );
   };
+  const markAsComplete = (bookingId) => {
+  setBookings(prevBookings => {
+    const booking = prevBookings.inProgress.find(b => b.id === bookingId);
+    if (!booking) return prevBookings;
+
+    // Create completed booking with additional fields
+    const completedBooking = {
+      ...booking,
+      status: 'completed',
+      totalCost: 'R2500',
+      rating: 5 //ueser rating
+    };
+
+    return {
+      ...prevBookings,
+      inProgress: prevBookings.inProgress.filter(b => b.id !== bookingId),
+      past: [completedBooking, ...prevBookings.past]
+    };
+  });
+};
 
   const BookingCard = ({ booking }) => (
     <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/20 hover:shadow-xl transition-all duration-300">
@@ -310,7 +330,9 @@ const MechanicDashboard = () => {
         
         {booking.status === 'in-progress' && (
           <>
-            <button className="flex-1 bg-gradient-to-r from-green-600 to-green-700 text-white font-medium py-2 px-4 rounded-lg hover:from-green-700 hover:to-green-800 transition-all duration-300">
+            <button
+            onClick={() => markAsComplete(booking.id)}
+            className="flex-1 bg-gradient-to-r from-green-600 to-green-700 text-white font-medium py-2 px-4 rounded-lg hover:from-green-700 hover:to-green-800 transition-all duration-300">
               Mark Complete
             </button>
             <button className="flex-1 bg-white border border-slate-300 text-slate-700 font-medium py-2 px-4 rounded-lg hover:bg-slate-50 transition-all duration-300">
