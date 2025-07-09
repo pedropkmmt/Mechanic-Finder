@@ -2,6 +2,7 @@ import FilterModal from '../features/FilterModal';
 import React, { useState, useEffect, useRef } from 'react';
 import { Search, Phone, Star, MapPin, Filter, User, Menu, X, ChevronLeft, Plus, Minus, Clock, Award, Shield, Map as MapIcon } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom'
+import { businesses } from '../lib/businesses.json'
 
 const MechanicsFinder = () => {
   const [selectedBusiness, setSelectedBusiness] = useState(0);
@@ -24,95 +25,6 @@ const MechanicsFinder = () => {
     
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
-
-  const businesses = [
-    {
-      id: 1,
-      name: "Momo Auto",
-      rating: 4.8,
-      reviews: 1271,
-      address: "1425 Oak Street, Johannesburg",
-      phone: "(011) 032-3456",
-      services: ["Transmissions", "Brake Repair", "Engine Diagnostics", "Radiators"],
-      image: "shop.jpg",
-      status: "Open",
-      verified: true,
-      responseTime: "Usually responds within 2 hours",
-      price: "R",
-      yearsInBusiness: 12,
-      lat: -26.2041,
-      lng: 28.0473
-    },
-    {
-      id: 2,
-      name: "Quick Fix Auto",
-      rating: 4.6,
-      reviews: 892,
-      address: "789 Main Road, Sandton",
-      phone: "(011) 123-4567",
-      services: ["Oil Changes", "Tire Replacement", "Battery Service", "AC Repair"],
-      image: "shop.jpg",
-      status: "Open",
-      verified: true,
-      responseTime: "Usually responds within 1 hour",
-      price: "R",
-      yearsInBusiness: 8,
-      lat: -26.1076,
-      lng: 28.0567
-    },
-    {
-      id: 3,
-      name: "Premium Motors",
-      rating: 4.9,
-      reviews: 1543,
-      address: "456 Church Street, Pretoria",
-      phone: "(012) 987-6543",
-      services: ["Luxury Car Service", "Engine Overhaul", "Transmission", "Electrical"],
-      image: "shop.jpg",
-      status: "Closed",
-      verified: true,
-      responseTime: "Usually responds within 3 hours",
-      price: "R",
-      yearsInBusiness: 15,
-      lat: -25.7479,
-      lng: 28.2293
-    },
-    {
-      id: 4,
-      name: "Cape Town Motors",
-      rating: 4.7,
-      reviews: 654,
-      address: "123 Long Street, Cape Town",
-      phone: "(021) 456-7890",
-      services: ["General Repairs", "Brake Service", "Suspension", "Wheel Alignment"],
-      image: "shop.jpg",
-      status: "Open",
-      verified: true,
-      responseTime: "Usually responds within 2 hours",
-      price: "R",
-      yearsInBusiness: 10,
-      lat: -33.9249,
-      lng: 18.4241
-    },
-    {
-      id: 5,
-      name: "Durban Auto Care",
-      rating: 4.5,
-      reviews: 432,
-      address: "567 West Street, Durban",
-      phone: "(031) 789-0123",
-      services: ["Engine Service", "Transmission", "Air Conditioning", "Electrical"],
-      image: "shop.jpg",
-      status: "Open",
-      verified: true,
-      responseTime: "Usually responds within 1 hour",
-      price: "R",
-      yearsInBusiness: 7,
-      lat: -29.8587,
-      lng: 31.0218
-    }
-  ];
-
   // Initialize map with South African view
   useEffect(() => {
     if (typeof window !== 'undefined' && window.L && mapRef.current && !leafletMapRef.current) {
@@ -513,7 +425,7 @@ const MechanicsFinder = () => {
         </div>
       )}
     {/* Filter Modal */}
-      <FilterModal 
+      <FilterModal
   showFilters={showFilters}
   setShowFilters={setShowFilters}
   onApplyFilters={(filters) => {

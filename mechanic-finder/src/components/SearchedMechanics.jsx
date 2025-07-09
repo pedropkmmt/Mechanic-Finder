@@ -1,4 +1,5 @@
 import BusinessListing from "../services/BusinessListing";
+import { Link, useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import { 
   Star,
@@ -179,12 +180,13 @@ const SearchedMechanics = () => {
                     >
                       Book Now
                     </button>
+                    <Link to="/details">
                     <button 
-                      onClick={() => handleBookNow(mechanic)}
                       className="flex items-center justify-center gap-2 bg-white/80 backdrop-blur-sm hover:bg-white border border-white/20 hover:border-blue-300 px-3 sm:px-4 py-2 sm:py-2.5 md:py-3 rounded-lg sm:rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl"
                     >
                       <Eye className="w-3 sm:w-4 h-3 sm:h-4 text-slate-600" />
                     </button>
+                    </Link>
                   </div>
                 </div>
               </div>
