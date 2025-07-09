@@ -3,6 +3,7 @@ import { User, Mail, Lock, Phone, MapPin } from 'lucide-react';
 import InputField from './InputField';
 import VehicleInfo from './VehicleInfo';
 import BusinessInfo from './BusinessInfo';
+import { Link, useNavigate } from 'react-router-dom';
 
 const RegisterForm = ({
   registerData,

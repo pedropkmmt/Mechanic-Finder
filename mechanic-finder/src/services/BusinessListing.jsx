@@ -18,9 +18,9 @@ const BusinessListing = ({ mechanic, onClose }) => {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   
   const shopImages = [
-    'shop.jpg',
-    'shop.jpg',
-    'shop.jpg'
+    'https://files.idyllic.app/files/static/2250075?width=256&optimizer=image',
+    'https://auto.edu/hs-fs/hubfs/shutterstock_2473446969.jpg?width=5472&height=3648&name=shutterstock_2473446969.jpg',
+    'https://static.wixstatic.com/media/24457cc02d954991b6aafb169233cc46.jpg/v1/fill/w_640,h_426,fp_0.50_0.50,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/24457cc02d954991b6aafb169233cc46.jpg'
   ];
 
   const businessHours = [
@@ -31,13 +31,6 @@ const BusinessListing = ({ mechanic, onClose }) => {
     { day: 'Thursday', hours: '8:00 AM - 6:00 PM', isToday: false },
     { day: 'Friday', hours: '8:00 AM - 6:00 PM', isToday: false },
     { day: 'Saturday', hours: '8:00 AM - 6:00 PM', isToday: false }
-  ];
-
-  const services = [
-    { name: 'Maintenance', color: 'bg-blue-500' },
-    { name: 'Brake Repair', color: 'bg-red-500' },
-    { name: 'Engine Diagnostics', color: 'bg-green-500' },
-    { name: 'Transmission', color: 'bg-purple-500' }
   ];
 
   const pricingInfo = [
@@ -125,7 +118,7 @@ const BusinessListing = ({ mechanic, onClose }) => {
             </div>
             
             <div className="flex items-start">
-              <Globe className="w-4 h-4text-black mr-2 mt-0.5" />
+              <Globe className="w-4 h-4 text-black mr-2 mt-0.5" />
               <div>
                 <div className="font-medium">Website</div>
                 <div className="text-blue-600">www.{mechanic.name.toLowerCase().replace(/\s+/g, '')}.com</div>

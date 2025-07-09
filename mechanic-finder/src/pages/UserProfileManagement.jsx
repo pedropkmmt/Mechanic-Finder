@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Calendar, FileText } from 'lucide-react';
 import ProfileHeader from '../components/profile/ProfileHeader';
 import BasicInfo from '../components/profile/BasicInfo';
-import VehicleInfoSection from '../components/profile/VehicleInfoSection';
-import BusinessInfoSection from '../components/profile/BusinessInfoSection';
+import VehicleInfoSection from '../components/profile/VehicleInfo';
+import BusinessInfoSection from '../components/profile/BusinessInfo';
 import PasswordChange from '../components/profile/PasswordChange';
 
 const ProfileManagement = () => {
@@ -16,9 +16,9 @@ const ProfileManagement = () => {
 
   const [userData, setUserData] = useState({
     userType: 'customer', // or mechanic
-    firstName: 'Ave',
-    lastName: 'Malatji',
-    email: 'ave.mal@gmail.com',
+    firstName: 'Pedro',
+    lastName: 'MT',
+    email: 'pmt.mal@gmail.com',
     phone: '+27 (082) 123-4567',
     location: 'Gauteng, Jhb',
     profileImage: null,
@@ -175,10 +175,10 @@ const ProfileManagement = () => {
           />
           
           <VehicleInfoSection
-            userData={userData}
-            isEditing={isEditing}
-            editData={editData}
-            handleInputChange={handleInputChange}
+          userData={userData}
+          isEditing={isEditing}
+          editData={editData}  // Make sure this is being passed
+          handleInputChange={handleInputChange}
           />
           
           <BusinessInfoSection

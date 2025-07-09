@@ -1,8 +1,21 @@
 import React from 'react';
 import { Briefcase } from 'lucide-react';
 
-const BusinessInfoSection = ({ userData, isEditing, editData, handleInputChange, handleSpecialization }) => {
-  if (userData.userType !== 'mechanic') return null;
+const BusinessInfoSection = ({ userData = {}, isEditing, editData = {}, handleInputChange, handleSpecialization }) => {
+  if (!userData || userData.userType !== 'mechanic') return null;
+  const safeEditData = {
+    businessName: editData?.businessName || '',
+    yearsOfExperience: editData?.yearsOfExperience || '',
+    businessAddress: editData?.businessAddress || '',
+    specializations: editData?.specializations || [],
+  };
+
+  const safeUserData = {
+    businessName: userData?.businessName || '',
+    yearsOfExperience: userData?.yearsOfExperience || '',
+    businessAddress: userData?.businessAddress || '',
+    specializations: userData?.specializations || [],
+  };
 
   return (
     <div className="bg-card rounded-xl p-6 shadow-sm border border-border">
@@ -18,12 +31,12 @@ const BusinessInfoSection = ({ userData, isEditing, editData, handleInputChange,
             <input
               type="text"
               name="businessName"
-              value={editData.businessName}
+              value={safeEditData.businessName}
               onChange={handleInputChange}
               className="w-full p-3 border-2 border-input rounded-lg focus:outline-none focus:border-primary transition-all bg-background text-foreground"
             />
           ) : (
-            <p className="p-3 bg-secondary rounded-lg text-card-foreground">{userData.businessName}</p>
+            <p className="p-3 bg-secondary rounded-lg text-card-foreground">{safeUserData.businessName}</p>
           )}
         </div>
         
@@ -33,12 +46,14 @@ const BusinessInfoSection = ({ userData, isEditing, editData, handleInputChange,
             <input
               type="number"
               name="yearsOfExperience"
-              value={editData.yearsOfExperience}
+              value={safeEditData.yearsOfExperience}
               onChange={handleInputChange}
               className="w-full p-3 border-2 border-input rounded-lg focus:outline-none focus:border-primary transition-all bg-background text-foreground"
             />
           ) : (
-            <p className="p-3 bg-secondary rounded-lg text-card-foreground">{userData.yearsOfExperience} years</p>
+            <p className="p-3 bg-secondary rounded-lg text-card-foreground">
+              {safeUserData.yearsOfExperience ? `${safeUserData.yearsOfExperience} years` : 'Not specified'}
+            </p>
           )}
         </div>
         
@@ -48,12 +63,12 @@ const BusinessInfoSection = ({ userData, isEditing, editData, handleInputChange,
             <input
               type="text"
               name="businessAddress"
-              value={editData.businessAddress}
+              value={safeEditData.businessAddress}
               onChange={handleInputChange}
               className="w-full p-3 border-2 border-input rounded-lg focus:outline-none focus:border-primary transition-all bg-background text-foreground"
             />
           ) : (
-            <p className="p-3 bg-secondary rounded-lg text-card-foreground">{userData.businessAddress}</p>
+            <p className="p-3 bg-secondary rounded-lg text-card-foreground">{safeUserData.businessAddress}</p>
           )}
         </div>
       </div>
@@ -67,7 +82,7 @@ const BusinessInfoSection = ({ userData, isEditing, editData, handleInputChange,
                 <input
                   type="checkbox"
                   id={spec}
-                  checked={editData.specializations.includes(spec)}
+                  checked={safeEditData.specializations.includes(spec)}
                   onChange={() => handleSpecialization(spec)}
                   className="w-4 h-4 accent-primary"
                 />
@@ -79,7 +94,7 @@ const BusinessInfoSection = ({ userData, isEditing, editData, handleInputChange,
           </div>
         ) : (
           <div className="flex flex-wrap gap-2">
-            {userData.specializations.map((spec) => (
+            {safeUserData.specializations.map((spec) => (
               <span key={spec} className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm">
                 {spec}
               </span>
