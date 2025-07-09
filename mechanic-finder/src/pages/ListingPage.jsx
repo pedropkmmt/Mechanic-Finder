@@ -1,5 +1,5 @@
 import FilterModal from '../features/FilterModal';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Search, Phone, Star, MapPin, Filter, User, Menu, X, ChevronLeft, Plus, Minus, Clock, Award, Shield, Map as MapIcon } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom'
 import { businesses } from '../lib/businesses.json'
@@ -10,9 +10,56 @@ const MechanicsFinder = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState(businesses);
   const mapRef = useRef(null);
   const leafletMapRef = useRef(null);
   const markersRef = useRef([]);
+
+  // Search functionality
+  const filteredBusinesses = useMemo(() => {
+    if (!searchQuery.trim()) {
+      return businesses;
+    }
+
+    const query = searchQuery.toLowerCase();
+    return businesses.filter(business => {
+      // Search in business name
+      const nameMatch = business.name.toLowerCase().includes(query);
+      
+      // Search in address/location
+      const addressMatch = business.address.toLowerCase().includes(query);
+      
+      // Search in services
+      const serviceMatch = business.services.some(service => 
+        service.toLowerCase().includes(query)
+      );
+      
+      // Search in phone number
+      const phoneMatch = business.phone.toLowerCase().includes(query);
+      
+      return nameMatch || addressMatch || serviceMatch || phoneMatch;
+    });
+  }, [searchQuery]);
+
+  // Update search results when filtered businesses change
+  useEffect(() => {
+    setSearchResults(filteredBusinesses);
+    // Reset selected business to first result when search changes
+    if (filteredBusinesses.length > 0) {
+      setSelectedBusiness(0);
+    }
+  }, [filteredBusinesses]);
+
+  // Handle search input
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  // Clear search
+  const clearSearch = () => {
+    setSearchQuery('');
+  };
 
   // Check if device is mobile
   useEffect(() => {
@@ -25,6 +72,7 @@ const MechanicsFinder = () => {
     
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
+
   // Initialize map with South African view
   useEffect(() => {
     if (typeof window !== 'undefined' && window.L && mapRef.current && !leafletMapRef.current) {
@@ -37,105 +85,7 @@ const MechanicsFinder = () => {
         minZoom: 5
       }).addTo(leafletMapRef.current);
       
-      // Clear existing markers
-      markersRef.current = [];
-      
-      // Add markers for businesses
-      businesses.forEach((business, index) => {
-        // Custom icon for different business types
-        const customIcon = window.L.divIcon({
-          html: `
-            <div style="
-              background-color: ${selectedBusiness === index ? '#2563eb' : '#3b82f6'};
-              width: 30px;
-              height: 30px;
-              border-radius: 50%;
-              border: 3px solid white;
-              box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              color: white;
-              font-weight: bold;
-              font-size: 14px;
-            ">
-              ${index + 1}
-            </div>
-          `,
-          className: 'custom-marker',
-          iconSize: [30, 30],
-          iconAnchor: [15, 15],
-          popupAnchor: [0, -15]
-        });
-        
-        const marker = window.L.marker([business.lat, business.lng], {
-          icon: customIcon
-        }).addTo(leafletMapRef.current);
-        
-        const popupContent = `
-          <div class="p-3 max-w-xs">
-            <h3 class="font-semibold text-lg text-gray-900 mb-2">${business.name}</h3>
-            <div class="flex items-center mb-2">
-              <span class="text-yellow-500 mr-1">★</span>
-              <span class="text-sm font-medium">${business.rating}</span>
-              <span class="text-gray-500 ml-1 text-sm">(${business.reviews} reviews)</span>
-            </div>
-            <div class="flex items-center mb-2">
-              <svg class="w-4 h-4 text-gray-400 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-              </svg>
-              <span class="text-sm text-gray-600">${business.address}</span>
-            </div>
-            <div class="flex items-center mb-3">
-              <svg class="w-4 h-4 text-gray-400 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
-              </svg>
-              <span class="text-sm text-gray-600">${business.phone}</span>
-            </div>
-            <div class="flex flex-wrap gap-1 mb-3">
-              ${business.services.slice(0, 3).map(service => 
-                `<span class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs">${service}</span>`
-              ).join('')}
-            </div>
-            <div class="flex items-center justify-between mb-3">
-              <span class="text-sm text-gray-600">${business.price}</span>
-              <span class="px-2 py-1 rounded text-xs font-medium ${
-                business.status === 'Open' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-              }">
-                ${business.status}
-              </span>
-            </div>
-            <div class="flex gap-2">
-              <button class="flex-1 bg-blue-600 text-white py-2 px-3 rounded text-sm font-medium hover:bg-blue-700 transition-colors">
-                Book Now
-              </button>
-              <button class="flex-1 border border-gray-300 text-gray-700 py-2 px-3 rounded text-sm hover:bg-gray-50 transition-colors">
-                Details
-              </button>
-            </div>
-          </div>
-        `;
-        
-        marker.bindPopup(popupContent, {
-          maxWidth: 300,
-          className: 'custom-popup'
-        });
-        
-        // Click event to select business
-        marker.on('click', () => {
-          setSelectedBusiness(index);
-          // Update marker icon to show selection
-          updateMarkerIcons(index);
-        });
-        
-        // Store marker reference
-        markersRef.current.push(marker);
-      });
-      
-      // Fit map to show all markers
-      const group = new window.L.featureGroup(markersRef.current);
-      leafletMapRef.current.fitBounds(group.getBounds().pad(0.1));
+      updateMapMarkers();
     }
     
     return () => {
@@ -145,6 +95,123 @@ const MechanicsFinder = () => {
       }
     };
   }, []);
+
+  // Update map markers when search results change
+  useEffect(() => {
+    if (leafletMapRef.current) {
+      updateMapMarkers();
+    }
+  }, [searchResults]);
+
+  // Function to update map markers
+  const updateMapMarkers = () => {
+    if (!leafletMapRef.current) return;
+
+    // Clear existing markers
+    markersRef.current.forEach(marker => {
+      leafletMapRef.current.removeLayer(marker);
+    });
+    markersRef.current = [];
+
+    // Add markers for filtered businesses
+    searchResults.forEach((business, index) => {
+      // Custom icon for different business types
+      const customIcon = window.L.divIcon({
+        html: `
+          <div style="
+            background-color: ${selectedBusiness === index ? '#2563eb' : '#3b82f6'};
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+          ">
+            ${index + 1}
+          </div>
+        `,
+        className: 'custom-marker',
+        iconSize: [30, 30],
+        iconAnchor: [15, 15],
+        popupAnchor: [0, -15]
+      });
+      
+      const marker = window.L.marker([business.lat, business.lng], {
+        icon: customIcon
+      }).addTo(leafletMapRef.current);
+      
+      const popupContent = `
+        <div class="p-3 max-w-xs">
+          <h3 class="font-semibold text-lg text-gray-900 mb-2">${business.name}</h3>
+          <div class="flex items-center mb-2">
+            <span class="text-yellow-500 mr-1">★</span>
+            <span class="text-sm font-medium">${business.rating}</span>
+            <span class="text-gray-500 ml-1 text-sm">(${business.reviews} reviews)</span>
+          </div>
+          <div class="flex items-center mb-2">
+            <svg class="w-4 h-4 text-gray-400 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            </svg>
+            <span class="text-sm text-gray-600">${business.address}</span>
+          </div>
+          <div class="flex items-center mb-3">
+            <svg class="w-4 h-4 text-gray-400 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+            </svg>
+            <span class="text-sm text-gray-600">${business.phone}</span>
+          </div>
+          <div class="flex flex-wrap gap-1 mb-3">
+            ${business.services.slice(0, 3).map(service => 
+              `<span class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs">${service}</span>`
+            ).join('')}
+          </div>
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-sm text-gray-600">${business.price}</span>
+            <span class="px-2 py-1 rounded text-xs font-medium ${
+              business.status === 'Open' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+            }">
+              ${business.status}
+            </span>
+          </div>
+          <div class="flex gap-2">
+            <button class="flex-1 bg-blue-600 text-white py-2 px-3 rounded text-sm font-medium hover:bg-blue-700 transition-colors">
+              Book Now
+            </button>
+            <button class="flex-1 border border-gray-300 text-gray-700 py-2 px-3 rounded text-sm hover:bg-gray-50 transition-colors">
+              Details
+            </button>
+          </div>
+        </div>
+      `;
+      
+      marker.bindPopup(popupContent, {
+        maxWidth: 300,
+        className: 'custom-popup'
+      });
+      
+      // Click event to select business
+      marker.on('click', () => {
+        setSelectedBusiness(index);
+        // Update marker icon to show selection
+        updateMarkerIcons(index);
+      });
+      
+      // Store marker reference
+      markersRef.current.push(marker);
+    });
+    
+    // Fit map to show all markers
+    if (markersRef.current.length > 0) {
+      const group = new window.L.featureGroup(markersRef.current);
+      leafletMapRef.current.fitBounds(group.getBounds().pad(0.1));
+    }
+  };
 
   // Function to update marker icons based on selection
   const updateMarkerIcons = (selectedIndex) => {
@@ -179,8 +246,8 @@ const MechanicsFinder = () => {
 
   // Update map when selected business changes
   useEffect(() => {
-    if (leafletMapRef.current && businesses[selectedBusiness]) {
-      const business = businesses[selectedBusiness];
+    if (leafletMapRef.current && searchResults[selectedBusiness]) {
+      const business = searchResults[selectedBusiness];
       leafletMapRef.current.setView([business.lat, business.lng], 13);
       updateMarkerIcons(selectedBusiness);
       
@@ -189,14 +256,14 @@ const MechanicsFinder = () => {
         markersRef.current[selectedBusiness].openPopup();
       }
     }
-  }, [selectedBusiness]);
+  }, [selectedBusiness, searchResults]);
 
   return (
     <>
       {/* Mobile Menu Overlay */}
       {showMobileMenu && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden">
-          <div className="fixed top-0 left-0 h-full w-64 bg-white shadow-lg z-50 pt-16">
+          <div className="fixed top-0 left-0 h-full w-64 bg-white shadow-lg z-50">
             <div className="p-4">
               <div className="space-y-4">
                 <button
@@ -235,7 +302,7 @@ const MechanicsFinder = () => {
       )}
 
       {/* Main Content */}
-      <div className="flex w-full pt-16">
+      <div className="flex w-full h-screen">
         {/* Left Panel - Business List */}
         <div className={`w-full lg:w-2/5 bg-white ${showMap && isMobile ? 'hidden' : 'block'} ${!isMobile ? 'border-r border-gray-200' : ''}`}>
           <div className="p-4 pb-2">
@@ -244,13 +311,45 @@ const MechanicsFinder = () => {
               <div className="relative mb-4">
                 <input
                   type="text"
-                  placeholder="Search in South Africa..."
+                  placeholder="Search mechanics, services, or location..."
+                  value={searchQuery}
+                  onChange={handleSearchChange}
                   className="w-full pl-4 pr-12 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm lg:text-base"
                 />
-                <button className="absolute right-2 top-2 bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition-colors">
-                  <Search className="w-5 h-5" />
-                </button>
+                <div className="absolute right-2 top-2 flex items-center space-x-1">
+                  {searchQuery && (
+                    <button
+                      onClick={clearSearch}
+                      className="p-1 text-gray-400 hover:text-gray-600 transition-colors"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  )}
+                  <button className="bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition-colors">
+                    <Search className="w-5 h-5" />
+                  </button>
+                </div>
               </div>
+              
+              {/* Search Results Info */}
+              {searchQuery && (
+                <div className="mb-3 p-3 bg-blue-50 rounded-lg">
+                  <p className="text-sm text-blue-700">
+                    {searchResults.length > 0 ? (
+                      <>
+                        Found <span className="font-semibold">{searchResults.length}</span> mechanic{searchResults.length !== 1 ? 's' : ''} 
+                        {searchQuery && (
+                          <> for "<span className="font-semibold">{searchQuery}</span>"</>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        No mechanics found for "<span className="font-semibold">{searchQuery}</span>"
+                      </>
+                    )}
+                  </p>
+                </div>
+              )}
               
               {/* Filter Row */}
               <div className="flex items-center space-x-2 mb-4 overflow-x-auto pb-2">
@@ -263,133 +362,130 @@ const MechanicsFinder = () => {
               </div>
               
               <div className="text-sm text-gray-600 mb-2">
-                {businesses.length} Auto mechanics across South Africa
+                {searchResults.length} Auto mechanics {searchQuery ? 'found' : 'across South Africa'}
               </div>
             </div>
           </div>
 
           {/* Business Listings */}
-          <div className="overflow-y-auto px-4 pb-20 lg:pb-4" style={{ height: 'calc(100vh - 280px)' }}>
-            {businesses.map((business, index) => (
-              <div
-                key={business.id}
-                className={`p-3 lg:p-4 mb-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors shadow-sm ${
-                  selectedBusiness === index ? 'bg-blue-50 border-blue-600 shadow-md' : ''
-                }`}
-                onClick={() => setSelectedBusiness(index)}
-              >
-                <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
-                  <div className="relative flex-shrink-0 sm:w-32">
-                    <img
-                      src="shop.jpg"
-                      alt={business.name}
-                      className="w-full sm:w-32 h-20 object-cover rounded-lg"
-                    />
-                    {business.verified && (
-                      <div className="absolute -top-1 -right-1 w-5 h-5 bg-blue-600 rounded-full flex items-center justify-center">
-                        <span className="text-white text-xs font-bold">✓</span>
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-base lg:text-lg font-semibold text-gray-900 mb-1">{business.name}</h3>
-                    <div className="flex items-center mb-2">
-                      <div className="flex items-center mr-4">
-                        <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                        <span className="ml-1 text-sm font-medium">{business.rating}</span>
-                        <span className="text-gray-500 ml-1 text-sm">({business.reviews} reviews)</span>
-                      </div>
-                    </div>
-                    <div className="flex items-start mb-2">
-                      <MapPin className="w-4 h-4 text-gray-400 mr-1 mt-0.5 flex-shrink-0" />
-                      <span className="text-sm text-gray-600 break-words">{business.address}</span>
-                    </div>
-                    <div className="flex flex-wrap gap-1 mb-3">
-                      {business.services.slice(0, isMobile ? 2 : 4).map((service, idx) => (
-                        <span
-                          key={idx}
-                          className="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs"
-                        >
-                          {service}
-                        </span>
-                      ))}
-                      {business.services.length > (isMobile ? 2 : 4) && (
-                        <span className="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs">
-                          +{business.services.length - (isMobile ? 2 : 4)} more
-                        </span>
+          <div className="overflow-y-auto px-4 pb-20 lg:pb-4" style={{ height: 'calc(100vh - 320px)' }}>
+            {searchResults.length === 0 ? (
+              <div className="text-center py-12">
+                <Search className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                <h3 className="text-lg font-medium text-gray-900 mb-2">No mechanics found</h3>
+                <p className="text-gray-600 mb-4">
+                  Try adjusting your search terms or browse all mechanics
+                </p>
+                <button
+                  onClick={clearSearch}
+                  className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  Show All Mechanics
+                </button>
+              </div>
+            ) : (
+              searchResults.map((business, index) => (
+                <div
+                  key={business.id}
+                  className={`p-3 lg:p-4 mb-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors shadow-sm ${
+                    selectedBusiness === index ? 'bg-blue-50 border-blue-600 shadow-md' : ''
+                  }`}
+                  onClick={() => setSelectedBusiness(index)}
+                >
+                  <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
+                    <div className="relative flex-shrink-0 sm:w-32">
+                      <img
+                        src="shop.jpg"
+                        alt={business.name}
+                        className="w-full sm:w-32 h-20 object-cover rounded-lg"
+                      />
+                      {business.verified && (
+                        <div className="absolute -top-1 -right-1 w-5 h-5 bg-blue-600 rounded-full flex items-center justify-center">
+                          <span className="text-white text-xs font-bold">✓</span>
+                        </div>
                       )}
                     </div>
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center">
-                        <Phone className="w-4 h-4 text-gray-400 mr-1" />
-                        <span className="text-sm text-gray-600">{business.phone}</span>
+                    <div className="flex-1">
+                      <h3 className="text-base lg:text-lg font-semibold text-gray-900 mb-1">{business.name}</h3>
+                      <div className="flex items-center mb-2">
+                        <div className="flex items-center mr-4">
+                          <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                          <span className="ml-1 text-sm font-medium">{business.rating}</span>
+                          <span className="text-gray-500 ml-1 text-sm">({business.reviews} reviews)</span>
+                        </div>
                       </div>
-                      <span className={`px-2 py-1 rounded text-xs font-medium ${
-                        business.status === 'Open' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                      }`}>
-                        {business.status}
-                      </span>
+                      <div className="flex items-start mb-2">
+                        <MapPin className="w-4 h-4 text-gray-400 mr-1 mt-0.5 flex-shrink-0" />
+                        <span className="text-sm text-gray-600 break-words">{business.address}</span>
+                      </div>
+                      <div className="flex flex-wrap gap-1 mb-3">
+                        {business.services.slice(0, isMobile ? 2 : 4).map((service, idx) => (
+                          <span
+                            key={idx}
+                            className="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs"
+                          >
+                            {service}
+                          </span>
+                        ))}
+                        {business.services.length > (isMobile ? 2 : 4) && (
+                          <span className="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs">
+                            +{business.services.length - (isMobile ? 2 : 4)} more
+                          </span>
+                        )}
+                      </div>
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center">
+                          <Phone className="w-4 h-4 text-gray-400 mr-1" />
+                          <span className="text-sm text-gray-600">{business.phone}</span>
+                        </div>
+                        <span className={`px-2 py-1 rounded text-xs font-medium ${
+                          business.status === 'Open' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                        }`}>
+                          {business.status}
+                        </span>
+                      </div>
                     </div>
                   </div>
+                  
+                  {/* Action Buttons */}
+                  <div className="mt-3 flex flex-col sm:flex-row gap-2">
+                    <button className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">
+                      Book Appointment
+                    </button>
+                    <Link to="/details">
+                      <button className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm">
+                        View Details
+                      </button>
+                    </Link>
+                  </div>
                 </div>
-                
-                {/* Action Buttons */}
-                <div className="mt-3 flex flex-col sm:flex-row gap-2">
-                  <button className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">
-                    Book Appointment
-                  </button>
-                  <Link to ="/details">
-                  <button className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm">
-                    View Details
-                  </button>
-                  </Link>
-                </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
 
         {/* Right Panel - Map */}
-        <div className={`${showMap || !isMobile ? 'flex-1' : 'hidden'} ${showMap && isMobile ? 'w-full' : ''} bg-white rounded-lg shadow-sm`}>
-          <div className="h-full flex flex-col">
-            {/* Map Header */}
-            <div className="p-4 border-b border-gray-200">
-              <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-gray-900">South Africa Map View</h3>
-                <div className="flex items-center space-x-2">
-                  {isMobile && (
-                    <button
-                      onClick={() => setShowMap(false)}
-                      className="p-2 text-gray-500 hover:text-gray-700"
-                    >
-                      <ChevronLeft className="w-5 h-5" />
-                    </button>
-                  )}
-                </div>
-              </div>
-            </div>
+        <div className={`${showMap || !isMobile ? 'flex-1' : 'hidden'} ${showMap && isMobile ? 'w-full' : ''} relative`}>
+          {/* Map Container */}
+          <div className="absolute inset-0">
+            <div ref={mapRef} className="w-full h-full"></div>
             
-            {/* Map Container */}
-            <div className="flex-1 relative">
-              <div ref={mapRef} className="w-full h-full"></div>
-              
-              {/* Map loading placeholder - shows when Leaflet isn't available */}
-              {typeof window === 'undefined' || !window.L ? (
-                <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
-                  <div className="text-center p-4">
-                    <MapIcon className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                    <p className="text-gray-500">Loading South African map...</p>
-                    <p className="text-xs text-gray-400 mt-2">
-                      Include Leaflet CSS and JS in your HTML head:
-                    </p>
-                    <div className="text-xs text-gray-400 mt-2 bg-gray-50 p-2 rounded max-w-md mx-auto">
-                      <div className="break-all">&lt;link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" /&gt;</div>
-                      <div className="break-all">&lt;script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"&gt;&lt;/script&gt;</div>
-                    </div>
+            {/* Fallback message that shows when Leaflet isn't available */}
+            {typeof window === 'undefined' || !window.L ? (
+              <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+                <div className="text-center p-4">
+                  <MapIcon className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                  <p className="text-gray-500">Loading South African map...</p>
+                  <p className="text-xs text-gray-400 mt-2">
+                    Include Leaflet CSS and JS in your HTML head:
+                  </p>
+                  <div className="text-xs text-gray-400 mt-2 bg-gray-50 p-2 rounded max-w-md mx-auto">
+                    <div className="break-all">&lt;link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" /&gt;</div>
+                    <div className="break-all">&lt;script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"&gt;&lt;/script&gt;</div>
                   </div>
                 </div>
-              ) : null}
-            </div>
+              </div>
+            ) : null}
           </div>
         </div>
       </div>
@@ -409,7 +505,7 @@ const MechanicsFinder = () => {
             </button>
             
             <div className="text-sm text-gray-600">
-              {selectedBusiness + 1} of {businesses.length}
+              {searchResults.length > 0 ? `${selectedBusiness + 1} of ${searchResults.length}` : 'No results'}
             </div>
             
             <button
@@ -424,14 +520,15 @@ const MechanicsFinder = () => {
           </div>
         </div>
       )}
-    {/* Filter Modal */}
+      
+      {/* Filter Modal */}
       <FilterModal
-  showFilters={showFilters}
-  setShowFilters={setShowFilters}
-  onApplyFilters={(filters) => {
-    console.log("Filters applied in ListingPage:", filters);
-  }}
-  />
+        showFilters={showFilters}
+        setShowFilters={setShowFilters}
+        onApplyFilters={(filters) => {
+          console.log("Filters applied in ListingPage:", filters);
+        }}
+      />
     </>
   );
 }

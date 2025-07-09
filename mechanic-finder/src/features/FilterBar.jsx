@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Search, ChevronDown, Filter, MapPin, DollarSign, Settings, X } from "lucide-react";
-
-const FilterBar = () => {
+import { Search, ChevronDown, Filter, MapPin, DollarSign, Settings, X, Users, Wrench, Star, ArrowRight } from "lucide-react";
+import Hero from "../components/Hero";
+const FilterBar = ({ isAuthenticated, userInfo }) => {
   const [filters, setFilters] = useState({
     category: 'Diesel mechanics',
     location: '',
@@ -36,6 +36,14 @@ const FilterBar = () => {
 
   const activeFiltersCount = Object.values(filters).filter(val => val && val !== 'Diesel mechanics').length;
 
+  // Show authentication prompt when user is not logged in
+  if (!isAuthenticated) {
+    return (
+      <Hero/>
+    )
+  }
+
+  // filter bar for authenticated users
   return (
     <div className="w-full py-4 md:py-6 lg:py-8 relative">
       <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
