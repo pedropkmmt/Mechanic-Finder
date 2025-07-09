@@ -121,59 +121,70 @@ const AuthPages = ({ isAuthenticated, setIsAuthenticated, setUserInfo }) => {
   };
 
   // Handle login form submission
-  const handleLoginSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
-    setSuccess('');
+  const handleLoginSubmit = async (e, userType, redirectCallback) => {
+  e.preventDefault();
+  setError('');
+  setSuccess('');
 
-    if (!loginData.email || !loginData.password) {
-      setError('Please fill in all fields');
-      return;
-    }
+  if (!loginData.email || !loginData.password) {
+    setError('Please fill in all fields');
+    return;
+  }
 
-    // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(loginData.email)) {
-      setError('Please enter a valid email address');
-      return;
-    }
+  // Email validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(loginData.email)) {
+    setError('Please enter a valid email address');
+    return;
+  }
 
-    // Check if user exists in dummy data
-    const user = dummyUsers[loginData.email];
-    if (!user) {
-      setError('User not found. Try customer@test.com or mechanic@test.com');
-      return;
-    }
+  // Check if user exists in dummy data
+  const user = dummyUsers[loginData.email];
+  if (!user) {
+    setError('User not found. Try customer@test.com or mechanic@test.com');
+    return;
+  }
 
-    // Check password
-    if (user.password !== loginData.password) {
-      setError('Invalid password. Use: password123');
-      return;
-    }
+  // Check password
+  if (user.password !== loginData.password) {
+    setError('Invalid password. Use: password123');
+    return;
+  }
 
-    // Successful login
-    console.log('Login successful:', user);
+  // Successful login
+  console.log('Login successful:', user);
+  
+  try {
+    // Store user info in localStorage to persist across page refreshes
+    localStorage.setItem('userInfo', JSON.stringify(user));
+    localStorage.setItem('isAuthenticated', 'true');
     
-    try {
-      // Store user info in localStorage to persist across page refreshes
-      localStorage.setItem('userInfo', JSON.stringify(user));
-      localStorage.setItem('isAuthenticated', 'true');
-      
-      // Set authentication state AND user info
-      setIsAuthenticated(true);
-      setUserInfo(user);
-      
-      setSuccess(`Welcome back, ${user.firstName}!`);
-      
-      // Use React Router navigation instead of window.location
+    // Set authentication state AND user info
+    setIsAuthenticated(true);
+    setUserInfo(user);
+    
+    setSuccess(`Welcome back, ${user.firstName}!`);
+    
+    // Use the redirect callback from LoginForm if provided
+    if (redirectCallback && typeof redirectCallback === 'function') {
       setTimeout(() => {
-        navigate('/', { replace: true });
+        redirectCallback(user.userType);
+      });
+    } else {
+      // Fallback redirect logic
+      setTimeout(() => {
+        if (user.userType === 'mechanic') {
+          navigate('/bookings', { replace: true });
+        } else {
+          navigate('/', { replace: true });
+        }
       }, 1500);
-    } catch (error) {
-      console.error('Login error:', error);
-      setError('Login failed. Please try again.');
     }
-  };
+  } catch (error) {
+    console.error('Login error:', error);
+    setError('Login failed. Please try again.');
+  }
+};
 
   // Handle registration form submission
   const handleRegisterSubmit = async (e) => {
