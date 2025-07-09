@@ -36,7 +36,7 @@ const FilterBar = ({ isAuthenticated, userInfo }) => {
 
   const activeFiltersCount = Object.values(filters).filter(val => val && val !== 'Diesel mechanics').length;
 
-  // Show authentication prompt when user is not logged in
+  // user is not logged in
   if (!isAuthenticated) {
     return (
       <Hero/>
