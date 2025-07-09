@@ -234,6 +234,26 @@ const MechanicDashboard = () => {
   });
 };
 
+  const startService = (bookingId) => {
+  setBookings(prevBookings => {
+    const booking = prevBookings.upcoming.find(b => b.id === bookingId);
+    if (!booking) return prevBookings;
+
+    // Create in-progress booking with extra fields
+    const inProgressBooking = {
+      ...booking,
+      status: 'in-progress',
+      estimatedCompletion: '4:00 PM'
+    };
+
+    return {
+      ...prevBookings,
+      upcoming: prevBookings.upcoming.filter(b => b.id !== bookingId),
+      inProgress: [inProgressBooking, ...prevBookings.inProgress]
+    };
+  });
+};
+
   const BookingCard = ({ booking }) => (
     <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/20 hover:shadow-xl transition-all duration-300">
       <div className="flex justify-between items-start mb-4">
@@ -319,7 +339,9 @@ const MechanicDashboard = () => {
         
         {booking.status === 'confirmed' && (
           <>
-            <button className="flex-1 bg-gradient-to-r from-green-600 to-green-700 text-white font-medium py-2 px-4 rounded-lg hover:from-green-700 hover:to-green-800 transition-all duration-300">
+            <button
+            onClick={() => startService(booking.id)}
+            className="flex-1 bg-gradient-to-r from-green-600 to-green-700 text-white font-medium py-2 px-4 rounded-lg hover:from-green-700 hover:to-green-800 transition-all duration-300">
               Start Service
             </button>
             <button className="flex-1 bg-white border border-slate-300 text-slate-700 font-medium py-2 px-4 rounded-lg hover:bg-slate-50 transition-all duration-300">
