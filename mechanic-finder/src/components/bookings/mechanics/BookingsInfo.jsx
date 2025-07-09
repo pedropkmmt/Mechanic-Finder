@@ -335,8 +335,8 @@ const MechanicDashboard = () => {
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
           <div className="flex flex-wrap justify-center gap-6">
-            <Card className="bg-gradient-to-r from-amber-500 to-amber-500 border-yellow-200 shadow-xl hover:shadow-2xl transition-all duration-300 w-80">
-              <CardHeader className="pb-4 bg-white text-amber-600  rounded-t-lg">
+            <Card className="bg-gradient-to-r from-blue-500 to-blue-500 border-yellow-200 shadow-xl hover:shadow-2xl transition-all duration-300 w-80">
+              <CardHeader className="pb-4 bg-white text-blue-600  rounded-t-lg">
                 <CardTitle className="flex items-center justify-center gap-3 text-lg font-bold">
                   <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
                     <Star className="w-6 h-6 text-amber fill-current" />
@@ -369,18 +369,18 @@ const MechanicDashboard = () => {
               </CardContent>
             </Card>
 
-            <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200 shadow-xl hover:shadow-2xl transition-all duration-300 w-80">
-              <CardHeader className="pb-4 bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-t-lg">
+            <Card className="bg-gradient-to-r from-blue-500 to-blue-500 border-yellow-200 shadow-xl hover:shadow-2xl transition-all duration-300 w-80">
+              <CardHeader className="pb-4 bg-white text-blue-600 rounded-t-lg">
                 <CardTitle className="flex items-center justify-center gap-3 text-lg font-bold">
                   <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-                    <TrendingUp className="w-6 h-6 text-white" />
+                    <TrendingUp className="w-6 h-6 text-blue-500" />
                   </div>
                   Monthly Jobs
                 </CardTitle>
               </CardHeader>
               <CardContent className="text-center py-6">
                 <div className="flex items-center justify-center mb-3">
-                  <p className="text-4xl font-bold text-blue-600 mr-2">{(() => {
+                  <p className="text-4xl font-bold text-white mr-2">{(() => {
                     const now = new Date();
                     const oneMonthAgo = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
                     return completedJobs.filter(job => new Date(job.date) >= oneMonthAgo).length;
@@ -389,9 +389,9 @@ const MechanicDashboard = () => {
                     <CheckCircle className="w-6 h-6 text-green-500 fill-current" />
                   </div>
                 </div>
-                <p className="text-sm text-blue-700 font-medium">Jobs completed this month</p>
+                <p className="text-sm text-white font-medium">Jobs completed this month</p>
                 <div className="mt-4 pt-4 border-t border-blue-200">
-                  <p className="text-xs text-blue-600">
+                  <p className="text-xs text-white">
                     {(() => {
                       const now = new Date();
                       const oneMonthAgo = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
@@ -406,7 +406,7 @@ const MechanicDashboard = () => {
         </div>
 
         {/* Tabs */}
-        <div className="flex flex-wrap justify-center gap-4 mb-8 backdrop-blur-md bg-white/80 rounded-2xl shadow-lg border border-white/20 px-6 py-8">
+        <div className="flex flex-wrap justify-center gap-4 mb-8 backdrop-blur-md bg-white/80 rounded-2xl shadow-lg border border-white/20 px-4 py-6">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const getTabColor = (tabId) => {
