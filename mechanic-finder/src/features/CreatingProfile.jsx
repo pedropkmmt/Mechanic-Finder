@@ -30,11 +30,6 @@ const AccountCreationLoading = () => {
           <div className="flex items-center justify-center space-x-3">
             {!showCheckmark ? (
               <>
-                <div className="flex space-x-1">
-                  <div className="w-2 h-2 bg-white rounded-full animate-bounce"></div>
-                  <div className="w-2 h-2 bg-white rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                  <div className="w-2 h-2 bg-white rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                </div>
                 <div className="text-lg">
                   Please wait while we create your account{dots}
                 </div>
@@ -84,7 +79,7 @@ const AccountCreationLoading = () => {
           
           <div className="bg-white rounded-lg p-4 shadow-sm">
             <div className="flex items-center space-x-3">
-              <div className={`w-4 h-4 rounded-full ${showCheckmark ? 'bg-green-500' : 'bg-gray-300'} transition-all duration-500 delay-1000`}>
+              <div className={`w-4 h-4 rounded-full ${showCheckmark ? 'bg-green-500' : 'bg-gray-300'} transition-all duration-500 delay-500`}>
                 {showCheckmark && (
                   <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -99,7 +94,7 @@ const AccountCreationLoading = () => {
         {/* Progress bar */}
         <div className="mt-6 bg-gray-200 rounded-full h-2">
           <div 
-            className="bg-gradient-to-r from-blue-600 to-purple-600 h-2 rounded-full transition-all duration-4000 ease-out"
+            className="bg-gradient-to-r from-blue-600 to-purple-600 h-2 rounded-full transition-all duration-10000 ease-out"
             style={{ 
               width: showCheckmark ? '100%' : '0%',
               transition: 'width 4s ease-out'

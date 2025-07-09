@@ -1,5 +1,5 @@
-import React from 'react';
-import { Mail, Lock } from 'lucide-react';
+import React, {useState} from 'react';
+import { Mail, Lock, User, Wrench } from 'lucide-react';
 import InputField from './InputField';
 import SocialButtons from './SocialButtons';
 import { Link, useNavigate } from 'react-router-dom';
@@ -10,8 +10,59 @@ const LoginForm = ({
   handleLoginSubmit, 
   showPassword, 
   setShowPassword 
-}) => (
-  <form onSubmit={handleLoginSubmit} className="space-y-6">
+}) => {
+  const [userType, setUserType] = useState('customer');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (loginData.email && loginData.password) {
+      // Redirect based on user type
+      if (userType === 'mechanic') {
+        window.location.href = '/mechanic-bookings';
+      } else {
+        window.location.href = '/'; // Added customer route
+      }
+    } else {
+      alert('Please fill in all fields');
+    }
+  };
+
+  return (
+  <form onSubmit={handleSubmit} className="space-y-6">
+  {/* User type selection*/}
+  <div className="space-y-3">
+        <label className="block text-sm font-medium text-gray-700">
+          I am a:
+        </label>
+        <div className="grid grid-cols-2 gap-3">
+          <button
+            type="button"
+            onClick={() => setUserType('customer')}
+            className={`p-3 rounded-xl border-2 transition-all duration-200 flex items-center justify-center gap-2 ${
+              userType === 'customer'
+                ? 'border-blue-500 bg-blue-50 text-blue-600'
+                : 'border-gray-200 hover:border-gray-300 text-gray-600'
+            }`}
+          >
+            <User size={20} />
+            <span className="font-medium">Customer</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setUserType('mechanic')}
+            className={`p-3 rounded-xl border-2 transition-all duration-200 flex items-center justify-center gap-2 ${
+              userType === 'mechanic'
+                ? 'border-blue-500 bg-blue-50 text-blue-600'
+                : 'border-gray-200 hover:border-gray-300 text-gray-600'
+            }`}
+          >
+            <Wrench size={20} />
+            <span className="font-medium">Mechanic</span>
+          </button>
+        </div>
+      </div>
+
     <InputField
       label="Email Address"
       type="email"
@@ -68,5 +119,6 @@ const LoginForm = ({
     <SocialButtons />
   </form>
 );
+};
 
 export default LoginForm; 

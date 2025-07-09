@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Calendar, Clock, User, Car, Wrench, CheckCircle, AlertCircle } from 'lucide-react';
+import { Calendar, Clock, User, Car, Wrench, CheckCircle, AlertCircle, DollarSign } from 'lucide-react';
 
-const MechanicBookings = () => {
+const MechanicDashboard = () => {
   const [activeTab, setActiveTab] = useState('upcoming');
 
   // Sample booking data
@@ -107,11 +107,11 @@ const MechanicBookings = () => {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'confirmed': return 'bg-blue-100 text-blue-700 border-blue-200';
-      case 'in-progress': return 'bg-yellow-100 text-yellow-700 border-yellow-200';
-      case 'awaiting': return 'bg-orange-100 text-orange-700 border-orange-200';
-      case 'completed': return 'bg-green-100 text-green-700 border-green-200';
-      default: return 'bg-gray-100 text-gray-700 border-gray-200';
+      case 'confirmed': return 'bg-blue-50 text-blue-700 border-blue-200';
+      case 'in-progress': return 'bg-amber-50 text-amber-700 border-amber-200';
+      case 'awaiting': return 'bg-orange-50 text-orange-700 border-orange-200';
+      case 'completed': return 'bg-emerald-50 text-emerald-700 border-emerald-200';
+      default: return 'bg-slate-50 text-slate-700 border-slate-200';
     }
   };
 
@@ -168,8 +168,14 @@ const MechanicBookings = () => {
         )}
 
         {booking.estimatedCost && (
-          <div className="bg-blue-50 rounded-lg p-3 mt-3">
-            <span className="text-sm font-medium text-blue-700">Estimated Cost: {booking.estimatedCost}</span>
+          <div className="flex items-center space-x-3 p-4 bg-gradient-to-r from-orange-50 to-orange-100 rounded-2xl">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-orange-500 rounded-xl flex items-center justify-center">
+              <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+              </div>
+              <div>
+            <span className="text-xs sm:text-sm text-orange-700 font-medium">Estimated Cost: </span>
+            <p className="text-sm sm:text-base text-orange-800 font-semibold">{booking.estimatedCost}</p>
+            </div>
           </div>
         )}
 
@@ -291,4 +297,4 @@ const MechanicBookings = () => {
   );
 };
 
-export default MechanicBookings;
+export default MechanicDashboard;
