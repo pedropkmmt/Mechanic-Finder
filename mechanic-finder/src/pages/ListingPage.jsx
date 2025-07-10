@@ -1,46 +1,73 @@
-import FilterModal from '../features/FilterModal';
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Search, Phone, Star, MapPin, Filter, User, Menu, X, ChevronLeft, Plus, Minus, Clock, Award, Shield, Map as MapIcon } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom'
 import { businesses } from '../lib/businesses.json'
+import BusinessListing from '../services/BusinessListing';
 
-const MechanicsFinder = () => {
+const MechanicsFinder = ({ filters = {} }) => {
   const [selectedBusiness, setSelectedBusiness] = useState(0);
   const [showMap, setShowMap] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState(businesses);
   const mapRef = useRef(null);
   const leafletMapRef = useRef(null);
   const markersRef = useRef([]);
 
-  // Search functionality
+  // Booking Popup
+   const handleClosePopup = () => {
+    setSelectedMechanic(null);
+  }
+  // Combined filtering functionality
   const filteredBusinesses = useMemo(() => {
-    if (!searchQuery.trim()) {
-      return businesses;
+    let filtered = businesses;
+
+    // Apply FilterBar filters
+    if (filters.searchName && filters.searchName.trim()) {
+      const nameQuery = filters.searchName.toLowerCase();
+      filtered = filtered.filter(business => 
+        business.name.toLowerCase().includes(nameQuery)
+      );
     }
 
-    const query = searchQuery.toLowerCase();
-    return businesses.filter(business => {
-      // Search in business name
-      const nameMatch = business.name.toLowerCase().includes(query);
-      
-      // Search in address/location
-      const addressMatch = business.address.toLowerCase().includes(query);
-      
-      // Search in services
-      const serviceMatch = business.services.some(service => 
-        service.toLowerCase().includes(query)
+    if (filters.category && filters.category !== 'Diesel mechanics') {
+      filtered = filtered.filter(business => 
+        business.services.some(service => 
+          service.toLowerCase().includes(filters.category.toLowerCase())
+        )
       );
+    }
+
+    if (filters.location) {
+      filtered = filtered.filter(business => 
+        business.address.toLowerCase().includes(filters.location.toLowerCase())
+      );
+    }
+
+    if (filters.price) {
+      filtered = filtered.filter(business => {
+        const businessPrice = business.price || '';
+        
+        switch (filters.price) {
+          case 'budget':
+            return businessPrice.includes('R0') || businessPrice.includes('R1') || businessPrice.includes('R2') || businessPrice.includes('R3') || businessPrice.includes('R4') || businessPrice.includes('R500') || businessPrice.toLowerCase().includes('budget');
+          case 'mid':
+            return businessPrice.includes('R5') || businessPrice.includes('R6') || businessPrice.includes('R7') || businessPrice.includes('R8') || businessPrice.includes('R9') || businessPrice.includes('R1') || businessPrice.toLowerCase().includes('mid');
+          case 'premium':
+            return businessPrice.includes('R15') || businessPrice.includes('R2') || businessPrice.includes('R3') || businessPrice.toLowerCase().includes('premium');
+          default:
+            return true;
+        }
+      });
+    }
+    if (filters.range) {
       
-      // Search in phone number
-      const phoneMatch = business.phone.toLowerCase().includes(query);
-      
-      return nameMatch || addressMatch || serviceMatch || phoneMatch;
-    });
-  }, [searchQuery]);
+      console.log('Range filter applied:', filters.range);
+    }
+
+    return filtered;
+  }, [filters]);
 
   // Update search results when filtered businesses change
   useEffect(() => {
@@ -50,16 +77,6 @@ const MechanicsFinder = () => {
       setSelectedBusiness(0);
     }
   }, [filteredBusinesses]);
-
-  // Handle search input
-  const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
-  };
-
-  // Clear search
-  const clearSearch = () => {
-    setSearchQuery('');
-  };
 
   // Check if device is mobile
   useEffect(() => {
@@ -183,9 +200,11 @@ const MechanicsFinder = () => {
             <button class="flex-1 bg-blue-600 text-white py-2 px-3 rounded text-sm font-medium hover:bg-blue-700 transition-colors">
               Book Now
             </button>
+            ${<Link to ="/details">
             <button class="flex-1 border border-gray-300 text-gray-700 py-2 px-3 rounded text-sm hover:bg-gray-50 transition-colors">
               Details
             </button>
+            </Link>}
           </div>
         </div>
       `;
@@ -258,6 +277,28 @@ const MechanicsFinder = () => {
     }
   }, [selectedBusiness, searchResults]);
 
+  // Generate filter summary for display
+  const getFilterSummary = () => {
+    const activeFilters = [];
+    
+    if (filters.searchName) activeFilters.push(`"${filters.searchName}"`);
+    if (filters.category && filters.category !== 'Diesel mechanics') activeFilters.push(filters.category);
+    if (filters.location) activeFilters.push(filters.location);
+    if (filters.price) {
+      const priceLabels = {
+        budget: 'R0-R500',
+        mid: 'R500-R1500',
+        premium: 'R1500+'
+      };
+      activeFilters.push(priceLabels[filters.price]);
+    }
+    if (filters.range) activeFilters.push(`${filters.range} range`);
+    
+    return activeFilters;
+  };
+
+  const activeFilters = getFilterSummary();
+
   return (
     <>
       {/* Mobile Menu Overlay */}
@@ -306,46 +347,34 @@ const MechanicsFinder = () => {
         {/* Left Panel - Business List */}
         <div className={`w-full lg:w-2/5 bg-white ${showMap && isMobile ? 'hidden' : 'block'} ${!isMobile ? 'border-r border-gray-200' : ''}`}>
           <div className="p-4 pb-2">
-            {/* Search Section */}
             <div className="mb-4">
-              <div className="relative mb-4">
-                <input
-                  type="text"
-                  placeholder="Search mechanics, services, or location..."
-                  value={searchQuery}
-                  onChange={handleSearchChange}
-                  className="w-full pl-4 pr-12 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm lg:text-base"
-                />
-                <div className="absolute right-2 top-2 flex items-center space-x-1">
-                  {searchQuery && (
-                    <button
-                      onClick={clearSearch}
-                      className="p-1 text-gray-400 hover:text-gray-600 transition-colors"
-                    >
-                      <X className="w-4 h-4" />
-                    </button>
-                  )}
-                  <button className="bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition-colors">
-                    <Search className="w-5 h-5" />
-                  </button>
+              {/* Active Filters Display */}
+              {activeFilters.length > 0 && (
+                <div className="mb-3 p-3 bg-blue-50 rounded-lg">
+                  <div className="flex flex-wrap gap-1 mb-2">
+                    <span className="text-sm text-blue-700 font-medium">Active filters:</span>
+                    {activeFilters.map((filter, index) => (
+                      <span key={index} className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">
+                        {filter}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
               
               {/* Search Results Info */}
-              {searchQuery && (
-                <div className="mb-3 p-3 bg-blue-50 rounded-lg">
-                  <p className="text-sm text-blue-700">
+              {activeFilters.length > 0 && (
+                <div className="mb-3 p-3 bg-gray-50 rounded-lg">
+                  <p className="text-sm text-gray-700">
                     {searchResults.length > 0 ? (
                       <>
                         Found <span className="font-semibold">{searchResults.length}</span> mechanic{searchResults.length !== 1 ? 's' : ''} 
-                        {searchQuery && (
-                          <> for "<span className="font-semibold">{searchQuery}</span>"</>
+                        {activeFilters.length > 0 && (
+                          <> matching your criteria</>
                         )}
                       </>
                     ) : (
-                      <>
-                        No mechanics found for "<span className="font-semibold">{searchQuery}</span>"
-                      </>
+                      <>No mechanics found matching your criteria</>
                     )}
                   </p>
                 </div>
@@ -362,13 +391,13 @@ const MechanicsFinder = () => {
               </div>
               
               <div className="text-sm text-gray-600 mb-2">
-                {searchResults.length} Auto mechanics {searchQuery ? 'found' : 'across South Africa'}
+                {searchResults.length} Auto mechanics {activeFilters.length > 0 ? 'found' : 'across South Africa'}
               </div>
             </div>
           </div>
 
           {/* Business Listings */}
-          <div className="overflow-y-auto px-4 pb-20 lg:pb-4" style={{ height: 'calc(100vh - 320px)' }}>
+          <div className="overflow-y-auto px-4 pb-20 lg:pb-4" style={{ height: 'calc(100vh - 200px)' }}>
             {searchResults.length === 0 ? (
               <div className="text-center py-12">
                 <Search className="w-12 h-12 text-gray-400 mx-auto mb-4" />
@@ -377,7 +406,7 @@ const MechanicsFinder = () => {
                   Try adjusting your search terms or browse all mechanics
                 </p>
                 <button
-                  onClick={clearSearch}
+                  onClick={() => window.location.reload()}
                   className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
                 >
                   Show All Mechanics
@@ -393,18 +422,21 @@ const MechanicsFinder = () => {
                   onClick={() => setSelectedBusiness(index)}
                 >
                   <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
-                    <div className="relative flex-shrink-0 sm:w-32">
-                      <img
-                        src="shop.jpg"
-                        alt={business.name}
-                        className="w-full sm:w-32 h-20 object-cover rounded-lg"
-                      />
-                      {business.verified && (
-                        <div className="absolute -top-1 -right-1 w-5 h-5 bg-blue-600 rounded-full flex items-center justify-center">
-                          <span className="text-white text-xs font-bold">✓</span>
-                        </div>
-                      )}
-                    </div>
+                    <div className="relative flex-shrink-0 w-full sm:w-32 h-24 sm:h-20">
+                        <img
+                          src="shop.jpg"
+                          alt={business.name}
+                          className="w-full h-[190px] object-cover rounded-lg"
+                          onError={(e) => {
+                            e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTI4IiBoZWlnaHQ9IjgwIiB2aWV3Qm94PSIwIDAgMTI4IDgwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iMTI4IiBoZWlnaHQ9IjgwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik00MCAzMkg0OFY0MEg0MFYzMloiIGZpbGw9IiM5Q0EzQUYiLz4KPHA+InRoIGQ9Ik01MiAzMkg2MFY0MEg1MlYzMloiIGZpbGw9IiM5Q0EzQUYiLz4KPHA+InRoIGQ9Ik00MCA0NEg0OFY1Mkg0MFY0NFoiIGZpbGw9IiM5Q0EzQUYiLz4KPHA+InRoIGQ9Ik01MiA0NEg2MFY1Mkg1MlY0NFoiIGZpbGw9IiM5Q0EzQUYiLz4KPHA+InRoIGQ9Ik02NCAzMkg3MlY0MEg2NFYzMloiIGZpbGw9IiM5Q0EzQUYiLz4KPHA+InRoIGQ9Ik02NCA0NEg3MlY1Mkg2NFY0NFoiIGZpbGw9IiM5Q0EzQUYiLz4KPHA+InRoIGQ9Ik03NiAzMkg4NFY0MEg3NlYzMloiIGZpbGw9IiM5Q0EzQUYiLz4KPHA+InRoIGQ9Ik03NiA0NEg4NFY1Mkg3NlY0NFoiIGZpbGw9IiM5Q0EzQUYiLz4KPHA+InRoIGQ9Ik04OCAzMkg5NlY0MEg4OFYzMloiIGZpbGw9IiM5Q0EzQUYiLz4KPHA+InRoIGQ9Ik04OCA0NEg5NlY1Mkg4OFY0NFoiIGZpbGw9IiM5Q0EzQUYiLz4KPHRleHQgeD0iNjQiIHk9IjQ4IiBmaWxsPSIjNkI3MjgwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkF1dG8gU2hvcDwvdGV4dD4KPC9zdmc+';
+                          }}
+                        />
+                        {business.verified && (
+                          <div className="absolute -top-1 -right-1 w-5 h-5 bg-blue-600 rounded-full flex items-center justify-center">
+                            <span className="text-white text-xs font-bold">✓</span>
+                          </div>
+                        )}
+                      </div>
                     <div className="flex-1">
                       <h3 className="text-base lg:text-lg font-semibold text-gray-900 mb-1">{business.name}</h3>
                       <div className="flex items-center mb-2">
@@ -449,9 +481,11 @@ const MechanicsFinder = () => {
                   
                   {/* Action Buttons */}
                   <div className="mt-3 flex flex-col sm:flex-row gap-2">
+                    <Link to="/details">
                     <button className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">
                       Book Appointment
                     </button>
+                    </Link>
                     <Link to="/details">
                       <button className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm">
                         View Details
@@ -470,7 +504,7 @@ const MechanicsFinder = () => {
           <div className="absolute inset-0">
             <div ref={mapRef} className="w-full h-full"></div>
             
-            {/* Fallback message that shows when Leaflet isn't available */}
+            {/*  Leaflet isn't available */}
             {typeof window === 'undefined' || !window.L ? (
               <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
                 <div className="text-center p-4">
@@ -520,15 +554,6 @@ const MechanicsFinder = () => {
           </div>
         </div>
       )}
-      
-      {/* Filter Modal */}
-      <FilterModal
-        showFilters={showFilters}
-        setShowFilters={setShowFilters}
-        onApplyFilters={(filters) => {
-          console.log("Filters applied in ListingPage:", filters);
-        }}
-      />
     </>
   );
 }

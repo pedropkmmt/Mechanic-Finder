@@ -1,7 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Search, ChevronDown, Filter, MapPin, DollarSign, Settings, X, Users, Wrench, Star, ArrowRight } from "lucide-react";
 import Hero from "../components/Hero";
-const FilterBar = ({ isAuthenticated, userInfo }) => {
+
+const FilterBar = ({ isAuthenticated, userInfo, onFiltersChange }) => {
+  const navigate = useNavigate();
+  
   const [filters, setFilters] = useState({
     category: 'Diesel mechanics',
     location: '',
@@ -14,24 +18,52 @@ const FilterBar = ({ isAuthenticated, userInfo }) => {
   const [focusedInput, setFocusedInput] = useState(null);
 
   const handleFilterChange = (filterType, value) => {
-    setFilters(prev => ({
-      ...prev,
+    const newFilters = {
+      ...filters,
       [filterType]: value
-    }));
+    };
+    setFilters(newFilters);
+    
+    // pass filters to parent component
+    if (onFiltersChange) {
+      onFiltersChange(newFilters);
+    }
   };
 
   const handleSearch = () => {
     console.log('Search filters:', filters);
+    
+    // Pass filters to parent component
+    if (onFiltersChange) {
+      onFiltersChange(filters);
+    }
+    
+    // Navigate to listing page with filters as URL params
+    const searchParams = new URLSearchParams();
+    Object.entries(filters).forEach(([key, value]) => {
+      if (value && value.trim() !== '') {
+        searchParams.append(key, value);
+      }
+    });
+    
+    // Navigate to listing page
+    navigate(`/listing?${searchParams.toString()}`);
   };
 
   const clearFilters = () => {
-    setFilters({
+    const clearedFilters = {
       category: 'Diesel mechanics',
       location: '',
       range: '',
       price: '',
       searchName: ''
-    });
+    };
+    setFilters(clearedFilters);
+    
+    // Pass cleared filters to parent component
+    if (onFiltersChange) {
+      onFiltersChange(clearedFilters);
+    }
   };
 
   const activeFiltersCount = Object.values(filters).filter(val => val && val !== 'Diesel mechanics').length;
@@ -62,6 +94,11 @@ const FilterBar = ({ isAuthenticated, userInfo }) => {
                   onChange={(e) => handleFilterChange('searchName', e.target.value)}
                   onFocus={() => setFocusedInput('search')}
                   onBlur={() => setFocusedInput(null)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      handleSearch();
+                    }
+                  }}
                 />
               </div>
               {focusedInput === 'search' && (
@@ -195,6 +232,11 @@ const FilterBar = ({ isAuthenticated, userInfo }) => {
                   className="flex-1 px-2 py-2 bg-transparent text-gray-700 text-sm border-0 focus:outline-none placeholder-gray-400 font-medium"
                   value={filters.searchName}
                   onChange={(e) => handleFilterChange('searchName', e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      handleSearch();
+                    }
+                  }}
                 />
               </div>
               <button 
@@ -285,6 +327,11 @@ const FilterBar = ({ isAuthenticated, userInfo }) => {
                   className="w-full pl-10 sm:pl-12 pr-3 sm:pr-4 py-3 sm:py-4 bg-gray-50/80 text-gray-700 text-sm border border-gray-200/50 rounded-xl focus:border-blue-400 focus:outline-none backdrop-blur-sm font-medium"
                   value={filters.searchName}
                   onChange={(e) => handleFilterChange('searchName', e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      handleSearch();
+                    }
+                  }}
                 />
               </div>
               <button 
@@ -296,7 +343,7 @@ const FilterBar = ({ isAuthenticated, userInfo }) => {
             </div>
           </div>
 
-          {/* Filter Toggle Button */}
+          {/* Toggle Button */}
           <div className="flex justify-between items-center mb-3 sm:mb-4">
             <button 
               onClick={() => setIsFilterOpen(!isFilterOpen)}

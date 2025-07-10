@@ -13,9 +13,10 @@ import {
   Navigation,
   X
 } from 'lucide-react';
-
+import { Link, useNavigate } from 'react-router-dom';
 const BusinessListing = ({ mechanic, onClose }) => {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [selectedServices, setSelectedServices] = useState([]);
   
   const shopImages = [
     'https://files.idyllic.app/files/static/2250075?width=256&optimizer=image',
@@ -32,6 +33,27 @@ const BusinessListing = ({ mechanic, onClose }) => {
     { day: 'Friday', hours: '8:00 AM - 6:00 PM', isToday: false },
     { day: 'Saturday', hours: '8:00 AM - 6:00 PM', isToday: false }
   ];
+
+  const serviceOptions = [
+    { id: 'oil-change', name: 'Oil Change', icon: '🛢️', price: 'R350 - R500', duration: '30 min' },
+    { id: 'brake-service', name: 'Brake Service', icon: '🛑', price: 'R800 - R1500', duration: '1-2 hours' },
+    { id: 'tire-rotation', name: 'Tire Rotation', icon: '🔄', price: 'R200 - R300', duration: '45 min' },
+    { id: 'battery-check', name: 'Battery Check', icon: '🔋', price: 'R150 - R250', duration: '15 min' },
+    { id: 'engine-diagnostic', name: 'Engine Diagnostic', icon: '🔧', price: 'R500 - R800', duration: '1 hour' },
+    { id: 'transmission-service', name: 'Transmission Service', icon: '⚙️', price: 'R1200 - R2000', duration: '2-3 hours' },
+    { id: 'ac-service', name: 'A/C Service', icon: '❄️', price: 'R600 - R1000', duration: '1 hour' },
+    { id: 'general-maintenance', name: 'General Maintenance', icon: '🔍', price: 'R400 - R800', duration: '1-2 hours' },
+    { id: 'wheel-alignment', name: 'Wheel Alignment', icon: '📐', price: 'R300 - R500', duration: '45 min' },
+    { id: 'exhaust-repair', name: 'Exhaust Repair', icon: '💨', price: 'R400 - R1200', duration: '1-2 hours' }
+  ];
+
+  const toggleService = (serviceId) => {
+    setSelectedServices(prev => 
+      prev.includes(serviceId) 
+        ? prev.filter(id => id !== serviceId)
+        : [...prev, serviceId]
+    );
+  };
 
   const pricingInfo = [
     { 
@@ -64,7 +86,7 @@ const BusinessListing = ({ mechanic, onClose }) => {
   ];
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 flex items-center justify-center z-1020 p-4">
       <div className="max-w-md w-full bg-white shadow-lg rounded-lg overflow-hidden max-h-[90vh] overflow-y-auto">
         {/* Close Button */}
         <button 
@@ -132,6 +154,48 @@ const BusinessListing = ({ mechanic, onClose }) => {
                 <div className="text-blue-600">info@{mechanic.name.toLowerCase().replace(/\s+/g, '')}.com</div>
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* Select Services */}
+        <div className="p-4 border-b">
+          <div className="flex items-center text-black mb-3">
+            <span className="font-semibold">Select Services</span>
+            {selectedServices.length > 0 && (
+              <span className="ml-2 bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">
+                {selectedServices.length} selected
+              </span>
+            )}
+          </div>
+          <div className="space-y-2 max-h-64 overflow-y-auto">
+            {serviceOptions.map((service) => (
+              <div 
+                key={service.id}
+                className={`flex items-center p-3 rounded-lg border cursor-pointer transition-colors ${
+                  selectedServices.includes(service.id) 
+                    ? 'border-blue-500 bg-blue-50' 
+                    : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
+                }`}
+                onClick={() => toggleService(service.id)}
+              >
+                <div className="flex items-center flex-1">
+                  <div className="text-xl mr-3">{service.icon}</div>
+                  <div className="flex-1">
+                    <div className="font-medium text-sm">{service.name}</div>
+                    <div className="text-xs text-gray-600">{service.price} • {service.duration}</div>
+                  </div>
+                </div>
+                <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                  selectedServices.includes(service.id) 
+                    ? 'border-blue-500 bg-blue-500' 
+                    : 'border-gray-300'
+                }`}>
+                  {selectedServices.includes(service.id) && (
+                    <div className="w-2 h-2 bg-white rounded-full"></div>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -241,9 +305,16 @@ const BusinessListing = ({ mechanic, onClose }) => {
 
         {/* Action Buttons */}
         <div className="p-4 space-y-3">
-          <button className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium flex items-center justify-center hover:bg-blue-700 transition-colors">
+          <button 
+            className={`w-full py-3 rounded-lg font-medium flex items-center justify-center transition-colors ${
+              selectedServices.length > 0 
+                ? 'bg-blue-600 text-white hover:bg-blue-700' 
+                : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+            }`}
+            disabled={selectedServices.length === 0}
+          >
             <Calendar className="w-4 h-4 mr-2" />
-            Book Appointment
+            Book Appointment {selectedServices.length > 0 && `(${selectedServices.length} service${selectedServices.length > 1 ? 's' : ''})`}
           </button>
           
           <button className="w-full border border-gray-300 text-gray-700 py-3 rounded-lg font-medium flex items-center justify-center hover:bg-gray-50 transition-colors">
@@ -251,10 +322,12 @@ const BusinessListing = ({ mechanic, onClose }) => {
             Call Now
           </button>
           
+          <Link to="/map">
           <button className="w-full border border-gray-300 text-gray-700 py-3 rounded-lg font-medium flex items-center justify-center hover:bg-gray-50 transition-colors">
             <Navigation className="w-4 h-4 mr-2" />
             Get Directions
           </button>
+          </Link>
         </div>
       </div>
     </div>

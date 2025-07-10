@@ -2,14 +2,14 @@ import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import FindMechanicPage from './pages/Landing Page'
 import AuthPages from './pages/AuthenticationPages'
-import MechanicsFinder from './pages/ListingPage'
+import FilterData from './features/filterdata'
 import BusinessListing from './services/BusinessListing'
 import MechanicDetails from './pages/MechanicDetails'
 import SouthAfricanMap from './services/SouthAricanMap'
 import ProfileManagement from './pages/UserProfileManagement'
 import MechanicBookings from './components/bookings/mechanics/BookingsInfo'
 import NavBar from './components/Navbar'
-import FilterModal from './features/FilterModal'
+
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -101,13 +101,12 @@ function App() {
             } 
           /> 
           
-          {/* Listing Page Routes */}
+          {/* Listing Page Routes - Now using FilterData component */}
           <Route 
             path="/listing" 
             element={
-              <MechanicsFinder
+              <FilterData
                 isAuthenticated={isAuthenticated}
-                setIsAuthenticated={setIsAuthenticated}
                 userInfo={userInfo}
               />
             } 
