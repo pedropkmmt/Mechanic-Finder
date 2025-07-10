@@ -9,6 +9,7 @@ import SouthAfricanMap from './services/SouthAricanMap'
 import ProfileManagement from './pages/UserProfileManagement'
 import MechanicBookings from './components/bookings/mechanics/BookingsInfo'
 import NavBar from './components/Navbar'
+import BookingSuccessPage from './pages/SuccessulBooking'
 
 
 function App() {
@@ -198,7 +199,17 @@ function App() {
               )
             } 
           />
-          
+           {/* Booking Message */}
+          <Route 
+            path="/book" 
+            element={
+              <BookingSuccessPage
+                isAuthenticated={isAuthenticated}
+                setIsAuthenticated={setIsAuthenticated}
+                userInfo={userInfo}
+              />
+            } 
+          />
           {/* Route for 404 */}
           <Route 
             path="*" 

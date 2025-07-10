@@ -305,6 +305,7 @@ const BusinessListing = ({ mechanic, onClose }) => {
 
         {/* Action Buttons */}
         <div className="p-4 space-y-3">
+          <Link to="/book">
           <button 
             className={`w-full py-3 rounded-lg font-medium flex items-center justify-center transition-colors ${
               selectedServices.length > 0 
@@ -316,6 +317,7 @@ const BusinessListing = ({ mechanic, onClose }) => {
             <Calendar className="w-4 h-4 mr-2" />
             Book Appointment {selectedServices.length > 0 && `(${selectedServices.length} service${selectedServices.length > 1 ? 's' : ''})`}
           </button>
+          </Link>
           
           <button className="w-full border border-gray-300 text-gray-700 py-3 rounded-lg font-medium flex items-center justify-center hover:bg-gray-50 transition-colors">
             <PhoneCall className="w-4 h-4 mr-2" />

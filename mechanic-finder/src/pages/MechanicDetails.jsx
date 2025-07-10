@@ -152,9 +152,11 @@ const MechanicDetails = () => {
 
           {/* Call to Action */}
           <div className="max-w-md mx-auto">
+            <Link to="/book">
             <button className="w-full bg-blue-600 text-white font-bold py-4 sm:py-5 px-6 sm:px-8 rounded-2xl text-lg sm:text-xl transition-all duration-300 transform hover:scale-105 shadow-2xl hover:shadow-3xl">
               🔧 BOOK NOW
             </button>
+            </Link>
             
             <div className="mt-6 sm:mt-8 text-center">
               <div className="flex items-center justify-center gap-3 text-gray-600 bg-white rounded-xl p-3 sm:p-4 shadow-lg">
