@@ -1,5 +1,5 @@
 import { Search, ChevronDown, Filter, MapPin, DollarSign, Settings, X, Users, Wrench, Star, ArrowRight } from "lucide-react";
-
+import { Link, useNavigate } from 'react-router-dom';
 const Hero = () => {
   return (
     <section className="">
@@ -35,8 +35,8 @@ const Hero = () => {
           Find reliable, affordable mechanics near you – fast. No stress, no hassle. Just honest service.
         </p>
         <div className="flex flex-col mb-8 lg:mb-16 space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
-          <a
-            href="#"
+          <Link
+            to="/auth"
             className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300"
           >
             Find a Mechanic
@@ -52,13 +52,13 @@ const Hero = () => {
                 clipRule="evenodd"
               ></path>
             </svg>
-          </a>
-          <a
-            href="#"
+          </Link>
+          <Link
+            to="/auth"
             className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-blue-700 bg-white border border-blue-300 rounded-lg hover:bg-blue-100"
           >
             Join as a Mechanic
-          </a>
+          </Link>
         </div>
       </div>
     </section>

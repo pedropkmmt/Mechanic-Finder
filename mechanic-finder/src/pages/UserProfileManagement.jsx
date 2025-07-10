@@ -177,7 +177,7 @@ const ProfileManagement = () => {
           <VehicleInfoSection
           userData={userData}
           isEditing={isEditing}
-          editData={editData}  // Make sure this is being passed
+          editData={editData}  
           handleInputChange={handleInputChange}
           />
           

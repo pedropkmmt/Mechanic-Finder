@@ -5,28 +5,30 @@ const Blog = () => {
     {
       id: 1,
       category: "Engine",
-      image: "https://plus.unsplash.com/premium_photo-1682141708282-3a4f7023e1bb?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Y2FyJTIwZW5naW5lfGVufDB8fDB8fHww",
-      title: "2024 Engine Diagnostics with advanced scanning tools, professional approach",
-      author: "Mike",
-      date: "November 22, 2023",
+      image: "https://media.hswstatic.com/eyJidWNrZXQiOiJjb250ZW50Lmhzd3N0YXRpYy5jb20iLCJrZXkiOiJnaWZcL2Nhci1lbmdpbmUtbmV3MS5qcGciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjgyOH0sInRvRm9ybWF0IjoiYXZpZiJ9fQ==",
+      title: "How Car Engines Work",
+      author: "Marshall Brain & Kristen Hall-Geisler",
+      link: "https://auto.howstuffworks.com/engine.htm",
       categoryColor: "bg-blue-100 text-blue-800"
+      
     },
     {
       id: 2,
       category: "Transmission",
-      image: "https://cdn.britannica.com/54/97154-050-28A49CB6/elements-transmission-power-train-engine-front-wheel-drive-automobile.jpg",
+      image: "https://media.hswstatic.com/eyJidWNrZXQiOiJjb250ZW50Lmhzd3N0YXRpYy5jb20iLCJrZXkiOiJnaWZcL3RyYW5zbWlzc2lvbi1waWN0dXJlLTEuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoyOTB9LCJ0b0Zvcm1hdCI6ImF2aWYifX0=",
       title: "Automatic Transmission Service: designed to extend your vehicle's life",
-      author: "Sarah",
-      date: "November 22, 2023",
+      author: " Karim Nice",
+      link:"https://auto.howstuffworks.com/automatic-transmission.htm",
       categoryColor: "bg-green-100 text-green-800"
     },
     {
       id: 3,
       category: "Brakes",
       image: "https://www.familyhandyman.com/wp-content/uploads/2023/09/Car-braking-system-GettyImages-1633787668_KSedit.jpg",
-      title: "Brake Pad Replacement 2024: Complete Review. Safety on the road",
-      author: "Alex",
-      date: "November 22, 2023",
+      title: "Brake Pads vs. Discs -- What's the Difference and When Should You Replace Them?",
+      author: "Brakes-Safety-Tips/Guides",
+      date: "1 Apr 2025",
+      link: "https://www.supaquick.com/blog/brake-pads-vs-brake-discs-whats-the-difference-and-when-to-replace",
       categoryColor: "bg-orange-100 text-orange-800"
     }
   ];
@@ -40,6 +42,7 @@ const Blog = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {blogPosts.map((post) => (
           <div key={post.id} className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+            <a href={`${post.link}`}>
             <div className="relative">
               
               <img src={` ${post.image}`}/>
@@ -60,6 +63,7 @@ const Blog = () => {
                 <span>{post.date}</span>
               </div>
             </div>
+            </a>
           </div>
         ))}
       </div>
