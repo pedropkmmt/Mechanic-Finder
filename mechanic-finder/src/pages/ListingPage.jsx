@@ -200,11 +200,9 @@ const MechanicsFinder = ({ filters = {} }) => {
             <button class="flex-1 bg-blue-600 text-white py-2 px-3 rounded text-sm font-medium hover:bg-blue-700 transition-colors">
               Book Now
             </button>
-            ${<Link to ="/details">
             <button class="flex-1 border border-gray-300 text-gray-700 py-2 px-3 rounded text-sm hover:bg-gray-50 transition-colors">
               Details
             </button>
-            </Link>}
           </div>
         </div>
       `;
